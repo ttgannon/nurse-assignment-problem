@@ -1,36 +1,55 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Form from 'react-bootstrap/Form';
+import {faker} from "@faker-js/faker";
 
-export const UnitForm = () => {
-    const [units, setUnits] = useState<any>()//could be object, string, db query?
-    const handleChange = (e) => {
-        setUnits(e.target.value);
+interface Unit {
+    name: string
+  }
+
+const getFilteredItems = (query, units) => {
+    if (!query) {
+        return units;
     }
-    
+    return units.filter(unit => unit.name.toLowerCase().startsWith(query))
+}
+
+  //get units and set to state
+export const UnitForm = ({selected_unit, setSelectedUnit}) => {
+    const [query, setQuery] = useState("");
+    const [units, setUnits] = useState<any[]>(() => 
+    Array.from({length: 20}, () => {
+        const unit: Unit = {
+            name: faker.lorem.word(),
+        }
+        return unit
+    }))
+
+    const filtered_items = getFilteredItems(query, units);
+
     return (
         <Dropdown>
           <Dropdown.Toggle variant="success" id="dropdown-basic">
-            Select your unit
+            {selected_unit === null 
+            ? "Select your unit"
+            : selected_unit
+        }
           </Dropdown.Toggle>
     
           <Dropdown.Menu>
           <Form.Control
           autoFocus
           className="mx-3 my-2 w-auto"
-          placeholder="Type to filter..."
-          onChange={(e) => setUnits(e.target.value)}
-          value={units}
+          placeholder="Type your unit"
+          onChange={e => setQuery(e.target.value)}
+        // const filterValue = e.target.value.toLowerCase();
+          
         />
-            <Dropdown.Item href="#/action-1">Unit 1</Dropdown.Item>
-            <Dropdown.Item href="#/action-2">Unit 2</Dropdown.Item>
-            <Dropdown.Item href="#/action-3">Unit 3</Dropdown.Item>
+            {filtered_items.map(unit=>(
+                <Dropdown.Item onClick={() => setSelectedUnit(unit.name)} href="#/action-1">{unit.name}</Dropdown.Item>
+            ))}
+            
           </Dropdown.Menu>
         </Dropdown>
       );
 }
-
-// <form>
-        //     <input type="text" value={units} onChange={handleChange} />
-        //     <button onClick={handleSubmit} >Select your unit</button>
-        // </form>
