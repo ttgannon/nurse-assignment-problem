@@ -1,34 +1,29 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import './App.css';
+import { Nurse } from './Nurse';
+import { faker } from '@faker-js/faker';
+import { UnitForm } from './Form';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-function App() {
-  const [count, setCount] = useState<number>(0)
+const App = () => {
+  const [nurses] = useState(() => {
+    return new Array(5).map(() => {
+      return {
+        fullName: faker.person.fullName()
+      }
+    })
+  });
+  console.log(nurses);
+
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+      <>
+        {nurses.map((nurse) => (
+          <Nurse fullName={nurse.fullName} />
+        ))
+        }
+        <UnitForm></UnitForm>
+      </>
+    )
 }
 
 export default App
