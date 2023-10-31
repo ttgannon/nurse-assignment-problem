@@ -14,10 +14,12 @@ const getFilteredItems = (query, units) => {
     return units.filter(unit => unit.name.toLowerCase().startsWith(query))
 }
 
+
+
   //get units and set to state
-export const UnitForm = ({selected_unit, setSelectedUnit}) => {
+export const UnitForm = ({selectedUnit, setSelectedUnit, handleSubmit}) => {
     const [query, setQuery] = useState("");
-    const [units, setUnits] = useState<any[]>(() => 
+    const [units, setUnits] = useState<Unit[]>(() => 
     Array.from({length: 20}, () => {
         const unit: Unit = {
             name: faker.lorem.word(),
@@ -27,12 +29,17 @@ export const UnitForm = ({selected_unit, setSelectedUnit}) => {
 
     const filtered_items = getFilteredItems(query, units);
 
+    function handleSelection(unitName) {
+        setSelectedUnit(unitName);
+        handleSubmit(unitName);
+    }
+
     return (
         <Dropdown>
           <Dropdown.Toggle variant="success" id="dropdown-basic">
-            {selected_unit === null 
+            {selectedUnit === null 
             ? "Select your unit"
-            : selected_unit
+            : selectedUnit
         }
           </Dropdown.Toggle>
     
@@ -46,9 +53,8 @@ export const UnitForm = ({selected_unit, setSelectedUnit}) => {
           
         />
             {filtered_items.map(unit=>(
-                <Dropdown.Item onClick={() => setSelectedUnit(unit.name)} href="#/action-1">{unit.name}</Dropdown.Item>
+                <Dropdown.Item onClick={() => handleSelection(unit.name)}>{unit.name}</Dropdown.Item>
             ))}
-            
           </Dropdown.Menu>
         </Dropdown>
       );
