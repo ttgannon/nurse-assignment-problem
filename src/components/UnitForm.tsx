@@ -11,8 +11,15 @@ const getFilteredItems = (query: string, units: Unit[]) => {
   return units.filter((unit) => unit.name.toLowerCase().startsWith(query));
 };
 
-//get units and set to state
-export const UnitForm = ({ selectedUnit, setSelectedUnit, handleSubmit }) => {
+export const UnitForm = ({
+  selectedUnit,
+  setSelectedUnit,
+  handleSubmit,
+}: {
+  selectedUnit: Unit | null;
+  setSelectedUnit: React.Dispatch<React.SetStateAction<Unit>>;
+  handleSubmit: () => void;
+}) => {
   const [query, setQuery] = useState("");
   const [units] = useState<Unit[]>(() =>
     Array.from({ length: 20 }, () => {
