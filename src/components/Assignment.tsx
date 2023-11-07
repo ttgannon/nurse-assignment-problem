@@ -23,34 +23,32 @@ export const Assignment = ({
   }
 
   return (
-    <>
-      <Container>
-        <Row>
-          {nursesAndPatients.map((nurse) => (
-            <Col xs={4}>
-              <Card body className="nurse-info">
-                <Row>
-                  <h3>Nurse:</h3>
-                  <Col xs={10}>
-                    <Nurse nurse={nurse.nurse} />
-                  </Col>
-                  <Col>
-                    <Button variant="danger">Remove</Button>
-                  </Col>
-                </Row>
-                <Row>
-                  <h3>Patients:</h3>
-                  {nurse.patients.map((patient) => (
-                    <div>
-                      <h6>{patient.fullName}</h6>
-                    </div>
-                  ))}
-                </Row>
-              </Card>
-            </Col>
-          ))}
-        </Row>
-      </Container>
-    </>
+    <Container>
+      <Row>
+        {nursesAndPatients.map((nurse) => (
+          <Col xs={4}>
+            <Card body className="nurse-info">
+              <Row>
+                <h3>Nurse:</h3>
+                <Col xs={10}>
+                  <Nurse nurse={nurse.nurse} />
+                </Col>
+                <Col>
+                  <Button variant="danger">Remove</Button>
+                </Col>
+              </Row>
+              <Row>
+                <h3>Patients:</h3>
+                {nurse.patients.map((patient) => (
+                  <div>
+                    <h6>{patient.fullName}</h6>
+                  </div>
+                ))}
+              </Row>
+            </Card>
+          </Col>
+        ))}
+      </Row>
+    </Container>
   );
 };
