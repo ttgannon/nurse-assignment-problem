@@ -19,11 +19,13 @@ const App = () => {
   //COMPONENTS; HOW TO KNOW WHEN TO MANAGE IN APP.TSX OR IN FORM.TSX?
   const [selectedUnit, setSelectedUnit] = useState(null);
   const [patients, setPatients] = useState<Patient[]>([]);
-  const [assignment, setAssignments] = useState<boolean>(false)
+  const [assignment, setAssignments] = useState<boolean>(false);
   
   //code for getting nurses from the units
   const [nurses, setNurses] = useState<Nurse[]>([]);
   const [next, setNext] = useState<boolean>(false);
+  //modal
+  const [showModal, setShowModal] = useState(false);
 
   //What to do when unit is selected to get nurses
   function handleSubmit() {
@@ -57,6 +59,21 @@ const App = () => {
     setNext(false);
     setAssignments(true);
   }
+  function addNewNurse(nurse: { nurseName: string; nurseUnit: string }) {
+    setNurses(() => {
+      return [
+        ...nurses,
+        {
+          id: nurses.length,
+          fullName: nurse.nurseName,
+          yearsOfExperience: 0,
+          unitName: nurse.nurseUnit,
+        },
+      ];
+    });
+    console.log(nurses);
+    setShowModal(false);
+  }
 
     //render the components
     return (
@@ -72,33 +89,48 @@ const App = () => {
               remove a nurse who isn't coming in, and the green 'Add another nurse' to add a new one.
               </Alert>
               <Row>
-                {nurses.map(nurse => (
+              {nurses.map((nurse) => (
                   <Col md={4}>
-                      <NurseCard nurse={nurse} removeNurse={(id) => {
-                      setNurses(nurses.filter((nurse) => nurse.id === id));
-                    } }/>
+                  <NurseCard
+                    nurse={nurse}
+                    removeNurse={(id) => {
+                      setNurses(nurses.filter((nurse) => nurse.id !== id));
+                    }}
+                  />
                   </Col>
                   ))}
                 
               </Row>
             </Container>
-            <Button variant="success" >
+          <Button variant="primary" onClick={() => setShowModal(true)}>
               Add another nurse
             </Button>
 
-            <button onClick={generateAssignment}>
-              Generate Assignment
-            </button>
-            {next ? (<PatientList patients={patients}></PatientList>)
-            : null}
+          <Button onClick={generateAssignment}>Generate Assignment</Button>
+          {next ? (
+            <div>
+              <h1>Here are the unit patients</h1>
+              <Row>
+                {patients.map((patient) => (
+                  <PatientList patient={patient} />
+                ))}
+              </Row>
+            </div>
+          ) : null}
           </div>
-        ) : null }
+      ) : null}
 
             {assignment ? (
                 <Assignment nurses={nurses} patients={patients}></Assignment>
-              ): null} 
+      ) : null}
+
+      <NewNurseForm
+        showModal={showModal}
+        setShowModal={setShowModal}
+        addNewNurse={addNewNurse}
+      />
         </>
-    )
+  );
 };
 
-export default App
+export default App;
