@@ -49,7 +49,6 @@ export const UnitForm = ({
           className="mx-3 my-2 w-auto"
           placeholder="Type your unit"
           onChange={(e) => setQuery(e.target.value)}
-          // const filterValue = e.target.value.toLowerCase();
         />
         {filtered_items.map((unit) => (
           <Dropdown.Item onClick={() => handleSelection(unit)}>
