@@ -14,7 +14,7 @@ const getFilteredItems = (query: string, units: Unit[]) => {
 //get units and set to state
 export const UnitForm = ({ selectedUnit, setSelectedUnit, handleSubmit }) => {
   const [query, setQuery] = useState("");
-  const [units, setUnits] = useState<Unit[]>(() =>
+  const [units] = useState<Unit[]>(() =>
     Array.from({ length: 20 }, () => {
       const unit: Unit = {
         name: faker.lorem.word(),
