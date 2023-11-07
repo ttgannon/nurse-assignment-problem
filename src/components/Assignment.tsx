@@ -44,7 +44,6 @@ export const Assignment = ({
                   {nurse.patients.map((patient) => (
                     <div>
                       <h6>{patient.fullName}</h6>
-                      <h6>{patient.unitName}</h6>
                     </div>
                   ))}
                 </Row>
