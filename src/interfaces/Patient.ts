@@ -1,4 +1,3 @@
 export interface Patient {
-    fullName: string
-  }
-  
+  fullName: string;
+}
