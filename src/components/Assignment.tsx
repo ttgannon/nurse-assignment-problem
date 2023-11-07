@@ -21,7 +21,6 @@ export const Assignment = ({
     nursesAndPatients.push({ nurse, patients: assignedPatients });
     patientIdx += patientsPerNurse;
   }
-  console.log(nursesAndPatients);
 
   return (
     <>
