@@ -2,12 +2,9 @@ import { useEffect, useState } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 import Form from "react-bootstrap/Form";
 import { faker } from "@faker-js/faker";
+import { Unit } from "../interfaces";
 
-interface Unit {
-  name: string;
-}
-
-const getFilteredItems = (query, units) => {
+const getFilteredItems = (query: string, units: Unit[]) => {
   if (!query) {
     return units;
   }
