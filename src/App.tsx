@@ -1,18 +1,17 @@
-import {useState} from 'react'
-import './App.css'
-import {faker} from "@faker-js/faker";
-import { UnitForm } from './Form';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Alert from 'react-bootstrap/Alert';
-import Button from 'react-bootstrap/Button';
-import { PatientList } from './Patients';
-import { Assignment } from './Assignment';
-import { NurseCard } from './NurseCard';
-import { Patient, Nurse } from './interfaces';
-
+import { useState } from "react";
+import "./App.css";
+import { faker } from "@faker-js/faker";
+import { UnitForm } from "./components/UnitForm";
+import "bootstrap/dist/css/bootstrap.min.css";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Alert from "react-bootstrap/Alert";
+import Button from "react-bootstrap/Button";
+import { PatientList, Assignment, NurseCard, NewNurseForm } from "./components";
+import { Patient, Nurse } from "./interfaces";
+import { URL_FOR_ACCESS } from "./api";
+import { fetchEpicData } from "./services";
 
 const App = () => {
   //code for getting the units 

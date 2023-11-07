@@ -1,6 +1,6 @@
 import { Button, Card, Col, Row } from "react-bootstrap";
 import { Nurse as NurseComponent} from "./Nurse";
-import { Nurse } from "./interfaces";
+import { Nurse } from "../interfaces";
 
 export const NurseCard = ({nurse, removeNurse}:{nurse:Nurse,removeNurse:(id:number)=>void}) => {
     return (
@@ -11,7 +11,9 @@ export const NurseCard = ({nurse, removeNurse}:{nurse:Nurse,removeNurse:(id:numb
                         <NurseComponent nurse={nurse} />
                     </Col>
                     <Col>
-                        <Button variant="danger" onClick={() => removeNurse(nurse.id)}>Remove</Button>
+                        <Button variant="danger" 
+                        onClick={() => {
+                            removeNurse(nurse.id)}}>Remove</Button>
                     </Col>
                 </Row>
             </Card>

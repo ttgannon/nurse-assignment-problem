@@ -1,6 +1,6 @@
 import { Button, Card, Col, Container, Row } from "react-bootstrap"
 import { Nurse } from "./Nurse"
-import './Nurse.css'
+import '../Nurse.css'
 import { NurseCard } from "./NurseCard";
 
 export const Assignment = ({nurses, patients}) => {
@@ -26,7 +26,7 @@ export const Assignment = ({nurses, patients}) => {
                                             <Nurse nurse={nurse.nurse} />
                                         </Col>
                                         <Col>
-                                            <Button variant="danger">Remove</Button>{' '}
+                                            <Button variant="danger">Remove</Button>
                                         </Col>
                                     </Row>
                                     <Row>
