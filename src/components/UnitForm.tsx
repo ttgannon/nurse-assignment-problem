@@ -32,9 +32,9 @@ export const UnitForm = ({
 
   const filtered_items = getFilteredItems(query, units);
 
-  function handleSelection(unitName) {
-    setSelectedUnit(unitName);
-    handleSubmit(unitName);
+  function handleSelection(unit: Unit) {
+    setSelectedUnit(unit);
+    handleSubmit();
   }
 
   return (
@@ -52,7 +52,7 @@ export const UnitForm = ({
           // const filterValue = e.target.value.toLowerCase();
         />
         {filtered_items.map((unit) => (
-          <Dropdown.Item onClick={() => handleSelection(unit.name)}>
+          <Dropdown.Item onClick={() => handleSelection(unit)}>
             {unit.name}
           </Dropdown.Item>
         ))}
