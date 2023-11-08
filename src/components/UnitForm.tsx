@@ -1,61 +1,61 @@
-import { useEffect, useState } from 'react';
-import Dropdown from 'react-bootstrap/Dropdown';
-import Form from 'react-bootstrap/Form';
-import {faker} from "@faker-js/faker";
+import React, { useState } from "react";
+import Dropdown from "react-bootstrap/Dropdown";
+import Form from "react-bootstrap/Form";
+import { faker } from "@faker-js/faker";
+import { Unit } from "../interfaces";
 
-interface Unit {
-    name: string
+const getFilteredItems = (query: string, units: Unit[]) => {
+  if (!query) {
+    return units;
+  }
+  return units.filter((unit) => unit.name.toLowerCase().startsWith(query));
+};
+
+export const UnitForm = ({
+  selectedUnit,
+  setSelectedUnit,
+  handleSubmit,
+}: {
+  selectedUnit: Unit | null;
+  setSelectedUnit: React.Dispatch<React.SetStateAction<Unit>>;
+  handleSubmit: () => void;
+}) => {
+  const [query, setQuery] = useState("");
+  const [units] = useState<Unit[]>(() =>
+    Array.from({ length: 20 }, () => {
+      const unit: Unit = {
+        name: faker.lorem.word(),
+      };
+      return unit;
+    }),
+  );
+
+  const filtered_items = getFilteredItems(query, units);
+
+  function handleSelection(unit: Unit) {
+    setSelectedUnit(unit);
+    handleSubmit();
   }
 
-const getFilteredItems = (query, units) => {
-    if (!query) {
-        return units;
-    }
-    return units.filter(unit => unit.name.toLowerCase().startsWith(query))
-}
+  return (
+    <Dropdown>
+      <Dropdown.Toggle variant="success" id="dropdown-basic">
+        {selectedUnit === null ? "Select your unit" : selectedUnit}
+      </Dropdown.Toggle>
 
-
-
-  //get units and set to state
-export const UnitForm = ({selectedUnit, setSelectedUnit, handleSubmit}) => {
-    const [query, setQuery] = useState("");
-    const [units, setUnits] = useState<Unit[]>(() => 
-    Array.from({length: 20}, () => {
-        const unit: Unit = {
-            name: faker.lorem.word(),
-        }
-        return unit
-    }))
-
-    const filtered_items = getFilteredItems(query, units);
-
-    function handleSelection(unitName) {
-        setSelectedUnit(unitName);
-        handleSubmit(unitName);
-    }
-
-    return (
-        <Dropdown>
-          <Dropdown.Toggle variant="success" id="dropdown-basic">
-            {selectedUnit === null 
-            ? "Select your unit"
-            : selectedUnit
-        }
-          </Dropdown.Toggle>
-    
-          <Dropdown.Menu>
-          <Form.Control
+      <Dropdown.Menu>
+        <Form.Control
           autoFocus
           className="mx-3 my-2 w-auto"
           placeholder="Type your unit"
-          onChange={e => setQuery(e.target.value)}
-        // const filterValue = e.target.value.toLowerCase();
-          
+          onChange={(e) => setQuery(e.target.value)}
         />
-            {filtered_items.map(unit=>(
-                <Dropdown.Item onClick={() => handleSelection(unit.name)}>{unit.name}</Dropdown.Item>
-            ))}
-          </Dropdown.Menu>
-        </Dropdown>
-      );
-}
+        {filtered_items.map((unit) => (
+          <Dropdown.Item onClick={() => handleSelection(unit)}>
+            {unit.name}
+          </Dropdown.Item>
+        ))}
+      </Dropdown.Menu>
+    </Dropdown>
+  );
+};
