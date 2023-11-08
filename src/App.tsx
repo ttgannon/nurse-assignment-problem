@@ -11,47 +11,40 @@ import Button from "react-bootstrap/Button";
 import { PatientList, Assignment, NurseCard, NewNurseForm } from "./components";
 import { Patient, Nurse } from "./interfaces";
 import { URL_FOR_ACCESS } from "./api";
-import { fetchEpicData } from "./services";
 
 const App = () => {
-  //code for getting the units 
-  //i STARTED BY MANAGING THE STATE WITHIN THE FORM FILE AND STILL DO FOR SOME
-  //COMPONENTS; HOW TO KNOW WHEN TO MANAGE IN APP.TSX OR IN FORM.TSX?
+  //code for getting the units
   const [selectedUnit, setSelectedUnit] = useState(null);
   const [patients, setPatients] = useState<Patient[]>([]);
   const [assignment, setAssignments] = useState<boolean>(false);
-  
+  const accessToken = null;
+
   //code for getting nurses from the units
   const [nurses, setNurses] = useState<Nurse[]>([]);
   const [next, setNext] = useState<boolean>(false);
+
   //modal
   const [showModal, setShowModal] = useState(false);
 
   //What to do when unit is selected to get nurses
-  function handleSubmit() {
+  async function handleSubmit() {
     setNurses(() => {
-        return Array.from({length: 5}, (index:number) => {
-            const nurse: Nurse = {
-                id: index,
-                fullName: faker.person.fullName(),
-                yearsOfExperience: faker.number.int({
-                    min: 0,
-                    max: 30
-                }),
-                unitName: faker.location.buildingNumber()
-            }
-            return nurse
-        })
-    })
-    setPatients(() => {
-      return Array.from({length: 10}, () => {
-        const patient: Patient = {
+      return Array.from({ length: 5 }, (element, index: number) => {
+        const nurse: Nurse = {
+          id: index,
           fullName: faker.person.fullName(),
-          unitName: faker.location.buildingNumber()
-        }
-        return patient
-      })
-    })
+          yearsOfExperience: faker.number.int({
+            min: 0,
+            max: 30,
+          }),
+          unitName: faker.location.buildingNumber(),
+        };
+        return nurse;
+      });
+    });
+    await fetchEpicData().then((data) => {
+      setPatients(data);
+    });
     setNext(true);
   }
 
@@ -59,6 +52,7 @@ const App = () => {
     setNext(false);
     setAssignments(true);
   }
+
   function addNewNurse(nurse: { nurseName: string; nurseUnit: string }) {
     setNurses(() => {
       return [
@@ -75,36 +69,42 @@ const App = () => {
     setShowModal(false);
   }
 
-    //render the components
-    return (
-        <>
-        <UnitForm selectedUnit={selectedUnit} 
-        setSelectedUnit={setSelectedUnit} 
-        handleSubmit={handleSubmit} />
-            { next ? (
-            <div>
-            <Container>   
-              <Alert variant='primary'>These are the nurses we have on {selectedUnit} for 
-              the shift. Press the Red 'X' to 
-              remove a nurse who isn't coming in, and the green 'Add another nurse' to add a new one.
-              </Alert>
-              <Row>
+  //render the components
+  return (
+    <>
+      <a href={URL_FOR_ACCESS}>Click to Sign in</a>
+      {accessToken ? (
+        <UnitForm
+          selectedUnit={selectedUnit}
+          setSelectedUnit={setSelectedUnit}
+          handleSubmit={handleSubmit}
+        />
+      ) : null}
+
+      {next ? (
+        <div>
+          <Container>
+            <Alert variant="primary">
+              These are the nurses we have on {selectedUnit} for the shift.
+              Press the Red 'X' to remove a nurse who isn't coming in, and the
+              green 'Add another nurse' to add a new one.
+            </Alert>
+            <Row>
               {nurses.map((nurse) => (
-                  <Col md={4}>
+                <Col md={4}>
                   <NurseCard
                     nurse={nurse}
                     removeNurse={(id) => {
                       setNurses(nurses.filter((nurse) => nurse.id !== id));
                     }}
                   />
-                  </Col>
-                  ))}
-                
-              </Row>
-            </Container>
+                </Col>
+              ))}
+            </Row>
+          </Container>
           <Button variant="primary" onClick={() => setShowModal(true)}>
-              Add another nurse
-            </Button>
+            Add another nurse
+          </Button>
 
           <Button onClick={generateAssignment}>Generate Assignment</Button>
           {next ? (
@@ -117,11 +117,11 @@ const App = () => {
               </Row>
             </div>
           ) : null}
-          </div>
+        </div>
       ) : null}
 
-            {assignment ? (
-                <Assignment nurses={nurses} patients={patients}></Assignment>
+      {assignment ? (
+        <Assignment nurses={nurses} patients={patients}></Assignment>
       ) : null}
 
       <NewNurseForm
@@ -129,7 +129,7 @@ const App = () => {
         setShowModal={setShowModal}
         addNewNurse={addNewNurse}
       />
-        </>
+    </>
   );
 };
 
