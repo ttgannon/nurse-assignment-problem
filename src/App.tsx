@@ -17,7 +17,7 @@ const App = () => {
   const [selectedUnit, setSelectedUnit] = useState(null);
   const [patients, setPatients] = useState<Patient[]>([]);
   const [assignment, setAssignments] = useState<boolean>(false);
-  const accessToken = null;
+  const [accessToken, setAccessToken] = useState(null);
 
   //code for getting nurses from the units
   const [nurses, setNurses] = useState<Nurse[]>([]);
