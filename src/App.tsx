@@ -10,7 +10,8 @@ import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 import { PatientList, Assignment, NurseCard, NewNurseForm } from "./components";
 import { Patient, Nurse } from "./interfaces";
-import { URL_FOR_ACCESS } from "./api";
+import { URL_FOR_ACCESS_CODE } from "./api";
+import { checkQueryString, exchangeForJWT } from "./services/launch";
 
 const App = () => {
   //code for getting the units
@@ -25,6 +26,16 @@ const App = () => {
 
   //modal
   const [showModal, setShowModal] = useState(false);
+
+  //'code' query param in URL
+  // const [code, setCode] = useState("");
+
+  //logic to see if an access code is present
+  let code = checkQueryString();
+
+  if (code) {
+    exchangeForJWT(code);
+  }
 
   //What to do when unit is selected to get nurses
   async function handleSubmit() {
@@ -69,18 +80,18 @@ const App = () => {
     setShowModal(false);
   }
 
-  function getepic(e) {
+  function getEpic(e) {
     e.preventDefault();
-    const newWindow = window.open(URL_FOR_ACCESS, "epicWindow");
+    window.location.href = URL_FOR_ACCESS_CODE;
   }
 
   //render the components
   return (
     <>
-      <form onSubmit={getepic}>
+      <form onSubmit={getEpic}>
         <input type="submit" value="Click to Sign in" />
       </form>
-
+      {code ? <h1>{code}</h1> : null}
       {accessToken ? (
         <UnitForm
           selectedUnit={selectedUnit}
