@@ -69,10 +69,18 @@ const App = () => {
     setShowModal(false);
   }
 
+  function getepic(e) {
+    e.preventDefault();
+    const newWindow = window.open(URL_FOR_ACCESS, "epicWindow");
+  }
+
   //render the components
   return (
     <>
-      <a href={URL_FOR_ACCESS}>Click to Sign in</a>
+      <form onSubmit={getepic}>
+        <input type="submit" value="Click to Sign in" />
+      </form>
+
       {accessToken ? (
         <UnitForm
           selectedUnit={selectedUnit}
