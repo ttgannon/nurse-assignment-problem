@@ -1,7 +1,6 @@
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import { Nurse } from "./Nurse";
 import { Nurse as NurseType, Patient } from "../interfaces";
-import "../Nurse.css";
 import { generateAssignments } from "../services";
 
 export const Assignment = ({
