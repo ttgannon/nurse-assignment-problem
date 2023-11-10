@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import { faker } from "@faker-js/faker";
 import { UnitForm } from "./components/UnitForm";
@@ -12,6 +12,7 @@ import { PatientList, Assignment, NurseCard, NewNurseForm } from "./components";
 import { Patient, Nurse } from "./interfaces";
 import { URL_FOR_ACCESS_CODE } from "./api";
 import { checkQueryString, exchangeForJWT } from "./services/launch";
+import { useLocation } from "react-router-dom";
 
 const App = () => {
   //code for getting the units
@@ -19,6 +20,7 @@ const App = () => {
   const [patients, setPatients] = useState<Patient[]>([]);
   const [assignment, setAssignments] = useState<boolean>(false);
   const [accessToken, setAccessToken] = useState(null);
+  const [accessCode, setAccessCode] = useState<string | null>(null);
 
   //code for getting nurses from the units
   const [nurses, setNurses] = useState<Nurse[]>([]);
@@ -26,16 +28,26 @@ const App = () => {
 
   //modal
   const [showModal, setShowModal] = useState(false);
+  const location = useLocation();
 
   //'code' query param in URL
   // const [code, setCode] = useState("");
 
   //logic to see if an access code is present
-  let code = checkQueryString();
 
-  if (code) {
-    exchangeForJWT(code);
-  }
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const code = params.get("code");
+    if (code) {
+      setAccessCode(code);
+    }
+  }, [location.search]);
+
+  useEffect(() => {
+    if (accessCode) {
+      exchangeForJWT(accessCode);
+    }
+  }, [accessCode]);
 
   //What to do when unit is selected to get nurses
   async function handleSubmit() {
@@ -91,7 +103,7 @@ const App = () => {
       <form onSubmit={getEpic}>
         <input type="submit" value="Click to Sign in" />
       </form>
-      {code ? <h1>{code}</h1> : null}
+      {accessCode ? <h1>{accessCode}</h1> : null}
       {accessToken ? (
         <UnitForm
           selectedUnit={selectedUnit}
