@@ -8,6 +8,8 @@ export const useDummyData = () => {
       const unit: Unit = {
         id: faker.number.int(),
         name: faker.lorem.word(),
+        patients: [],
+        nurses: [],
       };
       return unit;
     }),
