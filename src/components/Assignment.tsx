@@ -14,7 +14,7 @@ export const Assignment = ({
   return (
     <Row>
       {assignments.map(({ nurse, patients }) => (
-        <Col key={nurse.employeeId} xs={4} className="mb-3">
+        <Col key={nurse.employeeId} md={6} lg={4} className="mb-3">
           <Card>
             <Card.Header>{nurse.fullName}</Card.Header>
             <Card.Body>
