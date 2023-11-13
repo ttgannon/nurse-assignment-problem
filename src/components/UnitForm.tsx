@@ -21,7 +21,7 @@ export const UnitForm = ({
   handleSubmit: () => void;
 }) => {
   const [query, setQuery] = useState("");
-  const [units] = useState<Unit[]>(() =>
+  const [units, setUnits] = useState<Unit[]>(() =>
     Array.from({ length: 20 }, () => {
       const unit: Unit = {
         name: faker.lorem.word(),
@@ -33,7 +33,7 @@ export const UnitForm = ({
   const filtered_items = getFilteredItems(query, units);
 
   function handleSelection(unit: Unit) {
-    setSelectedUnit(unit);
+    setSelectedUnit(unit.name);
     handleSubmit();
   }
 
