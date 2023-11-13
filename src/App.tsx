@@ -19,7 +19,7 @@ const App = () => {
   const [selectedUnit, setSelectedUnit] = useState(null);
   const [patients, setPatients] = useState<Patient[]>([]);
   const [assignment, setAssignments] = useState<boolean>(false);
-  const [accessToken, setAccessToken] = useState(null);
+  const [accessToken, setAccessToken] = useState<string | null>(null);
   const [accessCode, setAccessCode] = useState<string | null>(null);
 
   //code for getting nurses from the units
@@ -44,9 +44,13 @@ const App = () => {
   }, [location.search]);
 
   useEffect(() => {
-    if (accessCode) {
-      exchangeForJWT(accessCode);
-    }
+    const fetchData = async () => {
+      if (accessCode) {
+        const token = await exchangeForJWT(accessCode);
+        setAccessToken(token);
+      }
+    };
+    fetchData();
   }, [accessCode]);
 
   //What to do when unit is selected to get nurses
@@ -100,10 +104,11 @@ const App = () => {
   //render the components
   return (
     <>
-      <form onSubmit={getEpic}>
-        <input type="submit" value="Click to Sign in" />
-      </form>
-      {accessCode ? <h1>{accessCode}</h1> : null}
+      {!accessToken ? (
+        <form onSubmit={getEpic}>
+          <input type="submit" value="Click to Sign in" />
+        </form>
+      ) : null}
       {accessToken ? (
         <UnitForm
           selectedUnit={selectedUnit}
