@@ -69,9 +69,7 @@ const App = () => {
         return nurse;
       });
     });
-    await fetchEpicData().then((data) => {
-      setPatients(data);
-    });
+    //TODO: setPatients function to display patients on unit
     setNext(true);
   }
 
