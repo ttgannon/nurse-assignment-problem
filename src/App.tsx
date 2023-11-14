@@ -13,10 +13,11 @@ import { Patient, Nurse } from "./interfaces";
 import { URL_FOR_ACCESS_CODE } from "./api";
 import { checkQueryString, exchangeForJWT } from "./services/launch";
 import { useLocation } from "react-router-dom";
+import { getUnitPatients } from "./services/apiCalls";
 
 const App = () => {
   //code for getting the units
-  const [selectedUnit, setSelectedUnit] = useState<string | null>(null);
+  const [selectedUnit, setSelectedUnit] = useState(null);
   const [patients, setPatients] = useState<Patient[]>([]);
   const [assignment, setAssignments] = useState<boolean>(false);
   const [accessToken, setAccessToken] = useState<string | null>(null);
@@ -42,6 +43,10 @@ const App = () => {
       setAccessCode(code);
     }
   }, [location.search]);
+
+  useEffect(() => {
+    console.log(accessToken);
+  }, [accessToken]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -70,6 +75,15 @@ const App = () => {
       });
     });
     //TODO: setPatients function to display patients on unit
+    try {
+      const patients = await getUnitPatients(accessToken);
+      console.log(accessToken);
+      if (patients) {
+        setPatients(patients);
+      }
+    } catch (error) {
+      throw new Error(`Error: ${error}`);
+    }
     setNext(true);
   }
 

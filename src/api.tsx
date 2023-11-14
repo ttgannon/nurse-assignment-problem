@@ -9,7 +9,7 @@ export const URL_FOR_TOKEN =
 
 //this URL is used to connect with sign in on launch
 export const URL_FOR_ACCESS_CODE =
-  "https://fhir.epic.com/interconnect-fhir-oauth/oauth2/authorize?response_type=code&redirect_uri=http%3A//localhost%3A5174&client_id=db1ba939-2546-4960-a094-64b0db1496b4&state=1234&scope=Patient.search";
+  "https://fhir.epic.com/interconnect-fhir-oauth/oauth2/authorize?response_type=code&redirect_uri=http%3A//localhost%3A5174&client_id=db1ba939-2546-4960-a094-64b0db1496b4&state=1234&scope=Patient.search, Patient.Read, List.Search";
 
 //APIs
 export const BASE_URL_API =
