@@ -6,6 +6,7 @@ import {
   NurseTable,
   PatientTable,
   UnitSelection,
+  Auth,
 } from "./components";
 import { Nurse, Unit } from "./interfaces";
 import { Card } from "react-bootstrap";
@@ -21,6 +22,7 @@ const App = () => {
     <Container className="p-3">
       <Container className="p-5 mb-4 bg-light rounded-3">
         <h1>Nursify</h1>
+        <Auth />
         <Card>
           <Card.Header>Unit Selection</Card.Header>
           <Card.Body>
