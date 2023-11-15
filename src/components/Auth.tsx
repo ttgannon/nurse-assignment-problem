@@ -13,7 +13,12 @@ export const Auth = () => {
     const fetchData = async () => {
       if (accessCode) {
         const token = await exchangeForJWT(accessCode);
-        setAccessToken(token);
+        if (token) {
+          localStorage.setItem("epic-access-token", token);
+          setAccessToken(token);
+        } else {
+          throw new Error("There was an error getting your access token.");
+        }
       }
     };
     fetchData();
