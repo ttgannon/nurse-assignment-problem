@@ -1,6 +1,6 @@
 export interface Nurse {
-  id: number;
+  employeeId: number;
   fullName: string;
-  yearsOfExperience: number;
-  unitName: string;
+  yearsOfExperience?: number;
+  unitId: number;
 }

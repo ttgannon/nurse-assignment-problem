@@ -1,135 +1,91 @@
 import { useState } from "react";
-import "./App.css";
-import { faker } from "@faker-js/faker";
-import { UnitForm } from "./components/UnitForm";
-import "bootstrap/dist/css/bootstrap.min.css";
 import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
 import Alert from "react-bootstrap/Alert";
-import Button from "react-bootstrap/Button";
-import { PatientList, Assignment, NurseCard, NewNurseForm } from "./components";
-import { Patient, Nurse } from "./interfaces";
-import { URL_FOR_ACCESS } from "./api";
-import { fetchEpicData } from "./services";
+import {
+  Assignment,
+  NurseTable,
+  PatientTable,
+  UnitSelection,
+} from "./components";
+import { Nurse, Unit } from "./interfaces";
+import { Card } from "react-bootstrap";
+import { useDummyData } from "./hooks";
 
 const App = () => {
-  //code for getting the units 
-  //i STARTED BY MANAGING THE STATE WITHIN THE FORM FILE AND STILL DO FOR SOME
-  //COMPONENTS; HOW TO KNOW WHEN TO MANAGE IN APP.TSX OR IN FORM.TSX?
-  const [selectedUnit, setSelectedUnit] = useState(null);
-  const [patients, setPatients] = useState<Patient[]>([]);
-  const [assignment, setAssignments] = useState<boolean>(false);
-  
-  //code for getting nurses from the units
-  const [nurses, setNurses] = useState<Nurse[]>([]);
-  const [next, setNext] = useState<boolean>(false);
-  //modal
-  const [showModal, setShowModal] = useState(false);
+  const { units, nurses: nurseData, patients } = useDummyData();
 
-  //What to do when unit is selected to get nurses
-  function handleSubmit() {
-    setNurses(() => {
-        return Array.from({length: 5}, (index:number) => {
-            const nurse: Nurse = {
-                id: index,
-                fullName: faker.person.fullName(),
-                yearsOfExperience: faker.number.int({
-                    min: 0,
-                    max: 30
-                }),
-                unitName: faker.location.buildingNumber()
-            }
-            return nurse
-        })
-    })
-    setPatients(() => {
-      return Array.from({length: 10}, () => {
-        const patient: Patient = {
-          fullName: faker.person.fullName(),
-          unitName: faker.location.buildingNumber()
-        }
-        return patient
-      })
-    })
-    setNext(true);
-  }
+  const [nurses, setNurses] = useState<Nurse[]>(nurseData);
+  const [selectedUnit, setSelectedUnit] = useState<Unit | null>(null);
 
-  function generateAssignment() {
-    setNext(false);
-    setAssignments(true);
-  }
-  function addNewNurse(nurse: { nurseName: string; nurseUnit: string }) {
-    setNurses(() => {
-      return [
-        ...nurses,
-        {
-          id: nurses.length,
-          fullName: nurse.nurseName,
-          yearsOfExperience: 0,
-          unitName: nurse.nurseUnit,
-        },
-      ];
-    });
-    console.log(nurses);
-    setShowModal(false);
-  }
+  return (
+    <Container className="p-3">
+      <Container className="p-5 mb-4 bg-light rounded-3">
+        <h1>Nursify</h1>
+        <Card>
+          <Card.Header>Unit Selection</Card.Header>
+          <Card.Body>
+            <UnitSelection
+              units={units}
+              onChange={(id) => {
+                const unitId = units.find((unit) => unit.id.toString() === id);
 
-    //render the components
-    return (
-        <>
-        <UnitForm selectedUnit={selectedUnit} 
-        setSelectedUnit={setSelectedUnit} 
-        handleSubmit={handleSubmit} />
-            { next ? (
-            <div>
-            <Container>   
-              <Alert variant='primary'>These are the nurses we have on {selectedUnit} for 
-              the shift. Press the Red 'X' to 
-              remove a nurse who isn't coming in, and the green 'Add another nurse' to add a new one.
-              </Alert>
-              <Row>
-              {nurses.map((nurse) => (
-                  <Col md={4}>
-                  <NurseCard
-                    nurse={nurse}
-                    removeNurse={(id) => {
-                      setNurses(nurses.filter((nurse) => nurse.id !== id));
-                    }}
-                  />
-                  </Col>
-                  ))}
-                
-              </Row>
-            </Container>
-          <Button variant="primary" onClick={() => setShowModal(true)}>
-              Add another nurse
-            </Button>
+                if (!unitId) return;
 
-          <Button onClick={generateAssignment}>Generate Assignment</Button>
-          {next ? (
-            <div>
-              <h1>Here are the unit patients</h1>
-              <Row>
-                {patients.map((patient) => (
-                  <PatientList patient={patient} />
-                ))}
-              </Row>
-            </div>
-          ) : null}
-          </div>
-      ) : null}
-
-            {assignment ? (
-                <Assignment nurses={nurses} patients={patients}></Assignment>
-      ) : null}
-
-      <NewNurseForm
-        showModal={showModal}
-        setShowModal={setShowModal}
-        addNewNurse={addNewNurse}
-      />
-        </>
+                const selectedUnit: Unit = {
+                  ...unitId,
+                  nurses: nurses.filter((nurse) => nurse.unitId === unitId?.id),
+                  patients: patients.filter(
+                    (patient) => patient.unitId === unitId?.id,
+                  ),
+                };
+                setSelectedUnit(selectedUnit);
+              }}
+            />
+          </Card.Body>
+        </Card>
+        {selectedUnit && (
+          <>
+            <Card className="mt-4">
+              <Card.Header>Nurses</Card.Header>
+              <Card.Body>
+                <Alert variant="primary" dismissible>
+                  These are the nurses we have on {selectedUnit?.name} for the
+                  shift. Remove nurses who aren't coming in, and add new ones
+                  whoa aren't already scheduled.
+                </Alert>
+                <NurseTable
+                  nurses={selectedUnit.nurses}
+                  units={units}
+                  removeNurse={(employeeId) => {
+                    setNurses((nurses) =>
+                      nurses.filter((nurse) => nurse.employeeId !== employeeId),
+                    );
+                  }}
+                  addNurse={(nurse: Nurse) => {
+                    setNurses(() => [...nurses, nurse]);
+                  }}
+                />
+              </Card.Body>
+            </Card>
+            <Card className="mt-4">
+              <Card.Header>Patients</Card.Header>
+              <Card.Body>
+                <PatientTable patients={selectedUnit.patients} units={units} />
+              </Card.Body>
+            </Card>
+            <Card className="mt-4">
+              <Card.Header>Assignment</Card.Header>
+              <Card.Body>
+                <Assignment
+                  nurses={selectedUnit.nurses}
+                  patients={selectedUnit.patients}
+                />
+              </Card.Body>
+            </Card>
+          </>
+        )}
+      </Container>
+    </Container>
   );
 };
 
