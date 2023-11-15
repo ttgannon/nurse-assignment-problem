@@ -54,9 +54,7 @@ const App = () => {
                   whoa aren't already scheduled.
                 </Alert>
                 <NurseTable
-                  nurses={nurses.filter(
-                    (nurse) => nurse.unitId === selectedUnit.id,
-                  )}
+                  nurses={selectedUnit.nurses}
                   units={units}
                   removeNurse={(employeeId) => {
                     setNurses((nurses) =>
