@@ -4,14 +4,13 @@ import { URL_FOR_ACCESS_CODE } from "../api";
 import { useLocation } from "react-router-dom";
 
 export const Auth = ({
-  setEpicToken,
+  setAccessToken,
 }: {
-  setEpicToken: (token: string) => void;
+  setAccessToken: (token: string) => void;
 }) => {
   const location = useLocation();
 
   const [accessCode, setAccessCode] = useState<string | null>(null);
-  const [accessToken, setAccessToken] = useState<string>("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,10 +32,9 @@ export const Auth = ({
     }
   }, [location.search]);
 
-  useEffect(() => {
-    localStorage.setItem("epic-access-token", accessToken);
-    setEpicToken(accessToken);
-  }, [accessToken]);
+  // useEffect(() => {
+  //   localStorage.setItem("epic-access-token", accessToken);
+  // }, [accessToken]);
 
   function getEpic(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -45,7 +43,7 @@ export const Auth = ({
 
   return (
     <>
-      {!accessToken ? (
+      {!accessCode ? (
         <form onSubmit={getEpic}>
           <input type="submit" value="Click to Sign in" />
         </form>

@@ -15,15 +15,22 @@ import { useDummyData } from "./hooks";
 const App = () => {
   const { units, nurses: nurseData, patients } = useDummyData();
 
+  const [accessToken, setAccessToken] = useState<string>("");
+
   const [nurses, setNurses] = useState<Nurse[]>(nurseData);
   const [selectedUnit, setSelectedUnit] = useState<Unit | null>(null);
-  const [epicToken, setEpicToken] = useState("");
+  // const [epicToken, setEpicToken] = useState("");
+
+  function handleAccessToken(token: string) {
+    localStorage.setItem("epic-access-token", token);
+    setAccessToken(token);
+  }
 
   return (
     <Container className="p-3">
       <Container className="p-5 mb-4 bg-light rounded-3">
         <h1>Nursify</h1>
-        {localStorage.getItem("epic-access-token") ? (
+        {accessToken ? (
           <Card>
             <Card.Header>Unit Selection</Card.Header>
             <Card.Body>
@@ -51,7 +58,7 @@ const App = () => {
             </Card.Body>
           </Card>
         ) : (
-          <Auth setEpicToken={setEpicToken} />
+          <Auth setAccessToken={handleAccessToken} />
         )}
 
         {selectedUnit && (
