@@ -53,7 +53,7 @@ const App = () => {
                 <Alert variant="primary" dismissible>
                   These are the nurses we have on {selectedUnit?.name} for the
                   shift. Remove nurses who aren't coming in, and add new ones
-                  whoa aren't already scheduled.
+                  who aren't already scheduled.
                 </Alert>
                 <NurseTable
                   nurses={selectedUnit.nurses}
