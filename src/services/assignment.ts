@@ -4,12 +4,19 @@ export const generateAssignments = (
   patients: Patient[],
   nurses: Nurse[],
 ): Assignment[] => {
-  const patientsPerNurse = patients.length / nurses.length;
+  const patientsCopy = [...patients];
+  const patientsPerNurse = Math.floor(patientsCopy.length / nurses.length);
+  const extraPatients = patientsCopy.length % nurses.length;
 
   return nurses.map((nurse, index) => {
+    const additionalPatients = index < extraPatients ? 1 : 0;
+    const assignedPatientsCount = patientsPerNurse + additionalPatients;
+
+    const assignedPatients = patientsCopy.splice(0, assignedPatientsCount);
+
     const assignment: Assignment = {
       nurse,
-      patients: patients.slice(index, index + patientsPerNurse),
+      patients: assignedPatients,
     };
 
     return assignment;
