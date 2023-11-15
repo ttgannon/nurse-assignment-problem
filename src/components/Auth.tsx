@@ -3,21 +3,22 @@ import { exchangeForJWT } from "../services/launch";
 import { URL_FOR_ACCESS_CODE } from "../api";
 import { useLocation } from "react-router-dom";
 
-export const Auth = () => {
+export const Auth = ({
+  setEpicToken,
+}: {
+  setEpicToken: (token: string) => void;
+}) => {
   const location = useLocation();
 
   const [accessCode, setAccessCode] = useState<string | null>(null);
-  const [accessToken, setAccessToken] = useState<string | null>(null);
+  const [accessToken, setAccessToken] = useState<string>("");
 
   useEffect(() => {
     const fetchData = async () => {
       if (accessCode) {
         const token = await exchangeForJWT(accessCode);
         if (token) {
-          localStorage.setItem("epic-access-token", token);
           setAccessToken(token);
-        } else {
-          throw new Error("There was an error getting your access token.");
         }
       }
     };
@@ -33,7 +34,8 @@ export const Auth = () => {
   }, [location.search]);
 
   useEffect(() => {
-    console.log(accessToken);
+    localStorage.setItem("epic-access-token", accessToken);
+    setEpicToken(accessToken);
   }, [accessToken]);
 
   function getEpic(e: React.FormEvent<HTMLFormElement>) {

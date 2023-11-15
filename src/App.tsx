@@ -17,6 +17,7 @@ const App = () => {
 
   const [nurses, setNurses] = useState<Nurse[]>(nurseData);
   const [selectedUnit, setSelectedUnit] = useState<Unit | null>(null);
+  const [epicToken, setEpicToken] = useState("");
 
   return (
     <Container className="p-3">
@@ -50,7 +51,7 @@ const App = () => {
             </Card.Body>
           </Card>
         ) : (
-          <Auth />
+          <Auth setEpicToken={setEpicToken} />
         )}
 
         {selectedUnit && (
