@@ -22,7 +22,7 @@ export const Auth = ({
       }
     };
     fetchData();
-  }, [accessCode]);
+  }, [accessCode, setAccessToken]);
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
