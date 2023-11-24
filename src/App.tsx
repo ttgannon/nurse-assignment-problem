@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
 import Alert from "react-bootstrap/Alert";
 import {
@@ -21,6 +21,18 @@ const App = () => {
   const [selectedUnit, setSelectedUnit] = useState<Unit | null>(null);
   // const [epicToken, setEpicToken] = useState("");
 
+  useEffect(() => {
+    if (!selectedUnit) return;
+    const unit: Unit = {
+      ...selectedUnit,
+      nurses: nurses.filter((nurse) => nurse.unitId === selectedUnit?.id),
+      patients: patients.filter(
+        (patient) => patient.unitId === selectedUnit?.id,
+      ),
+    };
+    setSelectedUnit(unit);
+  }, [nurses, patients, selectedUnit]);
+
   function handleAccessToken(token: string) {
     localStorage.setItem("epic-access-token", token);
     setAccessToken(token);
@@ -30,36 +42,33 @@ const App = () => {
     <Container className="p-3">
       <Container className="p-5 mb-4 bg-light rounded-3">
         <h1>Nursify</h1>
-        {accessToken ? (
-          <Card>
-            <Card.Header>Unit Selection</Card.Header>
-            <Card.Body>
-              <UnitSelection
-                units={units}
-                onChange={(id) => {
-                  const unitId = units.find(
-                    (unit) => unit.id.toString() === id,
-                  );
+        {/* {accessToken ? 
+        ( */}
+        <Card>
+          <Card.Header>Unit Selection</Card.Header>
+          <Card.Body>
+            <UnitSelection
+              units={units}
+              onChange={(id) => {
+                const unitId = units.find((unit) => unit.id.toString() === id);
 
-                  if (!unitId) return;
+                if (!unitId) return;
 
-                  const selectedUnit: Unit = {
-                    ...unitId,
-                    nurses: nurses.filter(
-                      (nurse) => nurse.unitId === unitId?.id,
-                    ),
-                    patients: patients.filter(
-                      (patient) => patient.unitId === unitId?.id,
-                    ),
-                  };
-                  setSelectedUnit(selectedUnit);
-                }}
-              />
-            </Card.Body>
-          </Card>
-        ) : (
+                const selectedUnit: Unit = {
+                  ...unitId,
+                  nurses: nurses.filter((nurse) => nurse.unitId === unitId?.id),
+                  patients: patients.filter(
+                    (patient) => patient.unitId === unitId?.id,
+                  ),
+                };
+                setSelectedUnit(selectedUnit);
+              }}
+            />
+          </Card.Body>
+        </Card>
+        {/* ) : (
           <Auth setAccessToken={handleAccessToken} />
-        )}
+        )} */}
 
         {selectedUnit && (
           <>
