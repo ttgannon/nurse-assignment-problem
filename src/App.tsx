@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
 import Alert from "react-bootstrap/Alert";
 import {
@@ -6,6 +6,7 @@ import {
   NurseTable,
   PatientTable,
   UnitSelection,
+  Auth,
 } from "./components";
 import { Nurse, Unit } from "./interfaces";
 import { Card } from "react-bootstrap";
@@ -14,35 +15,64 @@ import { useDummyData } from "./hooks";
 const App = () => {
   const { units, nurses: nurseData, patients } = useDummyData();
 
+  const [accessToken, setAccessToken] = useState<string>("");
+
   const [nurses, setNurses] = useState<Nurse[]>(nurseData);
   const [selectedUnit, setSelectedUnit] = useState<Unit | null>(null);
+  // const [epicToken, setEpicToken] = useState("");
+
+  useEffect(() => {
+    if (!selectedUnit) return;
+    const unit: Unit = {
+      ...selectedUnit,
+      nurses: nurses.filter((nurse) => nurse.unitId === selectedUnit?.id),
+      patients: patients.filter(
+        (patient) => patient.unitId === selectedUnit?.id,
+      ),
+    };
+    setSelectedUnit(unit);
+  }, [nurses, patients, selectedUnit]);
+
+  function handleAccessToken(token: string) {
+    localStorage.setItem("epic-access-token", token);
+    setAccessToken(token);
+  }
 
   return (
     <Container className="p-3">
       <Container className="p-5 mb-4 bg-light rounded-3">
         <h1>Nursify</h1>
-        <Card>
-          <Card.Header>Unit Selection</Card.Header>
-          <Card.Body>
-            <UnitSelection
-              units={units}
-              onChange={(id) => {
-                const unitId = units.find((unit) => unit.id.toString() === id);
+        {accessToken ? (
+          <Card>
+            <Card.Header>Unit Selection</Card.Header>
+            <Card.Body>
+              <UnitSelection
+                units={units}
+                onChange={(id) => {
+                  const unitId = units.find(
+                    (unit) => unit.id.toString() === id,
+                  );
 
-                if (!unitId) return;
+                  if (!unitId) return;
 
-                const selectedUnit: Unit = {
-                  ...unitId,
-                  nurses: nurses.filter((nurse) => nurse.unitId === unitId?.id),
-                  patients: patients.filter(
-                    (patient) => patient.unitId === unitId?.id,
-                  ),
-                };
-                setSelectedUnit(selectedUnit);
-              }}
-            />
-          </Card.Body>
-        </Card>
+                  const selectedUnit: Unit = {
+                    ...unitId,
+                    nurses: nurses.filter(
+                      (nurse) => nurse.unitId === unitId?.id,
+                    ),
+                    patients: patients.filter(
+                      (patient) => patient.unitId === unitId?.id,
+                    ),
+                  };
+                  setSelectedUnit(selectedUnit);
+                }}
+              />
+            </Card.Body>
+          </Card>
+        ) : (
+          <Auth setAccessToken={handleAccessToken} />
+        )}
+
         {selectedUnit && (
           <>
             <Card className="mt-4">
@@ -51,7 +81,7 @@ const App = () => {
                 <Alert variant="primary" dismissible>
                   These are the nurses we have on {selectedUnit?.name} for the
                   shift. Remove nurses who aren't coming in, and add new ones
-                  whoa aren't already scheduled.
+                  who aren't already scheduled.
                 </Alert>
                 <NurseTable
                   nurses={selectedUnit.nurses}
