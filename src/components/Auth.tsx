@@ -46,8 +46,8 @@ export const Auth = ({
     <>
       {!accessCode ? (
         <Form onSubmit={getEpic}>
-          <Button type="submit" variant="primary">
-            Click to sign in
+          <Button type="submit" variant="success">
+            Sign in
           </Button>
         </Form>
       ) : null}

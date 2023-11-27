@@ -85,7 +85,9 @@ const App = () => {
               ></img>
               <Col className="align-items-center justify-content-center">
                 <h1>Welcome to Nursify</h1>
-                <h3>Making safer, fairer assignments.</h3>
+                <h3 style={{ color: "grey" }}>
+                  Making safer, fairer assignments.
+                </h3>
                 <Auth setAccessToken={handleAccessToken} />
               </Col>
             </Row>
