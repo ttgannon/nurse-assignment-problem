@@ -42,33 +42,36 @@ const App = () => {
     <Container className="p-3">
       <Container className="p-5 mb-4 bg-light rounded-3">
         <h1>Nursify</h1>
-        {/* {accessToken ? 
-        ( */}
-        <Card>
-          <Card.Header>Unit Selection</Card.Header>
-          <Card.Body>
-            <UnitSelection
-              units={units}
-              onChange={(id) => {
-                const unitId = units.find((unit) => unit.id.toString() === id);
+        {accessToken ? (
+          <Card>
+            <Card.Header>Unit Selection</Card.Header>
+            <Card.Body>
+              <UnitSelection
+                units={units}
+                onChange={(id) => {
+                  const unitId = units.find(
+                    (unit) => unit.id.toString() === id,
+                  );
 
-                if (!unitId) return;
+                  if (!unitId) return;
 
-                const selectedUnit: Unit = {
-                  ...unitId,
-                  nurses: nurses.filter((nurse) => nurse.unitId === unitId?.id),
-                  patients: patients.filter(
-                    (patient) => patient.unitId === unitId?.id,
-                  ),
-                };
-                setSelectedUnit(selectedUnit);
-              }}
-            />
-          </Card.Body>
-        </Card>
-        {/* ) : (
+                  const selectedUnit: Unit = {
+                    ...unitId,
+                    nurses: nurses.filter(
+                      (nurse) => nurse.unitId === unitId?.id,
+                    ),
+                    patients: patients.filter(
+                      (patient) => patient.unitId === unitId?.id,
+                    ),
+                  };
+                  setSelectedUnit(selectedUnit);
+                }}
+              />
+            </Card.Body>
+          </Card>
+        ) : (
           <Auth setAccessToken={handleAccessToken} />
-        )} */}
+        )}
 
         {selectedUnit && (
           <>
