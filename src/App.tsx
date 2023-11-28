@@ -75,15 +75,32 @@ const App = () => {
       ) : (
         <Container fluid className="homePage">
           <Row>
-            <Col md={5} style={{ backgroundColor: "rgb(145, 44, 240)" }}>
+            <Col
+              md={5}
+              style={{
+                backgroundColor: "rgb(145, 44, 240)",
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
               <h1 className="nursifyLogo">Nursify</h1>
-              <img
-                src="src/assets/nurses.jpg"
+              <div
                 style={{
-                  maxWidth: 550 + "px",
-                  marginBottom: 100 + "px",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
                 }}
-              ></img>
+              >
+                <img
+                  src="src/assets/doctor-surgeon-icon.svg"
+                  style={{
+                    maxWidth: "400px",
+                    marginBottom: "100px",
+                    marginTop: "50px",
+                  }}
+                  alt="Doctor Surgeon Icon"
+                />
+              </div>
               <h1
                 style={{
                   textAlign: "center",
@@ -97,11 +114,27 @@ const App = () => {
               </h1>
             </Col>
             <Col className="align-items-center justify-content-center">
-              <div style={{ marginTop: 25 + "%" }}>
+              <div
+                className="align-items-center text-align-center"
+                style={{
+                  marginTop: 25 + "%",
+                  flexDirection: "column",
+                  display: "flex",
+                }}
+              >
                 <h1 style={{ fontSize: 70 + "px", textAlign: "center" }}>
                   Welcome to Nursify.
                 </h1>
-                <Alert variant="info" style={{ textAlign: "center" }}>
+                <Alert
+                  className="d-flex"
+                  variant="info"
+                  style={{
+                    textAlign: "center",
+                    maxWidth: 40 + "vw",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
                   <Alert.Heading style={{ fontSize: 20 + "px" }}>
                     Making safer, fairer patient assignments with the power of
                     machine learning.
@@ -191,7 +224,7 @@ const App = () => {
           </Card>
         </>
       )}
-      <Container className="loginContainer">
+      <Container fluid className="loginContainer">
         <Row>
           <Col>
             <h5>Pricing</h5>
