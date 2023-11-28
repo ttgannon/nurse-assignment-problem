@@ -9,7 +9,7 @@ import {
   Auth,
 } from "./components";
 import { Nurse, Unit } from "./interfaces";
-import { Card, Col, Row } from "react-bootstrap";
+import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import { useDummyData } from "./hooks";
 import "./assets/styles/homepage.css";
 
@@ -73,24 +73,79 @@ const App = () => {
           </Container>
         </Container>
       ) : (
-        <Container className="homePage">
+        <Container fluid className="homePage">
           <Row>
-            <Col>
+            <Col md={5} style={{ backgroundColor: "rgb(145, 44, 240)" }}>
               <h1 className="nursifyLogo">Nursify</h1>
-            </Col>
-            <Row>
               <img
                 src="src/assets/nurses.jpg"
-                style={{ maxWidth: 900 + "px", margin: 0 }}
+                style={{
+                  maxWidth: 550 + "px",
+                  marginBottom: 100 + "px",
+                }}
               ></img>
-              <Col className="align-items-center justify-content-center">
-                <h1>Welcome to Nursify</h1>
-                <h3 style={{ color: "grey" }}>
-                  Making safer, fairer assignments.
-                </h3>
-                <Auth setAccessToken={handleAccessToken} />
-              </Col>
-            </Row>
+              <h1
+                style={{
+                  textAlign: "center",
+                  fontSize: 90 + "px",
+                  marginTop: 30 + "%",
+                  marginBottom: 50 + "%",
+                  maxWidth: "fit-content",
+                }}
+              >
+                Nurses deserve safe patient assignments.
+              </h1>
+            </Col>
+            <Col className="align-items-center justify-content-center">
+              <div style={{ marginTop: 25 + "%" }}>
+                <h1 style={{ fontSize: 70 + "px", textAlign: "center" }}>
+                  Welcome to Nursify.
+                </h1>
+                <Alert variant="info" style={{ textAlign: "center" }}>
+                  <Alert.Heading style={{ fontSize: 20 + "px" }}>
+                    Making safer, fairer patient assignments with the power of
+                    machine learning.
+                  </Alert.Heading>
+                  <p className="mb-0"></p>
+                </Alert>
+                <Row className="justify-content-center align-items-center d-flex">
+                  <Col className="d-flex justify-content-center align-items-center">
+                    <Auth setAccessToken={handleAccessToken} />
+                    <Form>
+                      <Button type="submit" variant="outline-secondary">
+                        Try a demo
+                      </Button>
+                    </Form>
+                  </Col>
+                </Row>
+
+                <Card
+                  style={{
+                    width: 700 + "px",
+                    margin: 15 + "px",
+                    marginTop: 70 + "%",
+                    fontSize: 20 + "px",
+                  }}
+                  className="mb-2"
+                  text="black"
+                  key="success"
+                  bg="light"
+                >
+                  <Card.Header>
+                    <strong>How does it work?</strong>
+                  </Card.Header>
+                  <Card.Body>
+                    <Card.Text>
+                      We've trained our digital Charge Nurse on millions of
+                      nurse-patient assignments. Cally looks at your floor's
+                      patients and makes a safe, fair nurse-patient assignment
+                      at the click of a button, saving you time and making your
+                      nurses happier.
+                    </Card.Text>
+                  </Card.Body>
+                </Card>
+              </div>
+            </Col>
           </Row>
         </Container>
       )}
