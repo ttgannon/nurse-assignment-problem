@@ -108,6 +108,7 @@ const App = () => {
                   marginTop: 30 + "%",
                   marginBottom: 50 + "%",
                   maxWidth: "fit-content",
+                  color: "black",
                 }}
               >
                 Nurses deserve safe patient assignments.
@@ -155,11 +156,11 @@ const App = () => {
                 <Card
                   style={{
                     width: 700 + "px",
-                    margin: 15 + "px",
-                    marginTop: 70 + "%",
+
+                    marginTop: 60 + "%",
+                    marginBottom: 30 + "%",
                     fontSize: 20 + "px",
                   }}
-                  className="mb-2"
                   text="black"
                   key="success"
                   bg="light"
@@ -178,6 +179,15 @@ const App = () => {
                   </Card.Body>
                 </Card>
               </div>
+              <h1 style={{ marginBottom: 10 + "%", marginTop: 40 + "px" }}>
+                Go ahead. Check it out.
+              </h1>
+              <Assignment
+                nurses={nurses.filter((nurse) => nurse.unitId === units[1].id)}
+                patients={patients.filter(
+                  (patient) => patient.unitId === units[1].id,
+                )}
+              />
             </Col>
           </Row>
         </Container>
