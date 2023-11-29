@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Container from "react-bootstrap/Container";
 import Alert from "react-bootstrap/Alert";
 import {
@@ -18,6 +18,7 @@ const App = () => {
   const { units, nurses: nurseData, patients } = useDummyData();
 
   const [accessToken, setAccessToken] = useState<string>("");
+  const ref = useRef(null);
 
   const [nurses, setNurses] = useState<Nurse[]>(nurseData);
   const [selectedUnit, setSelectedUnit] = useState<Unit | null>(null);
@@ -149,7 +150,13 @@ const App = () => {
                   <Col className="d-flex justify-content-center align-items-center">
                     <Auth setAccessToken={handleAccessToken} />
                     <Form>
-                      <Button type="submit" variant="outline-secondary">
+                      <Button
+                        onClick={() => {
+                          if (ref.current)
+                            (ref.current as HTMLDivElement).scrollIntoView();
+                        }}
+                        variant="outline-secondary"
+                      >
                         Try a demo
                       </Button>
                     </Form>
@@ -198,11 +205,13 @@ const App = () => {
               <h1 style={{ marginBottom: 1 + "%", marginTop: 40 + "px" }}>
                 Go ahead. Check it out.
               </h1>
-              <DemoPatientAssignment
-                patients={patients}
-                units={units}
-                nurses={nurses}
-              />
+              <div ref={ref} style={{ marginBottom: 10 + "%" }}>
+                <DemoPatientAssignment
+                  patients={patients}
+                  units={units}
+                  nurses={nurses}
+                />
+              </div>
             </Col>
           </Row>
         </Container>
