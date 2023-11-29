@@ -99,10 +99,15 @@ export const DemoPatientAssignment = ({
                 </Card>
               </Container>
             </Container>
-            <Assignment
-              nurses={demoSelectedUnit.nurses}
-              patients={demoSelectedUnit.patients}
-            />
+            <Container className="p-3">
+              <Container className="p-5 mb-4 bg-light rounded-3">
+                <h1>Assignment</h1>
+                <Assignment
+                  nurses={demoSelectedUnit.nurses}
+                  patients={demoSelectedUnit.patients}
+                />
+              </Container>
+            </Container>
           </>
         )}
       </div>
