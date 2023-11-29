@@ -20,6 +20,7 @@ const App = () => {
 
   const [nurses, setNurses] = useState<Nurse[]>(nurseData);
   const [selectedUnit, setSelectedUnit] = useState<Unit | null>(null);
+  const [demoSelectedUnit, setDemoSelectedUnit] = useState<Unit | null>(null);
   // const [epicToken, setEpicToken] = useState("");
 
   useEffect(() => {
@@ -96,7 +97,7 @@ const App = () => {
                   src="src/assets/doctor-surgeon-icon.svg"
                   style={{
                     maxWidth: "400px",
-                    marginBottom: "100px",
+
                     marginTop: "50px",
                   }}
                   alt="Doctor Surgeon Icon"
@@ -106,7 +107,7 @@ const App = () => {
                 style={{
                   textAlign: "center",
                   fontSize: 90 + "px",
-                  marginTop: 30 + "%",
+                  marginTop: 50 + "%",
                   marginBottom: 50 + "%",
                   maxWidth: "fit-content",
                   color: "black",
@@ -153,12 +154,25 @@ const App = () => {
                     </Form>
                   </Col>
                 </Row>
-
+                <div
+                  style={{
+                    marginTop: 125 + "px",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                >
+                  <img
+                    src="src/assets/hospital-building-color-icon.svg"
+                    alt="Hospital Icon"
+                    width="150px"
+                  />
+                </div>
                 <Card
                   style={{
                     width: 700 + "px",
 
-                    marginTop: 60 + "%",
+                    marginTop: 20 + "%",
                     marginBottom: 30 + "%",
                     fontSize: 20 + "px",
                   }}
@@ -183,12 +197,75 @@ const App = () => {
               <h1 style={{ marginBottom: 10 + "%", marginTop: 40 + "px" }}>
                 Go ahead. Check it out.
               </h1>
-              <Assignment
-                nurses={nurses.filter((nurse) => nurse.unitId === units[1].id)}
-                patients={patients.filter(
-                  (patient) => patient.unitId === units[1].id,
-                )}
-              />
+              <Container className="p-3">
+                <Container className="p-5 mb-4 bg-light rounded-3">
+                  <h1>Select your unit tonight</h1>
+                  <Card>
+                    <Card.Header>Unit Selection</Card.Header>
+                    <Card.Body>
+                      <UnitSelection
+                        units={units}
+                        onChange={(id) => {
+                          const unitId = units.find(
+                            (unit) => unit.id.toString() === id,
+                          );
+
+                          if (!unitId) return;
+
+                          const selectedUnit: Unit = {
+                            ...unitId,
+                            nurses: nurses.filter(
+                              (nurse) => nurse.unitId === unitId?.id,
+                            ),
+                            patients: patients.filter(
+                              (patient) => patient.unitId === unitId?.id,
+                            ),
+                          };
+                          setDemoSelectedUnit(selectedUnit);
+                        }}
+                      />
+                    </Card.Body>
+                  </Card>
+                </Container>
+              </Container>
+              {demoSelectedUnit && (
+                <>
+                  <Container className="p-3">
+                    <Container className="p-5 mb-4 bg-light rounded-3">
+                      <h1>Incoming nurses</h1>
+                      <Card className="mt-4">
+                        <Card.Header>Nurses</Card.Header>
+                        <Card.Body>
+                          <Alert variant="primary" dismissible>
+                            These are the nurses we have on{" "}
+                            {demoSelectedUnit?.name} for the shift. Remove
+                            nurses who aren't coming in, and add new ones who
+                            aren't already scheduled.
+                          </Alert>
+                          <NurseTable
+                            nurses={demoSelectedUnit.nurses}
+                            units={units}
+                            removeNurse={(employeeId) => {
+                              setNurses((nurses) =>
+                                nurses.filter(
+                                  (nurse) => nurse.employeeId !== employeeId,
+                                ),
+                              );
+                            }}
+                            addNurse={(nurse: Nurse) => {
+                              setNurses(() => [...nurses, nurse]);
+                            }}
+                          />
+                        </Card.Body>
+                      </Card>
+                    </Container>
+                  </Container>
+                  <Assignment
+                    nurses={demoSelectedUnit.nurses}
+                    patients={demoSelectedUnit.patients}
+                  />
+                </>
+              )}
             </Col>
           </Row>
         </Container>
