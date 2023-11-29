@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { exchangeForJWT } from "../services/launch";
 import { URL_FOR_ACCESS_CODE } from "../api";
 import { useLocation } from "react-router-dom";
+import { Button, Form } from "react-bootstrap";
 
 export const Auth = ({
   setAccessToken,
@@ -44,9 +45,11 @@ export const Auth = ({
   return (
     <>
       {!accessCode ? (
-        <form onSubmit={getEpic}>
-          <input type="submit" value="Click to Sign in" />
-        </form>
+        <Form onSubmit={getEpic}>
+          <Button type="submit" variant="success">
+            Sign in
+          </Button>
+        </Form>
       ) : null}
     </>
   );

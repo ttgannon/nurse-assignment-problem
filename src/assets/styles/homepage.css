@@ -1,0 +1,16 @@
+.loginContainer {
+    background-color: rgb(233, 233, 233);
+    text-align: center;
+    padding: 1%;
+     
+}
+
+.homePage {
+    text-align: left;
+}
+
+.nursifyLogo {
+    font-size: 80px;
+    background-color: rgb(145, 44, 240);
+    color: white;
+}
