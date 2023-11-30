@@ -1,20 +1,28 @@
-import { Alert, Card, Container } from "react-bootstrap";
+import { Alert, Button, Card, Container } from "react-bootstrap";
 import { Assignment, NurseTable, PatientTable } from ".";
 import { Nurse, Patient, Unit } from "../interfaces";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { DemoUnitSelection } from "./DemoUnitSelection";
+import { useDummyData } from "../hooks";
 
-export const DemoPatientAssignment = ({
-  units,
-  nurses,
-  patients,
-}: {
-  units: Unit[];
-  nurses: Nurse[];
-  patients: Patient[];
-}) => {
+export const DemoPatientAssignment = () => {
+  const { units, nurses, patients } = useDummyData();
+
   const [demoSelectedUnit, setDemoSelectedUnit] = useState<Unit | null>(null);
   const demoRef = useRef(null);
+  const [selectedUnit, setSelectedUnit] = useState<Unit | null>(null);
+
+  useEffect(() => {
+    if (!selectedUnit) return;
+    const unit: Unit = {
+      ...selectedUnit,
+      nurses: nurses.filter((nurse) => nurse.unitId === selectedUnit?.id),
+      patients: patients.filter(
+        (patient) => patient.unitId === selectedUnit?.id,
+      ),
+    };
+    setSelectedUnit(unit);
+  }, [nurses, patients, selectedUnit]);
 
   return (
     <>
@@ -109,6 +117,8 @@ export const DemoPatientAssignment = ({
                 />
               </Container>
             </Container>
+            <h1>And just like that, your nurses can breathe easy.</h1>
+            <Button variant="info">Get in touch</Button>
           </>
         )}
       </div>
