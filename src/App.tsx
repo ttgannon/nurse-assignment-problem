@@ -44,17 +44,21 @@ const App = () => {
     setAccessToken(token);
   }
 
-  useEffect(() => {
-    async function getData() {
-      const list = await getUnits(accessToken);
-      setPatientList(list);
-    }
-    getData();
-  }, [accessToken]);
+  // useEffect(() => {
+  //   const getData = async () => {
+  //     const list = await getUnits(accessToken);
+  //     if (list) {
+  //       setPatientList(list);
+  //     }
+  //   };
+  //   if (accessToken !== "") {
+  //     getData();
+  //   }
+  // }, [accessToken]);
 
   return (
     <>
-      {accessToken ? (
+      {accessToken && patientList ? (
         <Container className="p-3">
           <Container className="p-5 mb-4 bg-light rounded-3">
             <h1>Select your unit tonight</h1>

@@ -9,6 +9,7 @@ export const UnitSelection = ({
   onChange: (id: string) => void;
   required?: boolean;
 }) => {
+  // console.log(units.entry[0].link[0].url);
   return (
     <Form.Group className="mb-3">
       <Form.Label htmlFor="disabledTextInput">Unit</Form.Label>
@@ -23,11 +24,11 @@ export const UnitSelection = ({
           Select your unit
         </option>
 
-        {/* {units.entry.map((entry, idx) => (
-          <option key={entry[idx]} value={entry[idx].link[0].url}>
+        {/* {units.entry.map((entry, idx: number) => (
+          <option key={units.entry[idx]} value={units.entry[idx].link[0].url}>
             {units.entry[idx].resource.title}
-          </option>
-        ))} */}
+          </option> */}
+        {/* ))} */}
       </Form.Select>
     </Form.Group>
   );

@@ -33,10 +33,6 @@ export const Auth = ({
     }
   }, [location.search]);
 
-  // useEffect(() => {
-  //   localStorage.setItem("epic-access-token", accessToken);
-  // }, [accessToken]);
-
   function getEpic(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     window.location.href = URL_FOR_ACCESS_CODE;
