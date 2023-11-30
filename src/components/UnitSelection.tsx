@@ -23,11 +23,11 @@ export const UnitSelection = ({
           Select your unit
         </option>
 
-        {units.entry.map((entry, idx) => (
+        {/* {units.entry.map((entry, idx) => (
           <option key={entry[idx]} value={entry[idx].link[0].url}>
             {units.entry[idx].resource.title}
           </option>
-        ))}
+        ))} */}
       </Form.Select>
     </Form.Group>
   );
