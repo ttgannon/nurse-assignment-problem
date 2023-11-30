@@ -15,7 +15,7 @@ export const useDummyData = () => {
     }),
   );
   const [patients] = useState<Patient[]>(() => {
-    return Array.from({ length: 10 }, () => {
+    return Array.from({ length: 25 }, () => {
       const patient: Patient = {
         id: faker.number.int(),
         fullName: faker.person.fullName(),
