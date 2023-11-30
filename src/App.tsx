@@ -18,7 +18,11 @@ const App = () => {
   const { units, nurses: nurseData, patients } = useDummyData();
 
   const [accessToken, setAccessToken] = useState<string>("");
-  const ref = useRef(null);
+
+  const demoRef = useRef(null);
+  const infoRef = useRef(null);
+
+  const [isIntersecting, setIsIntersecting] = useState(false);
 
   const [nurses, setNurses] = useState<Nurse[]>(nurseData);
   const [selectedUnit, setSelectedUnit] = useState<Unit | null>(null);
@@ -36,6 +40,40 @@ const App = () => {
     };
     setSelectedUnit(unit);
   }, [nurses, patients, selectedUnit]);
+
+  // * Boxes appear on scrolling down *//
+  useEffect(() => {
+    const infoElement = infoRef.current as HTMLElement | null;
+
+    if (infoElement) {
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          setIsIntersecting(entry.isIntersecting);
+        },
+        { rootMargin: "-497px" },
+      );
+
+      observer.observe(infoElement);
+
+      return () => observer.disconnect();
+    }
+  }, [isIntersecting]);
+
+  useEffect(() => {
+    const infoElement = infoRef.current as HTMLElement | null;
+
+    if (infoElement) {
+      const h1Elements = infoElement.querySelectorAll("h1");
+
+      h1Elements.forEach((el) => {
+        if (isIntersecting) {
+          el.style.opacity += 1;
+        } else {
+          el.style.opacity = "0";
+        }
+      });
+    }
+  }, [isIntersecting]);
 
   function handleAccessToken(token: string) {
     localStorage.setItem("epic-access-token", token);
@@ -99,24 +137,26 @@ const App = () => {
                   src="src/assets/doctor-surgeon-icon.svg"
                   style={{
                     maxWidth: "400px",
-
+                    marginBottom: 50 + "%",
                     marginTop: "50px",
                   }}
                   alt="Doctor Surgeon Icon"
                 />
               </div>
-              <h1
-                style={{
-                  textAlign: "center",
-                  fontSize: 90 + "px",
-                  marginTop: 50 + "%",
-                  marginBottom: 50 + "%",
-                  maxWidth: "fit-content",
-                  color: "black",
-                }}
-              >
-                Nurses deserve safe patient assignments.
-              </h1>
+              <div ref={infoRef}>
+                <h1
+                  className="slide-out"
+                  style={{
+                    textAlign: "center",
+                    fontSize: 90 + "px",
+                    marginBottom: 50 + "%",
+                    maxWidth: "fit-content",
+                    color: "black",
+                  }}
+                >
+                  Nurses deserve safe patient assignments.
+                </h1>
+              </div>
             </Col>
             <Col className="align-items-center justify-content-center">
               <div
@@ -152,8 +192,10 @@ const App = () => {
                     <Form>
                       <Button
                         onClick={() => {
-                          if (ref.current)
-                            (ref.current as HTMLDivElement).scrollIntoView();
+                          if (demoRef.current)
+                            (
+                              demoRef.current as HTMLDivElement
+                            ).scrollIntoView();
                         }}
                         variant="outline-secondary"
                       >
@@ -176,36 +218,38 @@ const App = () => {
                     width="150px"
                   />
                 </div>
-                <Card
-                  style={{
-                    width: 700 + "px",
+                <div>
+                  <Card
+                    style={{
+                      width: 700 + "px",
 
-                    marginTop: 20 + "%",
-                    marginBottom: 30 + "%",
-                    fontSize: 20 + "px",
-                  }}
-                  text="black"
-                  key="success"
-                  bg="light"
-                >
-                  <Card.Header>
-                    <strong>How does it work?</strong>
-                  </Card.Header>
-                  <Card.Body>
-                    <Card.Text>
-                      We've trained our digital Charge Nurse on millions of
-                      nurse-patient assignments. Cally looks at your floor's
-                      patients and makes a safe, fair nurse-patient assignment
-                      at the click of a button, saving you time and making your
-                      nurses happier.
-                    </Card.Text>
-                  </Card.Body>
-                </Card>
+                      marginTop: 20 + "%",
+                      marginBottom: 30 + "%",
+                      fontSize: 20 + "px",
+                    }}
+                    text="black"
+                    key="success"
+                    bg="light"
+                  >
+                    <Card.Header>
+                      <strong>How does it work?</strong>
+                    </Card.Header>
+                    <Card.Body>
+                      <Card.Text>
+                        We've trained our digital Charge Nurse on millions of
+                        nurse-patient assignments. Cally looks at your floor's
+                        patients and makes a safe, fair nurse-patient assignment
+                        at the click of a button, saving you time and making
+                        your nurses happier.
+                      </Card.Text>
+                    </Card.Body>
+                  </Card>
+                </div>
               </div>
               <h1 style={{ marginBottom: 1 + "%", marginTop: 40 + "px" }}>
                 Go ahead. Check it out.
               </h1>
-              <div ref={ref} style={{ marginBottom: 10 + "%" }}>
+              <div ref={demoRef} style={{ marginBottom: 10 + "%" }}>
                 <DemoPatientAssignment
                   patients={patients}
                   units={units}

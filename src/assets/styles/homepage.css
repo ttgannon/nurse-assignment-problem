@@ -14,3 +14,12 @@
     background-color: rgb(145, 44, 240);
     color: white;
 }
+
+.slide-in {
+    opacity: 1 !important;
+    
+  }
+
+  .slide-out {
+    opacity: 0.1;
+  }
