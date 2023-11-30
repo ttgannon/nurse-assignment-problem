@@ -308,7 +308,7 @@ const App = () => {
           </Container>
           <Container className="p-3">
             <Container className="p-5 mb-4 bg-light rounded-3">
-              <h1>Assignments</h1>
+              <h1>Assignment</h1>
               <Card className="mt-4">
                 <Card.Header>Assignment</Card.Header>
                 <Card.Body>

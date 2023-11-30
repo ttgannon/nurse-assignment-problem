@@ -1,4 +1,4 @@
-import { Alert, Card, Container } from "react-bootstrap";
+import { Alert, Button, Card, Container } from "react-bootstrap";
 import { Assignment, NurseTable, PatientTable, UnitSelection } from ".";
 import { Nurse, Patient, Unit } from "../interfaces";
 import { useRef, useState } from "react";
@@ -108,6 +108,8 @@ export const DemoPatientAssignment = ({
                 />
               </Container>
             </Container>
+            <h1>And just like that, your nurses can breathe easy.</h1>
+            <Button variant="info">Get in touch</Button>
           </>
         )}
       </div>
