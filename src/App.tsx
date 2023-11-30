@@ -51,6 +51,7 @@ const App = () => {
           setIsIntersecting(entry.isIntersecting);
         },
         { rootMargin: "-497px" },
+        //issue with screen sizing
       );
 
       observer.observe(infoElement);
@@ -69,7 +70,7 @@ const App = () => {
         if (isIntersecting) {
           el.style.opacity += 1;
         } else {
-          el.style.opacity = "0";
+          el.style.opacity = "1";
         }
       });
     }
