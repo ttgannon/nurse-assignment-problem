@@ -8,11 +8,12 @@ import {
   UnitSelection,
   Auth,
 } from "./components";
-import { Nurse, Unit } from "./interfaces";
+import { Nurse, Patient, Unit } from "./interfaces";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import { useDummyData } from "./hooks";
 import "./assets/styles/homepage.css";
 import { DemoPatientAssignment } from "./components/DemoPatientAssignment";
+import { getUnits } from "./services/apiCalls";
 
 const App = () => {
   const { units, nurses: nurseData, patients } = useDummyData();
@@ -22,6 +23,7 @@ const App = () => {
 
   const [nurses, setNurses] = useState<Nurse[]>(nurseData);
   const [selectedUnit, setSelectedUnit] = useState<Unit | null>(null);
+  const [patientList, setPatientList] = useState<object | null>(null);
 
   // const [epicToken, setEpicToken] = useState("");
 
@@ -42,6 +44,14 @@ const App = () => {
     setAccessToken(token);
   }
 
+  useEffect(() => {
+    async function getData() {
+      const list = await getUnits(accessToken);
+      setPatientList(list);
+    }
+    getData();
+  }, [accessToken]);
+
   return (
     <>
       {accessToken ? (
@@ -52,7 +62,7 @@ const App = () => {
               <Card.Header>Unit Selection</Card.Header>
               <Card.Body>
                 <UnitSelection
-                  units={units}
+                  units={patientList}
                   onChange={(id) => {
                     const unitId = units.find(
                       (unit) => unit.id.toString() === id,

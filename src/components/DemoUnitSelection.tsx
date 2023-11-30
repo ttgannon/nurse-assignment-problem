@@ -1,11 +1,12 @@
 import Form from "react-bootstrap/Form";
+import { Unit } from "../interfaces";
 
-export const UnitSelection = ({
+export const DemoUnitSelection = ({
   units,
   onChange,
   required,
 }: {
-  units: object;
+  units: Unit[];
   onChange: (id: string) => void;
   required?: boolean;
 }) => {
@@ -20,12 +21,11 @@ export const UnitSelection = ({
         defaultValue=""
       >
         <option disabled value="">
-          Select your unit
+          Select a unit
         </option>
-
-        {units.entry.map((entry, idx) => (
-          <option key={entry[idx]} value={entry[idx].link[0].url}>
-            {units.entry[idx].resource.title}
+        {units.map(({ id, name }) => (
+          <option key={id} value={id}>
+            {name}
           </option>
         ))}
       </Form.Select>

@@ -1,7 +1,8 @@
 import { Alert, Card, Container } from "react-bootstrap";
-import { Assignment, NurseTable, PatientTable, UnitSelection } from ".";
+import { Assignment, NurseTable, PatientTable } from ".";
 import { Nurse, Patient, Unit } from "../interfaces";
 import { useRef, useState } from "react";
+import { DemoUnitSelection } from "./DemoUnitSelection";
 
 export const DemoPatientAssignment = ({
   units,
@@ -24,7 +25,7 @@ export const DemoPatientAssignment = ({
             <Card>
               <Card.Header>Unit Selection</Card.Header>
               <Card.Body>
-                <UnitSelection
+                <DemoUnitSelection
                   units={units}
                   onChange={(id) => {
                     const unitId = units.find(
