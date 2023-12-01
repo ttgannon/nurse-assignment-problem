@@ -1,6 +1,6 @@
 import { Alert, Button, Card, Container } from "react-bootstrap";
-import { Assignment, NurseTable, PatientTable } from "..";
-import { Nurse, Patient, Unit } from "../../interfaces";
+import { Assignment, NurseTable } from "..";
+import { Nurse, Unit } from "../../interfaces";
 import { useEffect, useRef, useState } from "react";
 import { DemoUnitSelection } from "./DemoUnitSelection";
 import { useDummyData } from "../../hooks";
