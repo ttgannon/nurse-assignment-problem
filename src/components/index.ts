@@ -2,7 +2,7 @@ import { Assignment } from "./Assignment";
 import { AddNurseModal } from "./AddNurseModal.tsx";
 import { UnitSelection } from "./UnitSelection.tsx";
 import { NurseTable } from "./NurseTable.tsx";
-import { PatientTable } from "./PatientTable.tsx";
+import { DemoPatientTable } from "./DemoComponents/DemoPatientTable.tsx";
 import { Auth } from "./Auth.tsx";
 
 export {
@@ -10,6 +10,6 @@ export {
   AddNurseModal,
   UnitSelection,
   NurseTable,
-  PatientTable,
+  DemoPatientTable,
   Auth,
 };

@@ -1,9 +1,10 @@
 import { Alert, Button, Card, Container } from "react-bootstrap";
-import { Assignment, NurseTable, PatientTable } from ".";
-import { Nurse, Patient, Unit } from "../interfaces";
+import { Assignment, NurseTable, PatientTable } from "..";
+import { Nurse, Patient, Unit } from "../../interfaces";
 import { useEffect, useRef, useState } from "react";
 import { DemoUnitSelection } from "./DemoUnitSelection";
-import { useDummyData } from "../hooks";
+import { useDummyData } from "../../hooks";
+import { DemoPatientTable } from "./DemoPatientTable";
 
 export const DemoPatientAssignment = () => {
   const { units, nurses, patients } = useDummyData();
@@ -100,7 +101,7 @@ export const DemoPatientAssignment = () => {
                 <Card className="mt-4">
                   <Card.Header>Patients</Card.Header>
                   <Card.Body>
-                    <PatientTable
+                    <DemoPatientTable
                       patients={demoSelectedUnit.patients}
                       units={units}
                     />

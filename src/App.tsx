@@ -5,7 +5,7 @@ import { Auth } from "./components";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import "./assets/styles/homepage.css";
 
-import { DemoPatientAssignment } from "./components/DemoPatientAssignment";
+import { DemoPatientAssignment } from "./components/DemoComponents/DemoPatientAssignment";
 
 const App = () => {
   const ref = useRef(null);

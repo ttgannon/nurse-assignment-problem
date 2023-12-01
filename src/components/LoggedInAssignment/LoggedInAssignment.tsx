@@ -1,7 +1,7 @@
 import { Alert, Card, Container, Spinner } from "react-bootstrap";
-import { Assignment, NurseTable, UnitSelection } from ".";
+import { Assignment, NurseTable, UnitSelection } from "..";
 import { useEffect, useState } from "react";
-import { getUnitPatients, getUnits } from "../services/apiCalls";
+import { getUnitPatients, getUnits } from "../../services/apiCalls";
 
 export const LoggedInAssignment = () => {
   const accessToken = localStorage.getItem("epic-access-token") as string;
@@ -90,7 +90,7 @@ export const LoggedInAssignment = () => {
               <Card className="mt-4">
                 <Card.Header>Patients</Card.Header>
                 <Card.Body>
-                  {/* <PatientTable patients={patients} units={units} /> */}
+                  <PatientTable patients={patients} units={units} />
                 </Card.Body>
               </Card>
             </Container>

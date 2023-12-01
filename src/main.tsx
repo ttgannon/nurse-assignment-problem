@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { LoggedInAssignment } from "./components/LoggedInAssignment.tsx";
+import { LoggedInAssignment } from "./components/LoggedInAssignment/LoggedInAssignment.tsx";
 
 export const Context = createContext(null);
 
