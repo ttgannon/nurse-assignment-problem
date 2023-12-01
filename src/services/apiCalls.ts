@@ -17,7 +17,6 @@ export async function getUnits(accessToken: string) {
       throw new Error(`Error: ${response.status}, ${response.statusText}`);
     }
     const data = await response.json();
-    console.log(data);
     return data;
   } catch (error) {
     console.error(error);
@@ -40,5 +39,6 @@ export async function getUnitPatients(accessToken: string, link: string) {
     );
   }
   const new_data = await new_response.json();
+  console.log("HELLO ", new_data);
   return new_data;
 }
