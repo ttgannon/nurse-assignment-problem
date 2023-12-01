@@ -6,7 +6,6 @@ export const LoggedInPatientTable = ({
 }: {
   patients: EpicPatient[];
 }) => {
-  console.log(patients);
   return (
     <Table striped bordered>
       <thead>
@@ -24,7 +23,7 @@ export const LoggedInPatientTable = ({
         {patients.map((el, idx) => (
           <tr key={idx}>
             <td>{idx + 1}</td>
-            <td>{el.display}</td>
+            <td>{el.item.display}</td>
             <td>
               <input type="checkbox" />
             </td>

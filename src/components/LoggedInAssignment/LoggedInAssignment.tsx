@@ -4,10 +4,11 @@ import { useEffect, useState } from "react";
 import { getUnitPatients, getUnits } from "../../services/apiCalls";
 import { LoggedInPatientTable } from "./LoggedInPatientTable";
 import { EpicPatient } from "../../interfaces";
+import { EpicUnit } from "../../interfaces/LoggedInInterface/EpicUnit";
 
 export const LoggedInAssignment = () => {
   const accessToken = localStorage.getItem("epic-access-token") as string;
-  const [unitList, setUnitList] = useState<object | null>(null);
+  const [unitList, setUnitList] = useState<EpicUnit[] | null>(null);
   const [selectedUnit, setSelectedUnit] = useState<string | null>(null);
   const [patients, setPatients] = useState<EpicPatient[]>([]);
 
@@ -15,7 +16,7 @@ export const LoggedInAssignment = () => {
     const getUnitList = async () => {
       const list = await getUnits(accessToken);
       if (list) {
-        setUnitList(list);
+        setUnitList(list.entry);
       }
     };
     if (accessToken !== "") {

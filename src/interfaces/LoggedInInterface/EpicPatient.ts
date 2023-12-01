@@ -1,4 +1,6 @@
 export interface EpicPatient {
-  display: string;
-  reference: string;
+  item: {
+    display: string;
+    reference: string;
+  };
 }

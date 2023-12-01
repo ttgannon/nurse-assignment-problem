@@ -1,12 +1,13 @@
 import { ChangeEvent } from "react";
 import Form from "react-bootstrap/Form";
+import { EpicUnit } from "../interfaces/LoggedInInterface/EpicUnit";
 
 export const UnitSelection = ({
   units,
   onChange,
   required,
 }: {
-  units: object;
+  units: EpicUnit[];
   onChange: (event: ChangeEvent<HTMLSelectElement>) => void;
   required?: boolean;
 }) => {
@@ -24,9 +25,9 @@ export const UnitSelection = ({
           Select your unit
         </option>
 
-        {units.entry.map((entry, idx: number) => (
-          <option key={units.entry[idx]} value={units.entry[idx].link[0].url}>
-            {units.entry[idx].resource.title}
+        {units.map((entry, idx: number) => (
+          <option key={idx} value={entry.fullUrl}>
+            {entry.resource.title}
           </option>
         ))}
       </Form.Select>
