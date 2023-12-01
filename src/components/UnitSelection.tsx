@@ -1,3 +1,4 @@
+import { ChangeEvent } from "react";
 import Form from "react-bootstrap/Form";
 
 export const UnitSelection = ({
@@ -6,7 +7,7 @@ export const UnitSelection = ({
   required,
 }: {
   units: object;
-  onChange: (id: string) => void;
+  onChange: (event: ChangeEvent<HTMLSelectElement>) => void;
   required?: boolean;
 }) => {
   return (
@@ -15,7 +16,7 @@ export const UnitSelection = ({
       <Form.Select
         required={required}
         onChange={(e) => {
-          onChange(e.currentTarget.value);
+          onChange(e);
         }}
         defaultValue=""
       >

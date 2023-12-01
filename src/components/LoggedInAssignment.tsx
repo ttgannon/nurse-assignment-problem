@@ -1,10 +1,25 @@
 import { Alert, Card, Container, Spinner } from "react-bootstrap";
 import { Assignment, NurseTable, UnitSelection } from ".";
+import { useEffect, useState } from "react";
+import { getUnitPatients, getUnits } from "../services/apiCalls";
 
 export const LoggedInAssignment = () => {
-  function setNurses(arg0: () => any[]) {
-    throw new Error("Function not implemented.");
-  }
+  const accessToken = localStorage.getItem("epic-access-token") as string;
+  const [unitList, setUnitList] = useState<object | null>(null);
+  const [selectedUnit, setSelectedUnit] = useState<string | null>(null);
+  const [patients, setPatients] = useState<object | null>(null);
+
+  useEffect(() => {
+    const getUnitList = async () => {
+      const list = await getUnits(accessToken);
+      if (list) {
+        setUnitList(list);
+      }
+    };
+    if (accessToken !== "") {
+      getUnitList();
+    }
+  }, [accessToken]);
 
   return (
     <>
@@ -15,28 +30,20 @@ export const LoggedInAssignment = () => {
             <Card>
               <Card.Header>Unit Selection</Card.Header>
               <Card.Body>
-                {!patientList ? (
+                {!unitList ? (
                   <Spinner animation="border" />
                 ) : (
                   <UnitSelection
-                    units={patientList}
-                    onChange={(id) => {
-                      const unitId = units.find(
-                        (unit) => unit.id.toString() === id,
+                    units={unitList}
+                    onChange={async (event) => {
+                      const patients = await getUnitPatients(
+                        accessToken,
+                        event.currentTarget.value,
                       );
-
-                      if (!unitId) return;
-
-                      const selectedUnit: Unit = {
-                        ...unitId,
-                        nurses: nurses.filter(
-                          (nurse) => nurse.unitId === unitId?.id,
-                        ),
-                        patients: patients.filter(
-                          (patient) => patient.unitId === unitId?.id,
-                        ),
-                      };
-                      setSelectedUnit(selectedUnit);
+                      const idx = event.target.selectedIndex;
+                      const selectedText = event.target.options[idx].text;
+                      setPatients(patients);
+                      setSelectedUnit(selectedText);
                     }}
                   />
                 )}
@@ -55,12 +62,12 @@ export const LoggedInAssignment = () => {
                 <Card.Header>Nurses</Card.Header>
                 <Card.Body>
                   <Alert variant="primary" dismissible>
-                    These are the nurses we have on {selectedUnit?.name} for the
+                    These are the nurses we have on {selectedUnit} for the
                     shift. Remove nurses who aren't coming in, and add new ones
                     who aren't already scheduled.
                   </Alert>
-                  <NurseTable
-                    nurses={selectedUnit.nurses}
+                  {/* <NurseTable
+                    nurses={nurses}
                     units={units}
                     removeNurse={(employeeId) => {
                       setNurses((nurses) =>
@@ -72,7 +79,7 @@ export const LoggedInAssignment = () => {
                     addNurse={(nurse: Nurse) => {
                       setNurses(() => [...nurses, nurse]);
                     }}
-                  />
+                  /> */}
                 </Card.Body>
               </Card>
             </Container>
@@ -83,10 +90,7 @@ export const LoggedInAssignment = () => {
               <Card className="mt-4">
                 <Card.Header>Patients</Card.Header>
                 <Card.Body>
-                  <PatientTable
-                    patients={selectedUnit.patients}
-                    units={units}
-                  />
+                  {/* <PatientTable patients={patients} units={units} /> */}
                 </Card.Body>
               </Card>
             </Container>
@@ -97,10 +101,10 @@ export const LoggedInAssignment = () => {
               <Card className="mt-4">
                 <Card.Header>Assignment</Card.Header>
                 <Card.Body>
-                  <Assignment
+                  {/* <Assignment
                     nurses={selectedUnit.nurses}
                     patients={selectedUnit.patients}
-                  />
+                  /> */}
                 </Card.Body>
               </Card>
             </Container>

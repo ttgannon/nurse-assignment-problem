@@ -3,15 +3,16 @@ import { exchangeForJWT } from "../services/launch";
 import { URL_FOR_ACCESS_CODE } from "../api";
 import { useLocation } from "react-router-dom";
 import { Button, Form } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
-export const Auth = ({
-  setAccessToken,
-}: {
-  setAccessToken: (token: string) => void;
-}) => {
+export const Auth = () => {
   const location = useLocation();
 
+  const [accessToken, setAccessToken] = useState<string>("");
+
   const [accessCode, setAccessCode] = useState<string | null>(null);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -19,11 +20,13 @@ export const Auth = ({
         const token = await exchangeForJWT(accessCode);
         if (token) {
           setAccessToken(token);
+          localStorage.setItem("epic-access-token", token);
+          navigate("/assignment");
         }
       }
     };
     fetchData();
-  }, [accessCode, setAccessToken]);
+  }, [accessCode, navigate, setAccessToken]);
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);

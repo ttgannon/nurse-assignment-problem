@@ -1,35 +1,14 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import Container from "react-bootstrap/Container";
 import Alert from "react-bootstrap/Alert";
 import { Auth } from "./components";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import "./assets/styles/homepage.css";
-import { getUnits } from "./services/apiCalls";
-import { Link } from "react-router-dom";
+
 import { DemoPatientAssignment } from "./components/DemoPatientAssignment";
 
 const App = () => {
-  const [accessToken, setAccessToken] = useState<string>("");
   const ref = useRef(null);
-
-  const [patientList, setPatientList] = useState<object | null>(null);
-
-  function handleAccessToken(token: string) {
-    localStorage.setItem("epic-access-token", token);
-    setAccessToken(token);
-  }
-
-  useEffect(() => {
-    const getData = async () => {
-      const list = await getUnits(accessToken);
-      if (list) {
-        setPatientList(list);
-      }
-    };
-    if (accessToken !== "") {
-      getData();
-    }
-  }, [accessToken]);
 
   return (
     <>
@@ -104,7 +83,7 @@ const App = () => {
               </Alert>
               <Row className="justify-content-center align-items-center d-flex">
                 <Col className="d-flex justify-content-center align-items-center">
-                  <Auth setAccessToken={handleAccessToken} />
+                  <Auth />
                   <Form>
                     <Button
                       onClick={() => {
