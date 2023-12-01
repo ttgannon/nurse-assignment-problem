@@ -1,28 +1,33 @@
-import { Patient, Unit } from "../../interfaces";
-import { Table } from "react-bootstrap";
+import { Button, Table } from "react-bootstrap";
 
-export const DemoPatientTable = ({
-  patients,
-  units,
-}: {
-  patients: Patient[];
-  units: Unit[];
-}) => {
+export const LoggedInPatientTable = ({ patients }: { patients: object }) => {
+  console.log(patients);
   return (
     <Table striped bordered>
       <thead>
         <tr>
           <th>Id</th>
           <th>Patient Name</th>
-          <th>Unit</th>
+          <th>Is patient being discharged this shift?</th>
+          <th>
+            Remove this patient if you don't want them included in the
+            assignment (e.g., they have been discharged)
+          </th>
         </tr>
       </thead>
       <tbody>
-        {patients.map(({ id, fullName, unitId }) => (
-          <tr key={id}>
-            <td>{id}</td>
-            <td>{fullName}</td>
-            <td>{units.find((unit) => unit.id === unitId)?.name || "N/A"}</td>
+        {patients.entry.map((el, idx) => (
+          <tr key={idx}>
+            <td>{idx + 1}</td>
+            <td>{el.item.display}</td>
+            <td>
+              <input type="checkbox" />
+            </td>
+            <td>
+              <Button variant="outline-danger" onClick={console.log("remove")}>
+                Remove
+              </Button>
+            </td>
           </tr>
         ))}
       </tbody>
