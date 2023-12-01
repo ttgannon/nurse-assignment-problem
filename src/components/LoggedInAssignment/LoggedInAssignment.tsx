@@ -43,7 +43,7 @@ export const LoggedInAssignment = () => {
                       );
                       const idx = event.target.selectedIndex;
                       const selectedText = event.target.options[idx].text;
-                      setPatients(patients);
+                      setPatients(patients.entry);
                       setSelectedUnit(selectedText);
                     }}
                   />

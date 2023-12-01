@@ -1,6 +1,11 @@
 import { Button, Table } from "react-bootstrap";
+import { EpicPatient } from "../../interfaces";
 
-export const LoggedInPatientTable = ({ patients }: { patients: object }) => {
+export const LoggedInPatientTable = ({
+  patients,
+}: {
+  patients: EpicPatient[];
+}) => {
   console.log(patients);
   return (
     <Table striped bordered>
@@ -16,17 +21,15 @@ export const LoggedInPatientTable = ({ patients }: { patients: object }) => {
         </tr>
       </thead>
       <tbody>
-        {patients.entry.map((el, idx) => (
+        {patients.map((el, idx) => (
           <tr key={idx}>
             <td>{idx + 1}</td>
-            <td>{el.item.display}</td>
+            <td>{el.display}</td>
             <td>
               <input type="checkbox" />
             </td>
             <td>
-              <Button variant="outline-danger" onClick={console.log("remove")}>
-                Remove
-              </Button>
+              <Button variant="outline-danger">Remove</Button>
             </td>
           </tr>
         ))}
