@@ -3,12 +3,13 @@ import { UnitSelection } from "..";
 import { useEffect, useState } from "react";
 import { getUnitPatients, getUnits } from "../../services/apiCalls";
 import { LoggedInPatientTable } from "./LoggedInPatientTable";
+import { EpicPatient } from "../../interfaces";
 
 export const LoggedInAssignment = () => {
   const accessToken = localStorage.getItem("epic-access-token") as string;
   const [unitList, setUnitList] = useState<object | null>(null);
   const [selectedUnit, setSelectedUnit] = useState<string | null>(null);
-  const [patients, setPatients] = useState<object>({});
+  const [patients, setPatients] = useState<EpicPatient[]>([]);
 
   useEffect(() => {
     const getUnitList = async () => {
