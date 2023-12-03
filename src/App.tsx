@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import Container from "react-bootstrap/Container";
 import Alert from "react-bootstrap/Alert";
 import { Auth } from "./components";
@@ -6,9 +6,15 @@ import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import "./assets/styles/homepage.css";
 
 import { DemoPatientAssignment } from "./components/DemoComponents/DemoPatientAssignment";
+import { useNavigate } from "react-router-dom";
 
 const App = () => {
   const ref = useRef(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (localStorage.getItem("epic-access-token")) navigate("/assignment");
+  }, [navigate]);
 
   return (
     <>
