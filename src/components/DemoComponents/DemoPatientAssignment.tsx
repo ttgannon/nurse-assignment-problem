@@ -5,10 +5,12 @@ import { useEffect, useRef, useState } from "react";
 import { DemoUnitSelection } from "./DemoUnitSelection";
 import { useDummyData } from "../../hooks";
 import { DemoPatientTable } from "./DemoPatientTable";
+import { GetInTouchModal } from "./GetInTouchModal";
 
 export const DemoPatientAssignment = () => {
   const { units, nurses, patients } = useDummyData();
 
+  const [showModal, setShowModal] = useState(false);
   const [demoSelectedUnit, setDemoSelectedUnit] = useState<Unit | null>(null);
   const demoRef = useRef(null);
   const [selectedUnit, setSelectedUnit] = useState<Unit | null>(null);
@@ -139,9 +141,14 @@ export const DemoPatientAssignment = () => {
             <Button
               style={{ marginTop: 40 + "px", marginBottom: 40 + "px" }}
               variant="info"
+              onClick={() => setShowModal(true)}
             >
               Get in touch
             </Button>
+            <GetInTouchModal
+              showModal={showModal}
+              hideModal={() => setShowModal(false)}
+            />
           </>
         )}
       </div>
