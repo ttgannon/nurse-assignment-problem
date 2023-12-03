@@ -58,6 +58,73 @@ const App = () => {
             >
               Nurses deserve safe patient assignments.
             </h1>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <img
+                src="src/assets/balloon-heart-fill.svg"
+                style={{
+                  width: "40%",
+                  marginBottom: "30%",
+                }}
+                alt="Balloon Heart Icon"
+              />
+            </div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <img
+                src="src/assets/bandaid.svg"
+                style={{
+                  width: "30%",
+                  marginBottom: "70%",
+                  marginTop: "50px",
+                }}
+                alt="Bandaid Icon"
+              />
+            </div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <img
+                src="src/assets/capsule-pill.svg"
+                style={{
+                  width: "30%",
+                  marginBottom: "100%",
+                  marginTop: "50px",
+                }}
+                alt="Pill Icon"
+              />
+            </div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <img
+                src="src/assets/heart-pulse.svg"
+                style={{
+                  width: "30%",
+                  marginBottom: "40%",
+                  marginTop: "200px",
+                }}
+                alt="Heart Pulse Icon"
+              />
+            </div>
           </Col>
           <Col className="align-items-center justify-content-center">
             <div
@@ -105,7 +172,7 @@ const App = () => {
               </Row>
               <div
                 style={{
-                  marginTop: 125 + "px",
+                  marginTop: 200 + "px",
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "center",
@@ -134,11 +201,9 @@ const App = () => {
                 </Card.Header>
                 <Card.Body>
                   <Card.Text>
-                    We've trained our digital Charge Nurse on millions of
-                    nurse-patient assignments. Cally looks at your floor's
-                    patients and makes a safe, fair nurse-patient assignment at
-                    the click of a button, saving you time and making your
-                    nurses happier.
+                    Our digital Charge Nurse looks at your floor's patients and
+                    makes a safe, fair nurse-patient assignment at the click of
+                    a button, saving you time and making your nurses happier.
                   </Card.Text>
                 </Card.Body>
               </Card>

@@ -119,7 +119,29 @@ export const DemoPatientAssignment = () => {
               </Container>
             </Container>
             <h1>And just like that, your nurses can breathe easy.</h1>
-            <Button variant="info">Get in touch</Button>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <img
+                src="src/assets/lungs-fill.svg"
+                style={{
+                  width: "30%",
+
+                  marginTop: "50px",
+                }}
+                alt="Lungs Icon"
+              />
+            </div>
+            <Button
+              style={{ marginTop: 40 + "px", marginBottom: 40 + "px" }}
+              variant="info"
+            >
+              Get in touch
+            </Button>
           </>
         )}
       </div>
