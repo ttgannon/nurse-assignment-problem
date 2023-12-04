@@ -7,7 +7,11 @@ import { useDummyData } from "../../hooks";
 import { DemoPatientTable } from "./DemoPatientTable";
 import { GetInTouchModal } from "./GetInTouchModal";
 
-export const DemoPatientAssignment = () => {
+export const DemoPatientAssignment = ({
+  demoAssignment,
+}: {
+  demoAssignment: (arg0: boolean) => void;
+}) => {
   const { units, nurses, patients } = useDummyData();
 
   const [showModal, setShowModal] = useState(false);
@@ -25,7 +29,7 @@ export const DemoPatientAssignment = () => {
       ),
     };
     setSelectedUnit(unit);
-  }, [nurses, patients, selectedUnit]);
+  }, [demoAssignment, nurses, patients, selectedUnit]);
 
   return (
     <>
@@ -44,6 +48,7 @@ export const DemoPatientAssignment = () => {
                     );
 
                     if (!unitId) return;
+                    demoAssignment(true);
 
                     const demoSelectedUnit: Unit = {
                       ...unitId,

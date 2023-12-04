@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Container from "react-bootstrap/Container";
 import Alert from "react-bootstrap/Alert";
 import { Auth } from "./components";
@@ -11,6 +11,12 @@ import { useNavigate } from "react-router-dom";
 const App = () => {
   const ref = useRef(null);
   const navigate = useNavigate();
+
+  const [demoAssignmentRendered, setDemoAssignmentRendered] = useState(false);
+
+  const handleDemoAssignment = () => {
+    setDemoAssignmentRendered(true);
+  };
 
   useEffect(() => {
     if (localStorage.getItem("epic-access-token")) navigate("/assignment");
@@ -74,57 +80,61 @@ const App = () => {
                 alt="Balloon Heart Icon"
               />
             </div>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
-              <img
-                src="src/assets/bandaid.svg"
-                style={{
-                  width: "30%",
-                  marginBottom: "70%",
-                  marginTop: "50px",
-                }}
-                alt="Bandaid Icon"
-              />
-            </div>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
-              <img
-                src="src/assets/capsule-pill.svg"
-                style={{
-                  width: "30%",
-                  marginBottom: "100%",
-                  marginTop: "50px",
-                }}
-                alt="Pill Icon"
-              />
-            </div>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
-              <img
-                src="src/assets/heart-pulse.svg"
-                style={{
-                  width: "30%",
-                  marginBottom: "40%",
-                  marginTop: "200px",
-                }}
-                alt="Heart Pulse Icon"
-              />
-            </div>
+            {demoAssignmentRendered && (
+              <>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                >
+                  <img
+                    src="src/assets/bandaid.svg"
+                    style={{
+                      width: "30%",
+                      marginBottom: "70%",
+                      marginTop: "50px",
+                    }}
+                    alt="Bandaid Icon"
+                  />
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                >
+                  <img
+                    src="src/assets/capsule-pill.svg"
+                    style={{
+                      width: "30%",
+                      marginBottom: "100%",
+                      marginTop: "50px",
+                    }}
+                    alt="Pill Icon"
+                  />
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                >
+                  <img
+                    src="src/assets/heart-pulse.svg"
+                    style={{
+                      width: "30%",
+                      marginBottom: "40%",
+                      marginTop: "200px",
+                    }}
+                    alt="Heart Pulse Icon"
+                  />
+                </div>
+              </>
+            )}
           </Col>
           <Col className="align-items-center justify-content-center">
             <div
@@ -212,7 +222,7 @@ const App = () => {
               Go ahead. Check it out.
             </h1>
             <div ref={ref}>
-              <DemoPatientAssignment />
+              <DemoPatientAssignment demoAssignment={handleDemoAssignment} />
             </div>
           </Col>
         </Row>
