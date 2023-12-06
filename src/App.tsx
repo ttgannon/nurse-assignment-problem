@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-import { Col, Container, Navbar, Row } from "react-bootstrap";
+import { Col, Container, Nav, Navbar, Row } from "react-bootstrap";
 import "./assets/styles/homepage.css";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const App = () => {
   const navigate = useNavigate();
@@ -12,14 +12,6 @@ const App = () => {
 
   return (
     <>
-      <header className="site-header sticky-top py-1 bg-dark">
-        <Navbar expand="lg" className="bg-body-tertiary">
-          <Container className="d-flex flex-column flex-md-row justify-content-between">
-            <Link to="/">Nursify</Link>
-            <Link to="/demo">Demo</Link>
-          </Container>
-        </Navbar>
-      </header>
       <main>
         <div
           className="p-3 p-md-5 m-md-3 text-center"
