@@ -28,26 +28,11 @@ export const GetInTouchModal = ({
         <Modal.Body>
           <Form.Group className="mb-3">
             <Form.Label>Your name</Form.Label>
-            <Form.Control
-              required
-              onChange={(e) => {
-                const value = e.currentTarget.value;
-              }}
-            />
-            <Form.Label>Your email</Form.Label>
-            <Form.Control
-              required
-              onChange={(e) => {
-                const value = e.currentTarget.value;
-              }}
-            />
-            <Form.Label>Your inquiry</Form.Label>
-            <Form.Control
-              required
-              onChange={(e) => {
-                const value = e.currentTarget.value;
-              }}
-            />
+            <Form.Control required />
+            <Form.Label className="mt-3">Your email</Form.Label>
+            <Form.Control required type="email" />
+            <Form.Label className="mt-3">Your inquiry</Form.Label>
+            <textarea className="form-control" rows={3}></textarea>
           </Form.Group>
         </Modal.Body>
         <Modal.Footer>
@@ -60,7 +45,7 @@ export const GetInTouchModal = ({
               handleSubmit;
             }}
           >
-            Add
+            Send
           </Button>
         </Modal.Footer>
       </Form>

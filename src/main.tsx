@@ -6,6 +6,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { LoggedInAssignment } from "./components/LoggedInAssignment/LoggedInAssignment.tsx";
 import { DemoPatientAssignment } from "./components/DemoComponents/DemoPatientAssignment.tsx";
 import { Container, Nav, Navbar, Row } from "react-bootstrap";
+import { Contact } from "./components/index.ts";
 
 export const Context = createContext(null);
 
@@ -22,6 +23,7 @@ const router = createBrowserRouter([
     path: "/demo",
     element: <DemoPatientAssignment />,
   },
+  { path: "/contact", element: <Contact /> },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
@@ -43,7 +45,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         <Nav className="justify-content-center">
           <Nav.Link href="/">Home</Nav.Link>
           <Nav.Link href="/demo">Demo</Nav.Link>
-          <Nav.Link href="/demo">Contact</Nav.Link>
+          <Nav.Link href="/contact">Contact</Nav.Link>
           <Nav.Link href="/demo">Background</Nav.Link>
         </Nav>
       </Container>
@@ -52,7 +54,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <footer className="container py-5">
       <Row>
         <div className="col-12 col-md">
-          <img src="src/assets/flower1.svg" style={{ width: 20 }}></img>
+          <img src="src/assets/flower1.svg" style={{ width: 20 }}></img> Nursify
           <small className="d-block mb-3 text-body-secondary">© 2023</small>
         </div>
         <div className="col-6 col-md">
@@ -103,9 +105,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         <div className="col-6 col-md">
           <h5>Invest in Nursify</h5>
           <ul className="list-unstyled text-small">
-            <li className="link-secondary text-decoration-none">
+            <a href="/contact" className="link-secondary text-decoration-none">
               Get in touch
-            </li>
+            </a>
           </ul>
         </div>
       </Row>

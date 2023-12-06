@@ -15,7 +15,7 @@ const App = () => {
     <>
       <main>
         <div
-          className="p-3 p-md-5 m-md-3 text-center"
+          className="p-md-5 text-center"
           style={{
             backgroundImage:
               "linear-gradient(to bottom left, #ffffff, rgb(145, 44, 240))",
@@ -36,8 +36,35 @@ const App = () => {
           </div>
         </div>
 
-        <Row>
+        <Row className="px-5 mx-5">
           <div className="d-md-flex flex-md-equal w-100 my-md-3 ps-md-3">
+            <Col md={8} className="bg-light">
+              <div className="me-md-3 pt-3 mt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+                <div className="my-3 p-3">
+                  <h2 className="display-5">
+                    Nurses deserve safe patient assignments.
+                  </h2>
+                </div>
+              </div>
+            </Col>
+            <Col md={4} className="bg-dark">
+              <div className="me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white">
+                <div className="my-3 p-3">
+                  <img
+                    src="src/assets/balloon-heart-fill.svg"
+                    style={{
+                      width: "150px",
+                    }}
+                    alt="Balloon Heart Icon"
+                  />
+                </div>
+              </div>
+            </Col>
+          </div>
+        </Row>
+
+        <Row className="px-5 mx-5">
+          <div className="d-md-flex flex-md-equal w-100 my-md-3 ">
             <Col md={4} className="bg-dark">
               <div className="me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white">
                 <div className="my-3 p-3">
@@ -51,7 +78,7 @@ const App = () => {
             </Col>
             <Col md={8} className="bg-light">
               <div className="me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
-                <div className="my-3 p-3">
+                <div className="m-5 p-3">
                   <h2 className="display-5">How does it work?</h2>
                   <p className="lead">
                     Our digital Charge Nurse looks at your floor's patients and
@@ -63,14 +90,22 @@ const App = () => {
             </Col>
           </div>
         </Row>
-        <Row>
+
+        <Row className="px-5 mx-5">
           <div className="d-md-flex flex-md-equal w-100 my-md-3 ps-md-3">
             <Col md={8} className="bg-light">
-              <div className="me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
-                <div className="my-3 p-3">
-                  <h2 className="display-5">
-                    Nurses deserve safe patient assignments.
-                  </h2>
+              <div className="m-5 p-3 d-flex justify-content-center">
+                <div>
+                  <h1>Try it out</h1>
+                  <div className="d-flex ">
+                    <Button
+                      className="justify-content-center d-flex me-1"
+                      onClick={() => navigate("/demo")}
+                    >
+                      Take me to the demo
+                    </Button>
+                    <Auth />
+                  </div>
                 </div>
               </div>
             </Col>
