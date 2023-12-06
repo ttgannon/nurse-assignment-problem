@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
-import { Nurse, Unit } from "../interfaces";
+import { Nurse } from "../interfaces";
 import { UnitSelection } from "./UnitSelection.tsx";
 import { faker } from "@faker-js/faker";
+import { EpicUnit } from "../interfaces/LoggedInInterface/EpicUnit.ts";
 
 export const AddNurseModal = ({
   showModal,
@@ -13,7 +14,7 @@ export const AddNurseModal = ({
   showModal: boolean;
   hideModal: () => void;
   addNurse: (nurse: Nurse) => void;
-  units: Unit[];
+  units: EpicUnit[];
 }) => {
   const [nurse, setNurse] = useState<Partial<Nurse>>();
 
