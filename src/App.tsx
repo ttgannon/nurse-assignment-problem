@@ -1,7 +1,8 @@
 import { useEffect } from "react";
-import { Col, Container, Nav, Navbar, Row } from "react-bootstrap";
+import { Button, Col, Row } from "react-bootstrap";
 import "./assets/styles/homepage.css";
 import { useNavigate } from "react-router-dom";
+import { Auth } from "./components";
 
 const App = () => {
   const navigate = useNavigate();
@@ -26,9 +27,12 @@ const App = () => {
               Making safer, fairer patient assignments with the power of machine
               learning.
             </p>
-            <a className="btn btn-outline-secondary" href="#">
-              See a demo
-            </a>
+            <div className="d-flex justify-content-center">
+              <Auth />
+              <Button className="btn btn-secondary ms-1" href="/demo">
+                See a demo
+              </Button>
+            </div>
           </div>
         </div>
 
