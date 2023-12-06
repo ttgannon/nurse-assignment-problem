@@ -1,11 +1,12 @@
 import { Alert, Button, Card, Container } from "react-bootstrap";
-import { Assignment, NurseTable } from "..";
+import { Assignment } from "..";
 import { Nurse, Unit } from "../../interfaces";
 import { useEffect, useRef, useState } from "react";
 import { DemoUnitSelection } from "./DemoUnitSelection";
 import { useDummyData } from "../../hooks";
 import { DemoPatientTable } from "./DemoPatientTable";
 import { GetInTouchModal } from "./GetInTouchModal";
+import { DemoNurseTable } from "./DemoNurseTable";
 
 export const DemoPatientAssignment = () => {
   const { units, nurses, patients } = useDummyData();
@@ -75,7 +76,7 @@ export const DemoPatientAssignment = () => {
                       for the shift. Remove nurses who aren't coming in, and add
                       new ones who aren't already scheduled.
                     </Alert>
-                    <NurseTable
+                    <DemoNurseTable
                       nurses={demoSelectedUnit.nurses}
                       units={units}
                       removeNurse={(employeeId) => {
