@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { LoggedInAssignment } from "./components/LoggedInAssignment/LoggedInAssignment.tsx";
 import { DemoPatientAssignment } from "./components/DemoComponents/DemoPatientAssignment.tsx";
-import { Container, Nav, Navbar } from "react-bootstrap";
+import { Container, Nav, Navbar, Row } from "react-bootstrap";
 
 export const Context = createContext(null);
 
@@ -49,5 +49,66 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       </Container>
     </Navbar>
     <RouterProvider router={router} />
+    <footer className="container py-5">
+      <Row>
+        <div className="col-12 col-md">
+          <img src="src/assets/flower1.svg" style={{ width: 20 }}></img>
+          <small className="d-block mb-3 text-body-secondary">© 2023</small>
+        </div>
+        <div className="col-6 col-md">
+          <h5>Features</h5>
+          <ul className="list-unstyled text-small">
+            <li className="link-secondary text-decoration-none">
+              Customizable
+            </li>
+            <li className="link-secondary text-decoration-none">
+              Connects with EPIC API
+            </li>
+            <li className="link-secondary text-decoration-none">
+              Almost instant
+            </li>
+            <li className="link-secondary text-decoration-none">
+              Fully-featured
+            </li>
+            <li className="link-secondary text-decoration-none">
+              On-demand service
+            </li>
+          </ul>
+        </div>
+        <div className="col-6 col-md">
+          <h5>Resources</h5>
+          <ul className="list-unstyled text-small">
+            <li className="link-secondary text-decoration-none">How to use</li>
+            <li className="link-secondary text-decoration-none">
+              Suggest a bug fix
+            </li>
+            <li className="link-secondary text-decoration-none">
+              Contribute to the project
+            </li>
+          </ul>
+        </div>
+        <div className="col-6 col-md">
+          <h5>About</h5>
+          <ul className="list-unstyled text-small">
+            <li className="link-secondary text-decoration-none">Why Nursify</li>
+            <li className="link-secondary text-decoration-none">
+              Connect on LinkedIn
+            </li>
+            <li className="link-secondary text-decoration-none">
+              Meet the team
+            </li>
+            <li className="link-secondary text-decoration-none">Policy</li>
+          </ul>
+        </div>
+        <div className="col-6 col-md">
+          <h5>Invest in Nursify</h5>
+          <ul className="list-unstyled text-small">
+            <li className="link-secondary text-decoration-none">
+              Get in touch
+            </li>
+          </ul>
+        </div>
+      </Row>
+    </footer>
   </React.StrictMode>,
 );
