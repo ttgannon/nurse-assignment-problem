@@ -22,7 +22,7 @@ const App = () => {
           }}
         >
           <div className="p-lg-5 mx-auto my-5">
-            <h1 className="display-4 fw-normal">Welcome to Nursfiy</h1>
+            <h1 className="display-4 fw-normal">Welcome to Nursify</h1>
             <p className="lead fw-normal">
               Making safer, fairer patient assignments with the power of machine
               learning.
