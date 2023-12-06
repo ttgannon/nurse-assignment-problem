@@ -4,6 +4,7 @@ import { UnitSelection } from "./UnitSelection.tsx";
 import { NurseTable } from "./NurseTable.tsx";
 import { PatientTable } from "./PatientTable.tsx";
 import { Auth } from "./Auth.tsx";
+import { NotFound } from "./NotFound.tsx";
 
 export {
   Assignment,
@@ -12,4 +13,5 @@ export {
   NurseTable,
   PatientTable,
   Auth,
+  NotFound,
 };
