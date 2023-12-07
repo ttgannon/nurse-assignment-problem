@@ -47,8 +47,8 @@ const App = () => {
                 </div>
               </div>
             </Col>
-            <Col md={4} className="bg-dark">
-              <div className="me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white">
+            <Col md={4} className="bg-dark d-flex justify-content-center">
+              <div className="px-3 pt-3 my-auto px-md-5 text-white">
                 <div className="my-3 p-3">
                   <img
                     src="src/assets/heart-pulse.svg"
@@ -65,8 +65,8 @@ const App = () => {
 
         <Row className="px-5 mx-5">
           <div className="d-md-flex flex-md-equal w-100 my-md-3 ">
-            <Col md={4} className="bg-dark">
-              <div className="me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white">
+            <Col md={4} className="bg-dark d-flex justify-content-center">
+              <div className="px-3 my-auto px-md-5 text-white">
                 <div className="my-3 p-3">
                   <img
                     src="src/assets/hospital-building-color-icon.svg"
@@ -109,8 +109,8 @@ const App = () => {
                 </div>
               </div>
             </Col>
-            <Col md={4} className="bg-dark">
-              <div className="me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white">
+            <Col md={4} className="bg-dark d-flex justify-content-center">
+              <div className="px-3 my-auto px-md-5 text-white">
                 <div className="my-3 p-3">
                   <img
                     src="src/assets/doctor-surgeon-icon.svg"
