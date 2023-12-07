@@ -7,6 +7,7 @@ import { LoggedInAssignment } from "./components/LoggedInAssignment/LoggedInAssi
 import { DemoPatientAssignment } from "./components/DemoComponents/DemoPatientAssignment.tsx";
 import { Container, Nav, Navbar, Row } from "react-bootstrap";
 import { Contact } from "./components/index.ts";
+import { NotFound } from "./components/NotFound.tsx";
 
 export const Context = createContext(null);
 
@@ -24,6 +25,7 @@ const router = createBrowserRouter([
     element: <DemoPatientAssignment />,
   },
   { path: "/contact", element: <Contact /> },
+  { path: "*", element: <NotFound /> },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
