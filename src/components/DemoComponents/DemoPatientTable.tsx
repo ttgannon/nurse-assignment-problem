@@ -1,7 +1,7 @@
-import { Patient, Unit } from "../interfaces";
+import { Patient, Unit } from "../../interfaces";
 import { Table } from "react-bootstrap";
 
-export const PatientTable = ({
+export const DemoPatientTable = ({
   patients,
   units,
 }: {
