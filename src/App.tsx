@@ -51,11 +51,11 @@ const App = () => {
               <div className="me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white">
                 <div className="my-3 p-3">
                   <img
-                    src="src/assets/balloon-heart-fill.svg"
+                    src="src/assets/heart-pulse.svg"
                     style={{
                       width: "150px",
                     }}
-                    alt="Balloon Heart Icon"
+                    alt="Heart Icon"
                   />
                 </div>
               </div>
@@ -113,11 +113,11 @@ const App = () => {
               <div className="me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white">
                 <div className="my-3 p-3">
                   <img
-                    src="src/assets/balloon-heart-fill.svg"
+                    src="src/assets/doctor-surgeon-icon.svg"
                     style={{
                       width: "150px",
                     }}
-                    alt="Balloon Heart Icon"
+                    alt="Nurse Icon"
                   />
                 </div>
               </div>
