@@ -86,9 +86,12 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
             <li className="link-secondary text-decoration-none">
               Suggest a bug fix
             </li>
-            <li className="link-secondary text-decoration-none">
+            <a
+              href="https://www.github.com/ttgannon/nurse-assignment-problem"
+              className="link-secondary text-decoration-none"
+            >
               Contribute to the project
-            </li>
+            </a>
           </ul>
         </div>
         <div className="col-6 col-md">
