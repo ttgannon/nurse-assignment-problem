@@ -33,7 +33,6 @@ const App = ({ children }) => {
             Nursify
             <small className="d-block mb-3 text-body-secondary">© 2023</small>
           </div>
-          </div>
         </Row>
       </footer>
     </>

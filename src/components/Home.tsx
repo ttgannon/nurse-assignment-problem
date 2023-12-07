@@ -51,7 +51,7 @@ export const Home = () => {
               <div className="me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white">
                 <div className="my-3 p-3">
                   <img
-                    src="../assets/heart-pulse.svg"
+                    src="src/assets/heart-pulse.svg"
                     style={{
                       width: "150px",
                     }}
@@ -69,7 +69,7 @@ export const Home = () => {
               <div className="me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white">
                 <div className="my-3 p-3">
                   <img
-                    src="../assets/hospital-building-color-icon.svg"
+                    src="src/assets/hospital-building-color-icon.svg"
                     alt="Hospital Icon"
                     width="150px"
                   />
@@ -113,7 +113,7 @@ export const Home = () => {
               <div className="me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white">
                 <div className="my-3 p-3">
                   <img
-                    src="../assets/doctor-surgeon-icon.svg"
+                    src="src/assets/doctor-surgeon-icon.svg"
                     style={{
                       width: "150px",
                     }}
