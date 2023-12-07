@@ -4,7 +4,7 @@ import { faker } from "@faker-js/faker";
 
 export const useDummyData = () => {
   const [units] = useState<Unit[]>(() =>
-    Array.from({ length: 3 }, () => {
+    Array.from({ length: 5 }, () => {
       const unit: Unit = {
         id: faker.number.int(),
         name: faker.lorem.word(),
@@ -15,7 +15,7 @@ export const useDummyData = () => {
     }),
   );
   const [patients] = useState<Patient[]>(() => {
-    return Array.from({ length: 10 }, () => {
+    return Array.from({ length: 60 }, () => {
       const patient: Patient = {
         id: faker.number.int(),
         fullName: faker.person.fullName(),
@@ -25,7 +25,7 @@ export const useDummyData = () => {
     });
   });
   const [nurses] = useState<Nurse[]>(() => {
-    return Array.from({ length: 10 }, () => {
+    return Array.from({ length: 12 }, () => {
       const nurse: Nurse = {
         employeeId: faker.number.int(),
         fullName: faker.person.fullName(),

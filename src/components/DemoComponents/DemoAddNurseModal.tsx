@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
-import { Nurse } from "../interfaces";
-import { UnitSelection } from "./UnitSelection.tsx";
+import { Nurse, Unit } from "../../interfaces";
 import { faker } from "@faker-js/faker";
-import { EpicUnit } from "../interfaces/LoggedInInterface/EpicUnit.ts";
+import { DemoUnitSelection } from "./DemoUnitSelection.tsx";
 
-export const AddNurseModal = ({
+export const DemoAddNurseModal = ({
   showModal,
   hideModal,
   addNurse,
@@ -14,7 +13,7 @@ export const AddNurseModal = ({
   showModal: boolean;
   hideModal: () => void;
   addNurse: (nurse: Nurse) => void;
-  units: EpicUnit[];
+  units: Unit[];
 }) => {
   const [nurse, setNurse] = useState<Partial<Nurse>>();
 
@@ -57,7 +56,7 @@ export const AddNurseModal = ({
               }}
             />
           </Form.Group>
-          <UnitSelection
+          <DemoUnitSelection
             required
             units={units}
             onChange={(id) =>

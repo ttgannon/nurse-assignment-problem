@@ -1,14 +1,13 @@
-import { ChangeEvent } from "react";
 import Form from "react-bootstrap/Form";
-import { EpicUnit } from "../interfaces/LoggedInInterface/EpicUnit";
+import { Unit } from "../../interfaces";
 
-export const UnitSelection = ({
+export const DemoUnitSelection = ({
   units,
   onChange,
   required,
 }: {
-  units: EpicUnit[];
-  onChange: (event: ChangeEvent<HTMLSelectElement>) => void;
+  units: Unit[];
+  onChange: (id: string) => void;
   required?: boolean;
 }) => {
   return (
@@ -17,17 +16,16 @@ export const UnitSelection = ({
       <Form.Select
         required={required}
         onChange={(e) => {
-          onChange(e);
+          onChange(e.currentTarget.value);
         }}
         defaultValue=""
       >
         <option disabled value="">
-          Select your unit
+          Select a unit
         </option>
-
-        {units.map((entry, idx: number) => (
-          <option key={idx} value={entry.fullUrl}>
-            {entry.resource.title}
+        {units.map(({ id, name }) => (
+          <option key={id} value={id}>
+            {name}
           </option>
         ))}
       </Form.Select>
