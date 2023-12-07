@@ -1,4 +1,4 @@
-import { Alert, Button, Card, Container } from "react-bootstrap";
+import { Alert, Button, Card, Col, Container, Row } from "react-bootstrap";
 import { Assignment } from "..";
 import { Nurse, Unit } from "../../interfaces";
 import { useEffect, useRef, useState } from "react";
@@ -121,31 +121,31 @@ export const DemoPatientAssignment = () => {
                 />
               </Container>
             </Container>
-            <h1>And just like that, your nurses can breathe easy.</h1>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
-              <img
-                src="src/assets/lungs-fill.svg"
-                style={{
-                  width: "30%",
+            <Container className="p-3">
+              <Container className="p-5 mb-4 bg-light rounded-3">
+                <div className="d-flex justify-content-center bg-light p-5">
+                  <Row>
+                    <Col md={8} className="justify-content-center text-left">
+                      <h1>And just like that, your nurses can breathe easy.</h1>
+                      <Button variant="info" onClick={() => setShowModal(true)}>
+                        Get in touch
+                      </Button>
+                    </Col>
 
-                  marginTop: "50px",
-                }}
-                alt="Lungs Icon"
-              />
-            </div>
-            <Button
-              style={{ marginTop: 40 + "px", marginBottom: 40 + "px" }}
-              variant="info"
-              onClick={() => setShowModal(true)}
-            >
-              Get in touch
-            </Button>
+                    <Col>
+                      <div>
+                        <img
+                          src="src/assets/lungs-fill.svg"
+                          alt="Lungs Icon"
+                          style={{ width: 100 }}
+                          className="mt-3"
+                        />
+                      </div>
+                    </Col>
+                  </Row>
+                </div>
+              </Container>
+            </Container>
             <GetInTouchModal
               showModal={showModal}
               hideModal={() => setShowModal(false)}
