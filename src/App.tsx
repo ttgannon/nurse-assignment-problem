@@ -33,68 +33,6 @@ const App = ({ children }) => {
             Nursify
             <small className="d-block mb-3 text-body-secondary">© 2023</small>
           </div>
-          <div className="col-6 col-md">
-            <h5>Features</h5>
-            <ul className="list-unstyled text-small">
-              <li className="link-secondary text-decoration-none">
-                Customizable
-              </li>
-              <li className="link-secondary text-decoration-none">
-                Connects with EPIC API
-              </li>
-              <li className="link-secondary text-decoration-none">
-                Almost instant
-              </li>
-              <li className="link-secondary text-decoration-none">
-                Fully-featured
-              </li>
-              <li className="link-secondary text-decoration-none">
-                On-demand service
-              </li>
-            </ul>
-          </div>
-          <div className="col-6 col-md">
-            <h5>Resources</h5>
-            <ul className="list-unstyled text-small">
-              <li className="link-secondary text-decoration-none">
-                How to use
-              </li>
-              <li className="link-secondary text-decoration-none">
-                Suggest a bug fix
-              </li>
-              <a
-                href="https://www.github.com/ttgannon/nurse-assignment-problem"
-                className="link-secondary text-decoration-none"
-              >
-                Contribute to the project
-              </a>
-            </ul>
-          </div>
-          <div className="col-6 col-md">
-            <h5>About</h5>
-            <ul className="list-unstyled text-small">
-              <li className="link-secondary text-decoration-none">
-                Why Nursify
-              </li>
-              <li className="link-secondary text-decoration-none">
-                Connect on LinkedIn
-              </li>
-              <li className="link-secondary text-decoration-none">
-                Meet the team
-              </li>
-              <li className="link-secondary text-decoration-none">Policy</li>
-            </ul>
-          </div>
-          <div className="col-6 col-md">
-            <h5>Invest in Nursify</h5>
-            <ul className="list-unstyled text-small">
-              <a
-                href="/contact"
-                className="link-secondary text-decoration-none"
-              >
-                Get in touch
-              </a>
-            </ul>
           </div>
         </Row>
       </footer>
