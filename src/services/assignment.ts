@@ -1,7 +1,7 @@
-import { Assignment, Nurse, Patient } from "../interfaces";
+import { Assignment, EpicPatient, Nurse, Patient } from "../interfaces";
 
 export const generateAssignments = (
-  patients: Patient[],
+  patients: EpicPatient[] | Patient[],
   nurses: Nurse[],
 ): Assignment[] => {
   const patientsCopy = [...patients];

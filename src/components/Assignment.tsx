@@ -1,5 +1,6 @@
 import { Card, Col, Row } from "react-bootstrap";
 import { Nurse, Patient } from "../interfaces";
+import { EpicPatient } from "../interfaces/LoggedInInterface/EpicPatient";
 import { generateAssignments } from "../services";
 
 export const Assignment = ({
@@ -7,7 +8,7 @@ export const Assignment = ({
   patients,
 }: {
   nurses: Nurse[];
-  patients: Patient[];
+  patients: EpicPatient[] | Patient[];
 }) => {
   const assignments = generateAssignments(patients, nurses);
 
@@ -25,9 +26,13 @@ export const Assignment = ({
                 <>
                   <Card.Title>Patients</Card.Title>
                   <ul>
-                    {patients.map(({ id, fullName }) => (
-                      <li key={id}>{fullName}</li>
-                    ))}
+                    {patients.every((patient) => patient.item)
+                      ? patients.map(({ item }, index) => (
+                          <li key={index}>{item.display}</li>
+                        ))
+                      : patients.map(({ fullName }, index) => (
+                          <li key={index}>{fullName}</li>
+                        ))}
                   </ul>
                 </>
               ) : (

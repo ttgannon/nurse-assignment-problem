@@ -1,16 +1,22 @@
 import { Alert, Card, Container, Spinner } from "react-bootstrap";
-import { UnitSelection } from "..";
+import { Assignment, UnitSelection } from "..";
 import { useEffect, useState } from "react";
 import { getUnitPatients, getUnits } from "../../services/apiCalls";
 import { LoggedInPatientTable } from "./LoggedInPatientTable";
-import { EpicPatient } from "../../interfaces";
+import { EpicPatient, Nurse } from "../../interfaces";
 import { EpicUnit } from "../../interfaces/LoggedInInterface/EpicUnit";
+import { DemoNurseTable } from "../DemoComponents/DemoNurseTable";
+import { useDummyData } from "../../hooks";
 
 export const LoggedInAssignment = () => {
   const accessToken = localStorage.getItem("epic-access-token") as string;
   const [unitList, setUnitList] = useState<EpicUnit[] | null>(null);
   const [selectedUnit, setSelectedUnit] = useState<string | null>(null);
   const [patients, setPatients] = useState<EpicPatient[]>([]);
+
+  const { nurses, units } = useDummyData();
+
+  const [nursesDemo, setNursesDemo] = useState<Nurse[]>(nurses);
 
   useEffect(() => {
     const getUnitList = async () => {
@@ -69,20 +75,22 @@ export const LoggedInAssignment = () => {
                     shift. Remove nurses who aren't coming in, and add new ones
                     who aren't already scheduled.
                   </Alert>
-                  {/* <NurseTable
-                    nurses={nurses}
+                  <DemoNurseTable
+                    nurses={nurses.filter((nurse) => {
+                      return nurse.unitId === nurses[0].unitId;
+                    })}
                     units={units}
                     removeNurse={(employeeId) => {
-                      setNurses((nurses) =>
+                      setNursesDemo((nurses: Nurse[]) =>
                         nurses.filter(
                           (nurse) => nurse.employeeId !== employeeId,
                         ),
                       );
                     }}
                     addNurse={(nurse: Nurse) => {
-                      setNurses(() => [...nurses, nurse]);
+                      setNursesDemo(() => [...nurses, nurse]);
                     }}
-                  /> */}
+                  />
                 </Card.Body>
               </Card>
             </Container>
@@ -104,10 +112,12 @@ export const LoggedInAssignment = () => {
               <Card className="mt-4">
                 <Card.Header>Assignment</Card.Header>
                 <Card.Body>
-                  {/* <Assignment
-                    nurses={selectedUnit.nurses}
-                    patients={selectedUnit.patients}
-                  /> */}
+                  <Assignment
+                    nurses={nurses.filter((nurse) => {
+                      return nurse.unitId === nurses[0].unitId;
+                    })}
+                    patients={patients}
+                  />
                 </Card.Body>
               </Card>
             </Container>
