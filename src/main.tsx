@@ -8,6 +8,7 @@ import { DemoPatientAssignment } from "./components/DemoComponents/DemoPatientAs
 import { Container, Nav, Navbar, Row } from "react-bootstrap";
 import { Contact } from "./components/index.ts";
 import { NotFound } from "./components/NotFound.tsx";
+import { Background } from "./components/Background.tsx";
 
 export const Context = createContext(null);
 
@@ -25,6 +26,7 @@ const router = createBrowserRouter([
     element: <DemoPatientAssignment />,
   },
   { path: "/contact", element: <Contact /> },
+  { path: "/background", element: <Background /> },
   { path: "*", element: <NotFound /> },
 ]);
 
@@ -48,7 +50,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
           <Nav.Link href="/">Home</Nav.Link>
           <Nav.Link href="/demo">Demo</Nav.Link>
           <Nav.Link href="/contact">Contact</Nav.Link>
-          <Nav.Link href="/demo">Background</Nav.Link>
+          <Nav.Link href="/background">Background</Nav.Link>
         </Nav>
       </Container>
     </Navbar>
