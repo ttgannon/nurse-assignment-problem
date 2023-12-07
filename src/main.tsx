@@ -14,25 +14,29 @@ export const Context = createContext(null);
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home />,
+    element: <App />,
+    children: [
+      {
+        path: "/assignment",
+        element: <LoggedInAssignment />,
+      },
+      {
+        path: "/",
+        element: <Home />,
+      },
+      {
+        path: "/demo",
+        element: <DemoPatientAssignment />,
+      },
+      { path: "/contact", element: <Contact /> },
+      { path: "/background", element: <Background /> },
+      { path: "*", element: <NotFound /> },
+    ],
   },
-  {
-    path: "/assignment",
-    element: <LoggedInAssignment />,
-  },
-  {
-    path: "/demo",
-    element: <DemoPatientAssignment />,
-  },
-  { path: "/contact", element: <Contact /> },
-  { path: "/background", element: <Background /> },
-  { path: "*", element: <NotFound /> },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <App>
-      <RouterProvider router={router} />
-    </App>
+    <RouterProvider router={router} />
   </React.StrictMode>,
 );
