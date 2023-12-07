@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { exchangeForJWT } from "../services/launch";
 import { URL_FOR_ACCESS_CODE } from "../api";
-import { useLocation } from "react-router-dom";
+import { useLocation, useOutletContext } from "react-router-dom";
 import { Button, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 export const Auth = () => {
   const location = useLocation();
+  const [loggedIn, setLoggedIn] = useOutletContext();
 
   const [accessToken, setAccessToken] = useState<string>("");
 
@@ -20,6 +21,7 @@ export const Auth = () => {
         const token = await exchangeForJWT(accessCode);
         if (token) {
           setAccessToken(token);
+          setLoggedIn(true);
           localStorage.setItem("epic-access-token", token);
           navigate("/assignment");
         }
