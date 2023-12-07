@@ -51,6 +51,11 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
           <Nav.Link href="/demo">Demo</Nav.Link>
           <Nav.Link href="/contact">Contact</Nav.Link>
           <Nav.Link href="/background">Background</Nav.Link>
+          {/* {localStorage.getItem("epic-access-token") && (
+            <Nav.Link href="/background" className="color-red">
+              Logout
+            </Nav.Link>
+          )} */}
         </Nav>
       </Container>
     </Navbar>
