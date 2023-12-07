@@ -1,6 +1,12 @@
+import { useState } from "react";
 import { Container, Nav, Navbar, Row } from "react-bootstrap";
+import { Outlet } from "react-router-dom";
 
-const App = ({ children }) => {
+const App = () => {
+  const [loggedIn, setLoggedIn] = useState(
+    localStorage.getItem("epic-access-token") ? true : false,
+  );
+
   return (
     <>
       <Navbar
@@ -22,10 +28,20 @@ const App = ({ children }) => {
             <Nav.Link href="/demo">Demo</Nav.Link>
             <Nav.Link href="/contact">Contact</Nav.Link>
             <Nav.Link href="/background">Background</Nav.Link>
+            {loggedIn && (
+              <Nav.Link
+                onClick={() => {
+                  localStorage.removeItem("epic-access-token");
+                }}
+                href="/"
+              >
+                Log out
+              </Nav.Link>
+            )}
           </Nav>
         </Container>
       </Navbar>
-      {children}
+      <Outlet context={[loggedIn, setLoggedIn]} />
       <footer className="container py-5">
         <Row>
           <div className="col-12 col-md">
