@@ -2,6 +2,24 @@ import { useState } from "react";
 import { Nurse, Patient, Unit } from "../interfaces";
 import { faker } from "@faker-js/faker";
 
+/* Need to edit this file to:
+TODO:
+ - Query database for list of units in the database;
+ a unit is an id and a name with reference to patients and nurses 
+
+
+
+ TODO:
+ - Query database for list of patients;
+ a patient is an id, a name, and a unitid
+ 
+ 
+ TODO:
+ - Query database for list of nurses coming into the shift;
+ a nurse is an id, a name, years of experience, and unit
+
+*/
+
 export const useDummyData = () => {
   const [units] = useState<Unit[]>(() =>
     Array.from({ length: 5 }, () => {
