@@ -1,13 +1,16 @@
 import express from 'express';
+import { sequelize } from '../models/index.js';
 
-export const app = express()
-
+export const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+
+
+  /* Routes */
 app.get('/', (req, res) => {
-  res.send('Hello World!')
+  res.send('Hello World!');
 })
 
 /** 404 handler */
