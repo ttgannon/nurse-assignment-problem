@@ -1,12 +1,12 @@
 import { DataTypes } from "sequelize";
-import { sequelize } from "./index.js";
+import { sequelize } from "../src/database/index.js";
 
-export const Nurse = sequelize.define("Nurses", {
-  name: {
+export const NurseModel = sequelize.define("nurses", {
+  nurse_name: {
     type: DataTypes.STRING,
     allowNull: false,
   },
   years_exp: {
-    type: DataTypes.STRING,
+    type: DataTypes.INTEGER,
   },
 });

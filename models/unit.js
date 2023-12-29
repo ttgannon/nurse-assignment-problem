@@ -1,15 +1,15 @@
 import { DataTypes } from "sequelize";
-import { sequelize } from "./index.js";
-import { Nurse } from "./nurse.js";
-import { Patient } from "./patient.js";
+import { sequelize } from "../src/database/index.js";
+// import { Nurse } from "./nurse.js";
+// import { Patient } from "./patient.js";
 
-export const Unit = sequelize.define("Units", {
-  name: {
+export const UnitModel = sequelize.define("units", {
+  unit_name: {
     type: DataTypes.STRING,
     allowNull: false,
   },
 });
 
-Unit.hasMany([Nurse, Patient]);
-Nurse.belongsTo(Unit);
-Patient.belongsTo(Unit);
+// Unit.hasMany([Nurse, Patient]);
+// Nurse.belongsTo(Unit);
+// Patient.belongsTo(Unit);
