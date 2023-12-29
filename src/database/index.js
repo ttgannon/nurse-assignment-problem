@@ -4,6 +4,7 @@
 "use strict";
 
 import { Sequelize } from "sequelize";
+export const sequelize = new Sequelize('postgres:///nursify');
 
 // import fs from "fs";
 // import path from "path";
@@ -19,11 +20,6 @@ import { Sequelize } from "sequelize";
 //   dialect: 'postgres',
 //   storage: 'postgres://thisisntreal'
 // });
-
-export const sequelize = new Sequelize('postgres:///nursify');
-
-
-
 
 // fs.readdirSync(__dirname)
 //   .filter((file) => {
