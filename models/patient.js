@@ -62,4 +62,6 @@ export const PatientModel = sequelize.define("patients", {
     type: DataTypes.INTEGER,
     allowNull: false,  
   }
+}, {
+  timestamps: false
 });

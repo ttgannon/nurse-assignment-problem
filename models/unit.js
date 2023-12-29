@@ -8,6 +8,8 @@ export const UnitModel = sequelize.define("units", {
     type: DataTypes.STRING,
     allowNull: false,
   },
+}, {
+  timestamps: false
 });
 
 // Unit.hasMany([Nurse, Patient]);
