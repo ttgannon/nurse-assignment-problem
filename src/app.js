@@ -12,7 +12,7 @@ app.use(express.urlencoded({ extended: true }));
 try {
   await sequelize.authenticate();
   console.log("Connection has been established successfully.");
-  sequelize.sync()
+  sequelize.sync({ alter: true })
   .then(async () => {
     console.log('Database synchronized');
   })
@@ -36,8 +36,9 @@ UnitModel.hasMany(NurseModel, {
 
 
   /* Routes */
-app.get('/', (req, res) => {
-  res.send('Hello World!');
+app.get('/', async (req, res) => {
+  const nurses = await NurseModel.findAll();
+  res.send(nurses);
 })
 
 /** 404 handler */
