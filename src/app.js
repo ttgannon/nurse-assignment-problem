@@ -1,9 +1,11 @@
 import express from 'express';
 import { sequelize } from './database/index.js';
 import { NurseModel, PatientModel, UnitModel } from "../models/index.js";
+import cors from "cors"
 
 export const app = express();
 
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -36,9 +38,42 @@ UnitModel.hasMany(NurseModel, {
 
 
   /* Routes */
-app.get('/', async (req, res) => {
-  const nurses = await NurseModel.findAll();
-  res.send(nurses);
+app.get('/getNurses', async (req, res) => {
+  let nurses;
+  if (req.headers.unit) {
+    nurses = await NurseModel.findAll({
+      where: {
+        unit: req.headers.unit
+      }
+    });  
+    return res.send(nurses);
+  } else {
+    nurses = await NurseModel.findAll();
+    return res.send(nurses);
+  }
+  
+})
+
+app.get('/getUnits', async (req, res) => {
+  const units = await UnitModel.findAll();
+  res.send(units);
+})
+
+app.get('/getPatients', async (req, res) => {
+  let patients;
+  if (req.headers.unit) {
+    patients = await PatientModel.findAll({
+      where: {
+        unit: req.headers.unit
+      }
+    }, {
+      limit: 40
+    });  
+    return res.send(patients);
+  } else {
+    patients = await PatientModel.findAll();
+    return res.send(patients);
+  }
 })
 
 /** 404 handler */
