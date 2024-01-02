@@ -31,16 +31,16 @@ export const DemoNurseTable = ({
           </tr>
         </thead>
         <tbody>
-          {nurses.map(({ employeeId, fullName, yearsOfExperience, unitId }) => (
-            <tr key={employeeId}>
-              <td>{employeeId}</td>
-              <td>{fullName}</td>
-              <td>{yearsOfExperience}</td>
-              <td>{units.find((unit) => unit.id === unitId)?.name || "N/A"}</td>
+          {nurses.map(({ id, nurse_name, years_exp, unit }) => (
+            <tr key={id}>
+              <td>{id}</td>
+              <td>{nurse_name}</td>
+              <td>{years_exp}</td>
+              <td>{unit || "N/A"}</td>
               <td>
                 <Button
                   variant="outline-danger"
-                  onClick={() => removeNurse(employeeId)}
+                  onClick={() => removeNurse(id)}
                 >
                   Remove
                 </Button>
