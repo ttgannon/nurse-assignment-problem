@@ -1,32 +1,59 @@
-import { Alert, Button, Card, Col, Container, Row } from "react-bootstrap";
-import { Assignment } from "..";
-import { Nurse, Unit } from "../../interfaces";
+// import { Alert, Button, Card, Col, Container, Row } from "react-bootstrap";
+// import { Nurse, Unit } from "../../interfaces";
 import { useEffect, useRef, useState } from "react";
-import { DemoUnitSelection } from "./DemoUnitSelection";
-import { useDummyData } from "../../hooks";
-import { DemoPatientTable } from "./DemoPatientTable";
+import { getNurses, getPatients, getUnits } from "../../hooks";
+import { Alert, Button, Card, Col, Container, Row } from "react-bootstrap";
+import { Nurse, Patient, Unit } from "../../interfaces";
 import { GetInTouchModal } from "./GetInTouchModal";
+import { DemoUnitSelection } from "./DemoUnitSelection";
+import { DemoPatientTable } from "./DemoPatientTable";
 import { DemoNurseTable } from "./DemoNurseTable";
+import { getUnitPatients } from "../../services/apiCalls";
+import { Assignment } from "../Assignment";
 
 export const DemoPatientAssignment = () => {
-  const { units, nurses, patients } = useDummyData();
+  // const { units, nurses, patients } = await getDummyData();
 
+  const [units, setUnits] = useState<Unit[] | null>(null);
+  const [error, setError] = useState<string>("");
   const [showModal, setShowModal] = useState(false);
   const [demoSelectedUnit, setDemoSelectedUnit] = useState<Unit | null>(null);
+  const [nurses, setNurses] = useState<Nurse[] | []>([]);
+  const [patients, setPatients] = useState<Patient[] | []>([]);
   const demoRef = useRef(null);
   const [selectedUnit, setSelectedUnit] = useState<Unit | null>(null);
 
+  // useEffect(() => {
+  //   if (!selectedUnit) return;
+  //   const unit: Unit = {
+  //     ...selectedUnit,
+  //     nurses: nurses.filter((nurse) => nurse.unitId === selectedUnit?.id),
+  //     patients: patients.filter(
+  //       (patient) => patient.unitId === selectedUnit?.id,
+  //     ),
+  //   };
+  //   setSelectedUnit(unit);
+  // }, [nurses, patients, selectedUnit]);
+
   useEffect(() => {
-    if (!selectedUnit) return;
-    const unit: Unit = {
-      ...selectedUnit,
-      nurses: nurses.filter((nurse) => nurse.unitId === selectedUnit?.id),
-      patients: patients.filter(
-        (patient) => patient.unitId === selectedUnit?.id,
-      ),
+    const fetchUnits = async () => {
+      try {
+        const result = await getUnits(); // Call your data fetching function
+        setUnits(result);
+      } catch (error) {
+        setError(error);
+      }
     };
-    setSelectedUnit(unit);
-  }, [nurses, patients, selectedUnit]);
+    fetchUnits();
+  }, []);
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  if (!units) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <>
@@ -39,23 +66,17 @@ export const DemoPatientAssignment = () => {
               <Card.Body>
                 <DemoUnitSelection
                   units={units}
-                  onChange={(id) => {
-                    const unitId = units.find(
-                      (unit) => unit.id.toString() === id,
+                  onChange={async (unit_id) => {
+                    const selectedUnit = units.find(
+                      (unit) => unit.id === unit_id,
                     );
+                    if (!selectedUnit) return;
 
-                    if (!unitId) return;
-
-                    const demoSelectedUnit: Unit = {
-                      ...unitId,
-                      nurses: nurses.filter(
-                        (nurse) => nurse.unitId === unitId?.id,
-                      ),
-                      patients: patients.filter(
-                        (patient) => patient.unitId === unitId?.id,
-                      ),
-                    };
-                    setDemoSelectedUnit(demoSelectedUnit);
+                    setDemoSelectedUnit(selectedUnit);
+                    const nurses = await getNurses(selectedUnit.id);
+                    const patients = await getPatients(selectedUnit.id);
+                    setNurses(nurses);
+                    setPatients(patients);
                   }}
                 />
               </Card.Body>
@@ -72,25 +93,23 @@ export const DemoPatientAssignment = () => {
                   <Card.Header>Nurses</Card.Header>
                   <Card.Body>
                     <Alert variant="primary" dismissible>
-                      These are the nurses we have on {demoSelectedUnit?.name}{" "}
-                      for the shift. Remove nurses who aren't coming in, and add
-                      new ones who aren't already scheduled.
+                      These are the nurses we have on{" "}
+                      {demoSelectedUnit?.unit_name} for the shift. Remove nurses
+                      who aren't coming in, and add new ones who aren't already
+                      scheduled.
                     </Alert>
                     <DemoNurseTable
-                      nurses={demoSelectedUnit.nurses}
+                      nurses={nurses}
                       units={units}
-                      removeNurse={(employeeId) => {
+                      removeNurse={() => {
                         setDemoSelectedUnit(() => ({
                           ...demoSelectedUnit,
-                          nurses: demoSelectedUnit.nurses.filter(
-                            (nurse) => nurse.employeeId !== employeeId,
-                          ),
                         }));
                       }}
                       addNurse={(nurse: Nurse) => {
                         setDemoSelectedUnit(() => ({
                           ...demoSelectedUnit,
-                          nurses: [...demoSelectedUnit.nurses, nurse],
+                          nurses: nurse,
                         }));
                       }}
                     />
@@ -105,8 +124,8 @@ export const DemoPatientAssignment = () => {
                   <Card.Header>Patients</Card.Header>
                   <Card.Body>
                     <DemoPatientTable
-                      patients={demoSelectedUnit.patients}
-                      units={units}
+                      patients={patients}
+                      units={selectedUnit}
                     />
                   </Card.Body>
                 </Card>
@@ -115,10 +134,7 @@ export const DemoPatientAssignment = () => {
             <Container className="p-3">
               <Container className="p-5 mb-4 bg-light rounded-3">
                 <h1>Assignment</h1>
-                <Assignment
-                  nurses={demoSelectedUnit.nurses}
-                  patients={demoSelectedUnit.patients}
-                />
+                <Assignment nurses={nurses} patients={patients} />
               </Container>
             </Container>
             <Container className="p-3">
