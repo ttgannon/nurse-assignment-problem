@@ -1,1 +1,1 @@
-export * from "./useDummyData.ts";
+export * from "./getDummyData.ts";
