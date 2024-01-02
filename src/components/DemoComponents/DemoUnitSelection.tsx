@@ -7,7 +7,7 @@ export const DemoUnitSelection = ({
   required,
 }: {
   units: Unit[];
-  onChange: (id: string) => void;
+  onChange: (id: number) => void;
   required?: boolean;
 }) => {
   return (
@@ -16,16 +16,16 @@ export const DemoUnitSelection = ({
       <Form.Select
         required={required}
         onChange={(e) => {
-          onChange(e.currentTarget.value);
+          onChange(Number(e.currentTarget.value));
         }}
         defaultValue=""
       >
         <option disabled value="">
           Select a unit
         </option>
-        {units.map(({ id, name }) => (
+        {units.map(({ id, unit_name }) => (
           <option key={id} value={id}>
-            {name}
+            {unit_name}
           </option>
         ))}
       </Form.Select>

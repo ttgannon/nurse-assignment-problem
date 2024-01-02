@@ -15,11 +15,11 @@ export const Assignment = ({
   return (
     <Row>
       {assignments.map(({ nurse, patients }) => (
-        <Col key={nurse.employeeId} md={6} lg={4} className="mb-3">
+        <Col key={nurse.id} md={6} lg={4} className="mb-3">
           <Card>
             <Card.Header>
               <strong>Nurse: </strong>
-              {nurse.fullName}
+              {nurse.nurse_name}
             </Card.Header>
             <Card.Body>
               {patients.length ? (
@@ -30,8 +30,8 @@ export const Assignment = ({
                       ? patients.map(({ item }, index) => (
                           <li key={index}>{item.display}</li>
                         ))
-                      : patients.map(({ fullName }, index) => (
-                          <li key={index}>{fullName}</li>
+                      : patients.map(({ last_name, first_name }, index) => (
+                          <li key={index}>{first_name + last_name}</li>
                         ))}
                   </ul>
                 </>

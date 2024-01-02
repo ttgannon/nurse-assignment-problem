@@ -6,23 +6,25 @@ export const DemoPatientTable = ({
   units,
 }: {
   patients: Patient[];
-  units: Unit[];
+  units: Unit | null;
 }) => {
   return (
     <Table striped bordered>
       <thead>
         <tr>
           <th>Id</th>
-          <th>Patient Name</th>
+          <th>First Name</th>
+          <th>Last Name</th>
           <th>Unit</th>
         </tr>
       </thead>
       <tbody>
-        {patients.map(({ id, fullName, unitId }) => (
+        {patients.map(({ id, first_name, last_name, patient_id, unit }) => (
           <tr key={id}>
-            <td>{id}</td>
-            <td>{fullName}</td>
-            <td>{units.find((unit) => unit.id === unitId)?.name || "N/A"}</td>
+            <td>{patient_id}</td>
+            <td>{first_name}</td>
+            <td>{last_name}</td>
+            <td>{unit || "N/A"}</td>
           </tr>
         ))}
       </tbody>
