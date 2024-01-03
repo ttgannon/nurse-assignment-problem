@@ -101,16 +101,13 @@ export const DemoPatientAssignment = () => {
                     <DemoNurseTable
                       nurses={nurses}
                       units={units}
-                      removeNurse={() => {
-                        setDemoSelectedUnit(() => ({
-                          ...demoSelectedUnit,
-                        }));
+                      removeNurse={(id) => {
+                        setNurses(() =>
+                          nurses.filter((nurse) => nurse.id !== id),
+                        );
                       }}
                       addNurse={(nurse: Nurse) => {
-                        setDemoSelectedUnit(() => ({
-                          ...demoSelectedUnit,
-                          nurses: nurse,
-                        }));
+                        setNurses([...nurses, nurse]);
                       }}
                     />
                   </Card.Body>

@@ -26,11 +26,10 @@ export const DemoAddNurseModal = ({
       event.stopPropagation();
     }
 
-    if (nurse?.fullName && nurse?.unitId) {
+    if (nurse?.nurse_name && nurse?.unit) {
       const newNurse: Nurse = {
-        employeeId: faker.number.int(),
-        fullName: nurse.fullName,
-        unitId: nurse.unitId,
+        nurse_name: nurse.nurse_name,
+        unit: nurse.unit,
       };
 
       addNurse(newNurse);
@@ -49,10 +48,10 @@ export const DemoAddNurseModal = ({
             <Form.Label>Nurse Name</Form.Label>
             <Form.Control
               required
-              defaultValue={nurse?.fullName}
+              defaultValue={nurse?.nurse_name}
               onChange={(e) => {
                 const value = e.currentTarget.value;
-                setNurse((nurse) => ({ ...nurse, fullName: value }));
+                setNurse((nurse) => ({ ...nurse, nurse_name: value }));
               }}
             />
           </Form.Group>
@@ -60,7 +59,7 @@ export const DemoAddNurseModal = ({
             required
             units={units}
             onChange={(id) =>
-              setNurse((nurse) => ({ ...nurse, unitId: Number(id) }))
+              setNurse((nurse) => ({ ...nurse, unit: Number(id) }))
             }
           />
         </Modal.Body>
