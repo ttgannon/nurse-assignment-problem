@@ -9,6 +9,9 @@ export const NurseModel = sequelize.define("nurses", {
   years_exp: {
     type: DataTypes.INTEGER,
   },
+  unit: {
+    type: DataTypes.INTEGER
+  }
 }, {
   timestamps: false
 });
