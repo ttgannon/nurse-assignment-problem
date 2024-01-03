@@ -31,7 +31,7 @@ export const Assignment = ({
                           <li key={index}>{item.display}</li>
                         ))
                       : patients.map(({ last_name, first_name }, index) => (
-                          <li key={index}>{first_name + last_name}</li>
+                          <li key={index}>{first_name + " " + last_name}</li>
                         ))}
                   </ul>
                 </>
