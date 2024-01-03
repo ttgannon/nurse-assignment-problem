@@ -9,11 +9,13 @@ export const DemoAddNurseModal = ({
   hideModal,
   addNurse,
   units,
+  demoSelectedUnit,
 }: {
   showModal: boolean;
   hideModal: () => void;
   addNurse: (nurse: Nurse) => void;
   units: Unit[];
+  demoSelectedUnit: Unit;
 }) => {
   const [nurse, setNurse] = useState<Partial<Nurse>>();
 
@@ -57,6 +59,7 @@ export const DemoAddNurseModal = ({
           </Form.Group>
           <DemoUnitSelection
             required
+            demoSelectedUnit={demoSelectedUnit}
             units={units}
             onChange={(id) =>
               setNurse((nurse) => ({ ...nurse, unit: Number(id) }))

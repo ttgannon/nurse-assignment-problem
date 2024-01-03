@@ -10,11 +10,13 @@ export const DemoNurseTable = ({
   removeNurse,
   addNurse,
   units,
+  demoSelectedUnit,
 }: {
   nurses: Nurse[];
   units: Unit[];
   removeNurse: (id: number) => void;
   addNurse: (nurse: Nurse) => void;
+  demoSelectedUnit: Unit;
 }) => {
   const [showModal, setShowModal] = useState(false);
 
@@ -55,6 +57,7 @@ export const DemoNurseTable = ({
         </Button>
       </div>
       <DemoAddNurseModal
+        demoSelectedUnit={demoSelectedUnit}
         showModal={showModal}
         hideModal={() => setShowModal(false)}
         addNurse={addNurse}

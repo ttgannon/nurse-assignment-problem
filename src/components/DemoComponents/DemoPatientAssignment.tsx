@@ -100,6 +100,7 @@ export const DemoPatientAssignment = () => {
                     </Alert>
                     <DemoNurseTable
                       nurses={nurses}
+                      demoSelectedUnit={demoSelectedUnit}
                       units={units}
                       removeNurse={(id) => {
                         setNurses(() =>

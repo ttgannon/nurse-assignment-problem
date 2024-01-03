@@ -5,10 +5,12 @@ export const DemoUnitSelection = ({
   units,
   onChange,
   required,
+  demoSelectedUnit,
 }: {
   units: Unit[];
   onChange: (id: number) => void;
   required?: boolean;
+  demoSelectedUnit: Unit;
 }) => {
   return (
     <Form.Group className="mb-3">
@@ -18,7 +20,7 @@ export const DemoUnitSelection = ({
         onChange={(e) => {
           onChange(Number(e.currentTarget.value));
         }}
-        defaultValue=""
+        defaultValue={demoSelectedUnit ? demoSelectedUnit.id : ""}
       >
         <option disabled value="">
           Select a unit
