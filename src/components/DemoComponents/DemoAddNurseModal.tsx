@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import { Nurse, Unit } from "../../interfaces";
-import { faker } from "@faker-js/faker";
 import { DemoUnitSelection } from "./DemoUnitSelection.tsx";
 
 export const DemoAddNurseModal = ({
@@ -10,12 +9,14 @@ export const DemoAddNurseModal = ({
   addNurse,
   units,
   demoSelectedUnit,
+  nurses,
 }: {
   showModal: boolean;
   hideModal: () => void;
   addNurse: (nurse: Nurse) => void;
   units: Unit[];
   demoSelectedUnit: Unit;
+  nurses: Nurse[];
 }) => {
   const [nurse, setNurse] = useState<Partial<Nurse>>();
 
@@ -28,15 +29,14 @@ export const DemoAddNurseModal = ({
       event.stopPropagation();
     }
 
-    if (nurse?.nurse_name && nurse?.unit) {
-      const newNurse: Nurse = {
-        nurse_name: nurse.nurse_name,
-        unit: nurse.unit,
-      };
+    const newNurse: Partial<Nurse> = {
+      nurse_name: nurse.nurse_name,
+      unit: nurse.unit,
+      id: (nurses[nurses.length - 1].id += 2),
+    };
 
-      addNurse(newNurse);
-      hideModal();
-    }
+    addNurse(newNurse);
+    hideModal();
   };
 
   return (
@@ -61,9 +61,7 @@ export const DemoAddNurseModal = ({
             required
             demoSelectedUnit={demoSelectedUnit}
             units={units}
-            onChange={(id) =>
-              setNurse((nurse) => ({ ...nurse, unit: Number(id) }))
-            }
+            onChange={(id) => setNurse((nurse) => ({ ...nurse, unit: id }))}
           />
         </Modal.Body>
         <Modal.Footer>
