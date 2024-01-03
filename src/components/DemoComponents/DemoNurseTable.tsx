@@ -33,12 +33,14 @@ export const DemoNurseTable = ({
           </tr>
         </thead>
         <tbody>
-          {nurses.map(({ id, nurse_name, years_exp, unit }) => (
+          {nurses.map(({ id, nurse_name, years_exp, unitDetails }) => (
             <tr key={id}>
               <td>{id}</td>
               <td>{nurse_name}</td>
               <td>{years_exp}</td>
-              <td>{unit || "N/A"}</td>
+              <td>
+                {unitDetails?.unit_name || demoSelectedUnit?.unit_name || "N/A"}
+              </td>
               <td>
                 <Button
                   variant="outline-danger"
@@ -58,6 +60,7 @@ export const DemoNurseTable = ({
       </div>
       <DemoAddNurseModal
         demoSelectedUnit={demoSelectedUnit}
+        nurses={nurses}
         showModal={showModal}
         hideModal={() => setShowModal(false)}
         addNurse={addNurse}

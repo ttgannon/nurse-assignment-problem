@@ -27,7 +27,7 @@ try {
     "Oops! There was a database error. Try connecting to the database again.",
   );
 }
-
+NurseModel.belongsTo(UnitModel, { foreignKey: 'unit', as: "unitDetails" });
 UnitModel.hasMany(PatientModel, {
   foreignKey: 'unit'
 });
@@ -43,9 +43,11 @@ app.get('/getNurses', async (req, res) => {
   if (req.headers.unit) {
     nurses = await NurseModel.findAll({
       where: {
-        unit: req.headers.unit
-      }
+        'unit': req.headers.unit,
+      },
+      include: { model: UnitModel, as: 'unitDetails' },
     });  
+    // console.log("hello" + nurses[0].unit.unit_name)
     return res.send(nurses);
   } else {
     nurses = await NurseModel.findAll();
