@@ -1,5 +1,5 @@
 export interface Nurse {
-  id: number;
+  id: number | string;
   nurse_name: string;
   years_exp: number;
   unit: number;

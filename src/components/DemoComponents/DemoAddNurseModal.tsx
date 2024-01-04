@@ -28,11 +28,26 @@ export const DemoAddNurseModal = ({
     if (form.checkValidity() === false) {
       event.stopPropagation();
     }
+    /* 
+    
+    Need to create a random ID for each additional nurse to render on the page; this lets React keep track of each element for removal. The below code achieves this.
+    
+    */
+    const nurseIds = nurses.map((nurse) => {
+      return nurse.id;
+    });
+
+    let randInt = 0;
+    while (randInt in nurseIds) {
+      randInt = Math.floor(Math.random() * 1000);
+    }
+
+    /* The below code creates a new instance of Nurse taking the name and unit fields, plus the random unique ID generated, and returns it to the Nurse Table. */
 
     const newNurse: Partial<Nurse> = {
-      nurse_name: nurse.nurse_name,
-      unit: nurse.unit,
-      id: (nurses[nurses.length - 1].id += 2),
+      nurse_name: nurse?.nurse_name,
+      unit: nurse?.unit,
+      id: randInt + nurse?.nurse_name,
     };
 
     addNurse(newNurse);
@@ -61,7 +76,12 @@ export const DemoAddNurseModal = ({
             required
             demoSelectedUnit={demoSelectedUnit}
             units={units}
-            onChange={(id) => setNurse((nurse) => ({ ...nurse, unit: id }))}
+            onChange={(id) =>
+              setNurse((nurse) => ({
+                ...nurse,
+                unit: id,
+              }))
+            }
           />
         </Modal.Body>
         <Modal.Footer>

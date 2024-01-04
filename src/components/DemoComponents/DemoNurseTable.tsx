@@ -25,7 +25,6 @@ export const DemoNurseTable = ({
       <Table striped bordered>
         <thead>
           <tr>
-            <th>Employee Id</th>
             <th>Name</th>
             <th>Years of Experience</th>
             <th>Unit</th>
@@ -34,8 +33,7 @@ export const DemoNurseTable = ({
         </thead>
         <tbody>
           {nurses.map(({ id, nurse_name, years_exp, unitDetails }) => (
-            <tr key={id}>
-              <td>{id}</td>
+            <tr key={id + nurse_name}>
               <td>{nurse_name}</td>
               <td>{years_exp}</td>
               <td>
