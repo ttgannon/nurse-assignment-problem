@@ -23,11 +23,11 @@ export const PatientModel = sequelize.define("patients", {
     allowNull: false,
   },
   continent: {
-    type: DataTypes.STRING,
+    type: DataTypes.BOOLEAN,
     allowNull: false,
   },
   independently_mobile: {
-    type: DataTypes.STRING,
+    type: DataTypes.BOOLEAN,
     allowNull: false,
   },
   num_meds: {
