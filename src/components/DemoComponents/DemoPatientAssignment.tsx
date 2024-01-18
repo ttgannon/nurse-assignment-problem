@@ -72,11 +72,11 @@ export const DemoPatientAssignment = () => {
                     );
                     if (!selectedUnit) return;
 
-                    setDemoSelectedUnit(selectedUnit);
                     const nurses = await getNurses(selectedUnit.id);
                     const patients = await getPatients(selectedUnit.id);
                     setNurses(nurses);
                     setPatients(patients);
+                    setDemoSelectedUnit(selectedUnit);
                   }}
                 />
               </Card.Body>
