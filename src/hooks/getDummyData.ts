@@ -12,59 +12,18 @@ TODO:
  */
 
 export async function getUnits() {
-  const responseUnits = await fetch("http://localhost:3000/getUnits");
-  const units = await responseUnits.json();
-  console.log(units);
-  return units;
-  // try {
-  //   const responseUnits = await fetch("https://localhost:3000/");
-
-  //   if (!responseUnits.ok) {
-  //     throw new Error(`Failed to fetch units. Status: ${responseUnits.status}`);
-  //   }
-
-  //   const units = await responseUnits.json();
-  //   console.log(units + "+++++++++");
-  //   return units;
-  // } catch (error) {
-  //   console.error("Error fetching units:", error);
-  //   return null; // Return null or another suitable value indicating an error
-  // }
+  try {
+    const responseUnits = await fetch("http://localhost:3000/getUnits");
+    if (!responseUnits.ok) {
+      throw new Error(`Failed to fetch units. Status: ${responseUnits.status}`);
+    }
+    const units = await responseUnits.json();
+    return units;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
 }
-
-//query a route to retrieve all the units
-// export async function getDummyData() {
-//   try {
-//     const responseUnits = await fetch("https://localhost:3000/");
-//     const units = await responseUnits.json();
-//     console.log(units + "+++++++++");
-
-//     const responseNurses = await fetch("https://localhost:3000/");
-//     const nurses = await responseNurses.json();
-
-//     const responsePatients = await fetch("https://localhost:3000/");
-//     const patients = await responsePatients.json();
-
-//     // const [units] = useState<Unit[]>(dbunits);
-//     // const [nurses] = useState<Nurse[]>(dbnurses);
-//     // const [patients] = useState<Patient[]>(dbpatients);
-
-//     return { units, nurses, patients };
-//   } catch (error) {
-//     return "You done goofed." + error;
-//   }
-// }
-
-/*
- TODO:
- - Query database for list of patients;
- a patient is an id, a name, and a unitid
- 
- 
- TODO:
- - Query database for list of nurses coming into the shift;
- a nurse is an id, a name, years of experience, and unit
-*/
 
 export async function getNurses(unit?: number) {
   const headers = new Headers();
