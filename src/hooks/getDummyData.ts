@@ -2,13 +2,8 @@ import { useState } from "react";
 import { Nurse, Patient, Unit } from "../interfaces";
 import { faker } from "@faker-js/faker";
 
-/* Need to edit this file to:
-TODO:
- - Query database for list of units in the database;
- a unit is an id and a name with reference to patients and nurses 
-
-
-
+/* This file:
+Queries database for nurses, patients, and units.
  */
 
 export async function getUnits() {
@@ -26,45 +21,39 @@ export async function getUnits() {
 }
 
 export async function getNurses(unit?: number) {
-  const headers = new Headers();
-  if (unit) {
-    headers.append("unit", String(unit));
+  try {
+    const headers = new Headers();
+    if (unit) {
+      headers.append("unit", String(unit));
+    }
+    const responseNurses = await fetch("http://localhost:3000/getNurses", {
+      headers: headers,
+    });
+    const nurses = await responseNurses.json();
+    return nurses;
+  } catch (error) {
+    console.error("Error fetching units:", error);
+    return null;
   }
-  const responseNurses = await fetch("http://localhost:3000/getNurses", {
-    headers: headers,
-  });
-
-  const nurses = await responseNurses.json();
-  console.log(nurses);
-  return nurses;
-  // try {
-  //   const responseUnits = await fetch("https://localhost:3000/");
-
-  //   if (!responseUnits.ok) {
-  //     throw new Error(`Failed to fetch units. Status: ${responseUnits.status}`);
-  //   }
-
-  //   const units = await responseUnits.json();
-  //   console.log(units + "+++++++++");
-  //   return units;
-  // } catch (error) {
-  //   console.error("Error fetching units:", error);
-  //   return null; // Return null or another suitable value indicating an error
-  // }
 }
 
 export async function getPatients(unit?: number) {
-  const headers = new Headers();
-  if (unit) {
-    headers.append("unit", String(unit));
-  }
-  const response = await fetch("http://localhost:3000/getPatients", {
-    headers: headers,
-  });
+  try {
+    const headers = new Headers();
+    if (unit) {
+      headers.append("unit", String(unit));
+    }
+    const response = await fetch("http://localhost:3000/getPatients", {
+      headers: headers,
+    });
 
-  const patients = await response.json();
-  console.log(patients);
-  return patients;
+    const patients = await response.json();
+    console.log(patients);
+    return patients;
+  } catch (error) {
+    console.error("Error fetching units:", error);
+    return null;
+  }
 }
 
 export const useDummyData = () => {
