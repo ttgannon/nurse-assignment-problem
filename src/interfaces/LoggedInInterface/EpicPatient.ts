@@ -3,4 +3,5 @@ export interface EpicPatient {
     display: string;
     reference: string;
   };
+  acuityScore: number;
 }
