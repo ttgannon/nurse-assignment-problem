@@ -14,12 +14,13 @@ export const Assignment = ({
 
   return (
     <Row>
-      {assignments.map(({ nurse, patients }) => (
+      {assignments.map(({ nurse, patients, assignmentAcuityScore }) => (
         <Col key={nurse.id} md={6} lg={4} className="mb-3">
           <Card>
             <Card.Header>
               <strong>Nurse: </strong>
               {nurse.nurse_name}
+              <p>Workload Score: {assignmentAcuityScore}</p>
             </Card.Header>
             <Card.Body>
               {patients.length ? (
