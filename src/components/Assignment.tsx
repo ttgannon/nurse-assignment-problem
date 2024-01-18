@@ -2,6 +2,7 @@ import { Card, Col, Row } from "react-bootstrap";
 import { Nurse, Patient } from "../interfaces";
 import { EpicPatient } from "../interfaces/LoggedInInterface/EpicPatient";
 import { generateAssignments } from "../services";
+import { right } from "@popperjs/core";
 
 export const Assignment = ({
   nurses,
@@ -18,9 +19,15 @@ export const Assignment = ({
         <Col key={nurse.id} md={6} lg={4} className="mb-3">
           <Card>
             <Card.Header>
-              <strong>Nurse: </strong>
-              {nurse.nurse_name}
-              <p>Workload Score: {assignmentAcuityScore}</p>
+              <Row>
+                <Col>
+                  <strong>Nurse: </strong>
+                  {nurse.nurse_name}
+                </Col>
+                <Col style={{ textAlign: right }}>
+                  <p>Assignment Score: {assignmentAcuityScore}</p>
+                </Col>
+              </Row>
             </Card.Header>
             <Card.Body>
               {patients.length ? (
