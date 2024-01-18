@@ -46,9 +46,7 @@ export async function getPatients(unit?: number) {
     const response = await fetch("http://localhost:3000/getPatients", {
       headers: headers,
     });
-
     const patients = await response.json();
-    console.log(patients);
     return patients;
   } catch (error) {
     console.error("Error fetching units:", error);
