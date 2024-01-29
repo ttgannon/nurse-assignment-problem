@@ -4,6 +4,10 @@ export interface Patient {
   last_name: string;
   first_name: string;
   unit: string;
+  unitDetails: {
+    id: number;
+    unit_name: string;
+  };
   acuityScore: number;
   continent: boolean;
   independently_mobile: boolean;

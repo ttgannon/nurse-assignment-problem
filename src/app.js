@@ -28,6 +28,7 @@ try {
   );
 }
 NurseModel.belongsTo(UnitModel, { foreignKey: 'unit', as: "unitDetails" });
+PatientModel.belongsTo(UnitModel, {foreignKey: 'unit', as: "unitDetails"})
 UnitModel.hasMany(PatientModel, {
   foreignKey: 'unit'
 });
