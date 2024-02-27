@@ -1,4 +1,7 @@
-/* This file determines which database to use and initializes a sequelize instance. It runs on server start.
+/* 
+
+This file determines which database to use and initializes a sequelize instance. It runs on server start.
+
 */
 
 "use strict";

@@ -1,3 +1,9 @@
+/*
+
+This file initializes the Express router for Nursify's backend. It imports the instance of sequelize initialized on server start, authenticates the connection, syncs the database, defines the relationships between models, and establishes the routes for accessing the data. 
+
+*/
+
 import express from 'express';
 import { sequelize } from './database/index.js';
 import { NurseModel, PatientModel, UnitModel } from "../models/index.js";
@@ -36,7 +42,6 @@ UnitModel.hasMany(PatientModel, {
 UnitModel.hasMany(NurseModel, {
   foreignKey: 'unit'
 });
-
 
   /* Routes */
 app.get('/getNurses', async (req, res) => {

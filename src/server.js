@@ -1,4 +1,8 @@
-/* server.js starts the server. Run using node server.js. */
+/* 
+
+This file starts the express server. Run using node server.js. 
+
+*/
 
 import { app } from "./app.js";
 

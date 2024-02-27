@@ -1,10 +1,13 @@
+/* 
+
+This file:
+Queries database for nurses, patients, and units.
+
+ */
+
 import { useState } from "react";
 import { Nurse, Patient, Unit } from "../interfaces";
 import { faker } from "@faker-js/faker";
-
-/* This file:
-Queries database for nurses, patients, and units.
- */
 
 export async function getUnits() {
   try {
