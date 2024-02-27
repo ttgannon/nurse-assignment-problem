@@ -27,7 +27,7 @@ export const Contact = () => {
     });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: { preventDefault: () => void }) => {
     event.preventDefault();
     setSubmitted(true);
   };
