@@ -5,8 +5,8 @@ import { getUnitPatients, getUnits } from "../../services/apiCalls";
 import { LoggedInPatientTable } from "./LoggedInPatientTable";
 import { EpicPatient, Nurse } from "../../interfaces";
 import { EpicUnit } from "../../interfaces/LoggedInInterface/EpicUnit";
-import { DemoNurseTable } from "../DemoComponents/DemoNurseTable";
 import { useDummyData } from "../../hooks";
+import { LoggedInNurseTable } from "./LoggedInNurseTable";
 
 export const LoggedInAssignment = () => {
   const accessToken = localStorage.getItem("epic-access-token") as string;
@@ -75,16 +75,13 @@ export const LoggedInAssignment = () => {
                     shift. Remove nurses who aren't coming in, and add new ones
                     who aren't already scheduled.
                   </Alert>
-                  <DemoNurseTable
-                    nurses={nurses.filter((nurse) => {
-                      return nurse.unitId === nurses[0].unitId;
-                    })}
+                  <LoggedInNurseTable
+                    nurses={nurses}
                     units={units}
+                    selectedUnit={selectedUnit}
                     removeNurse={(employeeId) => {
                       setNursesDemo((nurses: Nurse[]) =>
-                        nurses.filter(
-                          (nurse) => nurse.employeeId !== employeeId,
-                        ),
+                        nurses.filter((nurse) => nurse.id !== employeeId),
                       );
                     }}
                     addNurse={(nurse: Nurse) => {
