@@ -1,10 +1,11 @@
-import { Assignment, EpicPatient, Nurse, Patient } from "../interfaces";
+/*
 
-/* TODO:
-1) function to get patient clinical characteristics in JSON format or perhaps a Map;
-2) function to sum those characteristics based on predetermined multiplier;
-3) function to distribute the nurses and patients using that multiplier;
+This file has two functions: 
+1) patientsWithAcuityScore which calculates acuity scores for each patient and returns an object with the patient's information INCLUDING their acuity score, and 
+2) allocates patients to their assignment using a greedy algorithm.
+
 */
+import { Assignment, EpicPatient, Nurse, Patient } from "../interfaces";
 
 export const patientsWithAcuityScore = (
   patients: EpicPatient[] | Patient[],
@@ -65,7 +66,6 @@ export const generateAssignments = (
   console.log(assignments, nurses.length);
 
   // Function to find the bin with the smallest sum
-  //TODO: for each patient add 10 to the score?
   function findMinBin() {
     let minBinIndex = 0;
     for (let i = 1; i < assignments.length; i++) {

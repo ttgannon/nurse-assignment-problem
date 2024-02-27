@@ -1,3 +1,9 @@
+/*
+
+This file handles the OAuth 2.0 authorization process with Epic API. It exchanges the access code for a JWT and returns it to the calling function.
+
+*/
+
 import {
   URL_FOR_TOKEN,
   NON_PROD_CLIENT_ID,
