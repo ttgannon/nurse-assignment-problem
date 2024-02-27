@@ -111,7 +111,7 @@ export const LoggedInAssignment = () => {
                 <Card.Body>
                   <Assignment
                     nurses={nurses.filter((nurse) => {
-                      return nurse.unitId === nurses[0].unitId;
+                      return nurse.unit === nurses[0].unit;
                     })}
                     patients={patients}
                   />

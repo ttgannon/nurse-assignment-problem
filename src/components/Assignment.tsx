@@ -22,7 +22,7 @@ export const Assignment = ({
               <Row>
                 <Col>
                   <strong>Nurse: </strong>
-                  {nurse.nurse_name}
+                  {nurse.nurse_name ? nurse.nurse_name : nurse.fullName}
                 </Col>
                 <Col style={{ textAlign: right }}>
                   <p>Assignment Score: {assignmentAcuityScore}</p>
