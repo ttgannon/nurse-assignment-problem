@@ -1,27 +1,21 @@
-# React + TypeScript + Vite
+# Welcome to Nursify.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project was completed as a part of Springboard's software engineering bootcamp. Created by a nurse, it is the first iteration of a digital tool to make the nurse-patient assignment using clinical characteristics.
 
-Currently, two official plugins are available:
+# Technical Development
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This project is built with React, TypeScript, Bootstrap, and PostgreSQL. It uses libraries like react-router-dom and sequelize to handle client navigation and database migrations.
 
-## Expanding the ESLint configuration
+# User Flow
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+At first launch, the user can view a demo (which requires migrating the database) or sign in. If signing in, the user will be directed to a hospital data standard (managed by Epic's OAuth2 authentication servers). Credentialed access is as follows:
+`username: FHIR`
+`password: EpicFhir1!`
 
-- Configure the top-level `parserOptions` property like this:
+You may sign in and view initial data. Data rendered from this route is retrieved from Epic's Sandbox test data: the data is still fake data, but it is retrieved from Epic's API.
 
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
+A user may choose to instead view the demo. The demo retrieves data from a database and uses a deterministic algorithm to make the patient assignment. The instructions for retrieving the demo data and setting up the demo database are below.
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+# Using the project
+
+First run `npm install` to retrieve project dependencies. Then run `npx sequelize-cli db:create` in your command line to create the nursify database.

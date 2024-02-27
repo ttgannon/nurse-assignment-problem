@@ -1,3 +1,9 @@
+/* 
+
+This file sends requests to the Epic API to get the units and patients from the database. It requires an access token retrieved elsewhere.
+
+*/
+
 import { BASE_URL_API } from "../api";
 
 export async function getUnits(accessToken: string) {

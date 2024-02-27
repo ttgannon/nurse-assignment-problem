@@ -3,9 +3,9 @@ import Button from "react-bootstrap/Button";
 
 import { useState } from "react";
 import { Unit, Nurse } from "../../interfaces/index.ts";
-import { DemoAddNurseModal } from "./DemoAddNurseModal.tsx";
+import { LoggedInAddNurseModal } from "./LoggedInAddNurseModal.tsx";
 
-export const DemoNurseTable = ({
+export const LoggedInNurseTable = ({
   nurses,
   removeNurse,
   addNurse,
@@ -19,7 +19,7 @@ export const DemoNurseTable = ({
   demoSelectedUnit: Unit;
 }) => {
   const [showModal, setShowModal] = useState(false);
-
+  console.log(nurses);
   return (
     <>
       <Table striped bordered>
@@ -27,18 +27,12 @@ export const DemoNurseTable = ({
           <tr>
             <th>Name</th>
             <th>Years of Experience</th>
-            <th>Unit</th>
-            <th></th>
           </tr>
         </thead>
         <tbody>
-          {nurses.map(({ id, nurse_name, years_exp, unitDetails }) => (
-            <tr key={id + nurse_name}>
-              <td>{nurse_name}</td>
-              <td>{years_exp}</td>
-              <td>
-                {unitDetails?.unit_name || demoSelectedUnit?.unit_name || "N/A"}
-              </td>
+          {nurses.map(({ id, fullName }) => (
+            <tr key={id + fullName}>
+              <td>{fullName}</td>
               <td>
                 <Button
                   variant="outline-danger"
@@ -56,7 +50,7 @@ export const DemoNurseTable = ({
           Add another nurse
         </Button>
       </div>
-      <DemoAddNurseModal
+      <LoggedInAddNurseModal
         demoSelectedUnit={demoSelectedUnit}
         nurses={nurses}
         showModal={showModal}

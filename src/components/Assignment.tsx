@@ -2,6 +2,7 @@ import { Card, Col, Row } from "react-bootstrap";
 import { Nurse, Patient } from "../interfaces";
 import { EpicPatient } from "../interfaces/LoggedInInterface/EpicPatient";
 import { generateAssignments } from "../services";
+import { right } from "@popperjs/core";
 
 export const Assignment = ({
   nurses,
@@ -14,12 +15,19 @@ export const Assignment = ({
 
   return (
     <Row>
-      {assignments.map(({ nurse, patients }) => (
-        <Col key={nurse.employeeId} md={6} lg={4} className="mb-3">
+      {assignments.map(({ nurse, patients, assignmentAcuityScore }) => (
+        <Col key={nurse.id} md={6} lg={4} className="mb-3">
           <Card>
             <Card.Header>
-              <strong>Nurse: </strong>
-              {nurse.fullName}
+              <Row>
+                <Col>
+                  <strong>Nurse: </strong>
+                  {nurse.nurse_name ? nurse.nurse_name : nurse.fullName}
+                </Col>
+                <Col style={{ textAlign: right }}>
+                  <p>Assignment Score: {assignmentAcuityScore}</p>
+                </Col>
+              </Row>
             </Card.Header>
             <Card.Body>
               {patients.length ? (
@@ -30,8 +38,8 @@ export const Assignment = ({
                       ? patients.map(({ item }, index) => (
                           <li key={index}>{item.display}</li>
                         ))
-                      : patients.map(({ fullName }, index) => (
-                          <li key={index}>{fullName}</li>
+                      : patients.map(({ last_name, first_name }, index) => (
+                          <li key={index}>{first_name + " " + last_name}</li>
                         ))}
                   </ul>
                 </>

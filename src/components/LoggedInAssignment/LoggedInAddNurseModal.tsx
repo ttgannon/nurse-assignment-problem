@@ -1,14 +1,12 @@
 import React, { useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import { Nurse, Unit } from "../../interfaces";
-import { DemoUnitSelection } from "./DemoUnitSelection.tsx";
+import { LoggedInUnitSelection } from "./LoggedInUnitSelection";
 
-export const DemoAddNurseModal = ({
+export const LoggedInAddNurseModal = ({
   showModal,
   hideModal,
   addNurse,
-  units,
-  demoSelectedUnit,
   nurses,
 }: {
   showModal: boolean;
@@ -72,10 +70,7 @@ export const DemoAddNurseModal = ({
               }}
             />
           </Form.Group>
-          <DemoUnitSelection
-            required
-            demoSelectedUnit={demoSelectedUnit}
-            units={units}
+          <LoggedInUnitSelection
             onChange={(id) =>
               setNurse((nurse) => ({
                 ...nurse,

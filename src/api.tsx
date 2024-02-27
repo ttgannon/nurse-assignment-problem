@@ -1,3 +1,9 @@
+/*
+
+This is a secret file in the gitignore folder. It holds SENSITIVE data like the client_id and client secret, which are necessary to retrieve an access token. 
+
+*/
+
 export const NON_PROD_CLIENT_ID = "db1ba939-2546-4960-a094-64b0db1496b4";
 export const redirect_uri = "http://localhost:5174";
 export const CLIENT_SECRET =

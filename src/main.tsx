@@ -6,7 +6,6 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { LoggedInAssignment } from "./components/LoggedInAssignment/LoggedInAssignment.tsx";
 import { DemoPatientAssignment } from "./components/DemoComponents/DemoPatientAssignment.tsx";
 import { NotFound } from "./components/NotFound.tsx";
-import { Background } from "./components/Background.tsx";
 import App from "./App.tsx";
 
 export const Context = createContext(null);
@@ -29,7 +28,6 @@ const router = createBrowserRouter([
         element: <DemoPatientAssignment />,
       },
       { path: "/contact", element: <Contact /> },
-      { path: "/background", element: <Background /> },
       { path: "*", element: <NotFound /> },
     ],
   },

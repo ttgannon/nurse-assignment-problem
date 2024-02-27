@@ -3,29 +3,32 @@ import { Table } from "react-bootstrap";
 
 export const DemoPatientTable = ({
   patients,
-  units,
 }: {
   patients: Patient[];
-  units: Unit[];
+  units: Unit;
 }) => {
   return (
-    <Table striped bordered>
-      <thead>
-        <tr>
-          <th>Id</th>
-          <th>Patient Name</th>
-          <th>Unit</th>
-        </tr>
-      </thead>
-      <tbody>
-        {patients.map(({ id, fullName, unitId }) => (
-          <tr key={id}>
-            <td>{id}</td>
-            <td>{fullName}</td>
-            <td>{units.find((unit) => unit.id === unitId)?.name || "N/A"}</td>
-          </tr>
-        ))}
-      </tbody>
-    </Table>
+    <>
+      <div style={{ height: "400px", overflowY: "auto" }}>
+        <Table striped bordered responsive>
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+            </tr>
+          </thead>
+          <tbody>
+            {patients.map(({ id, first_name, last_name, patient_id }) => (
+              <tr key={id}>
+                <td>{patient_id}</td>
+                <td>{first_name}</td>
+                <td>{last_name}</td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </div>
+    </>
   );
 };
