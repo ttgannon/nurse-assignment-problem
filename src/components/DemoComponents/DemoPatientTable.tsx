@@ -3,10 +3,9 @@ import { Table } from "react-bootstrap";
 
 export const DemoPatientTable = ({
   patients,
-  units,
 }: {
   patients: Patient[];
-  units: Unit | null;
+  units: Unit;
 }) => {
   return (
     <>
@@ -17,20 +16,16 @@ export const DemoPatientTable = ({
               <th>Id</th>
               <th>First Name</th>
               <th>Last Name</th>
-              <th>Unit</th>
             </tr>
           </thead>
           <tbody>
-            {patients.map(
-              ({ id, first_name, last_name, patient_id, unitDetails }) => (
-                <tr key={id}>
-                  <td>{patient_id}</td>
-                  <td>{first_name}</td>
-                  <td>{last_name}</td>
-                  {unitDetails?.unit_name || "N/A"}
-                </tr>
-              ),
-            )}
+            {patients.map(({ id, first_name, last_name, patient_id }) => (
+              <tr key={id}>
+                <td>{patient_id}</td>
+                <td>{first_name}</td>
+                <td>{last_name}</td>
+              </tr>
+            ))}
           </tbody>
         </Table>
       </div>
