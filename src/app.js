@@ -48,7 +48,6 @@ app.get('/getNurses', async (req, res) => {
       },
       include: { model: UnitModel, as: 'unitDetails' },
     });  
-    // console.log("hello" + nurses[0].unit.unit_name)
     return res.send(nurses);
   } else {
     nurses = await NurseModel.findAll();
