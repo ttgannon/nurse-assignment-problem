@@ -92,7 +92,8 @@ app.use(function(req, res, next) {
   
 /** general error handler */
   
-app.use((err, req, res, next) => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+app.use((err, req, res, _next) => {
     res.status(err.status || 500);
     return res.json({
         error: err,
