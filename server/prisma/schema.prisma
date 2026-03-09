@@ -1,0 +1,49 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Unit {
+  id        Int       @id @default(autoincrement())
+  unit_name String
+  nurses    Nurse[]
+  patients  Patient[]
+
+  @@map("units")
+}
+
+model Nurse {
+  id         Int    @id @default(autoincrement())
+  nurse_name String
+  years_exp  Int    @default(0)
+  unit_id    Int    @map("unit")
+  unit       Unit   @relation(fields: [unit_id], references: [id])
+
+  @@map("nurses")
+}
+
+model Patient {
+  id                   Int     @id @default(autoincrement())
+  patient_id           String
+  last_name            String
+  first_name           String
+  gender               String
+  icd_10               String
+  continent            Boolean
+  independently_mobile Boolean
+  num_meds             Int     @default(0)
+  high_risk_meds       Int     @default(0)
+  num_devices          Int     @default(0)
+  num_drips            Int     @default(0)
+  new_trach            Int     @default(0)
+  tube_feeds           Int     @default(0)
+  wound_care           Int     @default(0)
+  unit_id              Int     @map("unit")
+  unit                 Unit    @relation(fields: [unit_id], references: [id])
+
+  @@map("patients")
+}
