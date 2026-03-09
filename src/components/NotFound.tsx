@@ -1,18 +1,18 @@
-import { Button, Col, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 
 export const NotFound = () => {
   const navigate = useNavigate();
   return (
-    <>
-      <Row>
-        <Col md={6} className="justify-content-center mx-auto my-5">
-          <div className="bg-light p-5">
-            <h1>Sorry, we couldn't find what you're looking for.</h1>
-            <Button onClick={() => navigate("/")}>Go home</Button>
-          </div>
-        </Col>
-      </Row>
-    </>
+    <div className="flex flex-col items-center justify-center gap-4 py-32 text-center">
+      <p className="text-6xl font-bold text-slate-200">404</p>
+      <h1 className="text-xl font-semibold text-slate-900">Page not found</h1>
+      <p className="text-sm text-muted-foreground">
+        Sorry, we couldn't find what you're looking for.
+      </p>
+      <Button onClick={() => navigate("/")} variant="outline">
+        Go home
+      </Button>
+    </div>
   );
 };

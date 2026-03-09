@@ -1,7 +1,7 @@
 import React, { createContext } from "react";
 import ReactDOM from "react-dom/client";
-import { Home, Contact } from "./components";
-import "bootstrap/dist/css/bootstrap.min.css";
+import { Home, Contact, AuthCallback } from "./components";
+import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { LoggedInAssignment } from "./components/LoggedInAssignment/LoggedInAssignment.tsx";
 import { DemoPatientAssignment } from "./components/DemoComponents/DemoPatientAssignment.tsx";
@@ -28,6 +28,7 @@ const router = createBrowserRouter([
         element: <DemoPatientAssignment />,
       },
       { path: "/contact", element: <Contact /> },
+      { path: "/auth/callback", element: <AuthCallback /> },
       { path: "*", element: <NotFound /> },
     ],
   },

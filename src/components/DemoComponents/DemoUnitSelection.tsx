@@ -1,36 +1,24 @@
-import Form from "react-bootstrap/Form";
-import { Unit } from "../../interfaces";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import type { NursifyUnit } from "@/types/nursify";
 
-export const DemoUnitSelection = ({
-  units,
-  onChange,
-  required,
-  demoSelectedUnit,
-}: {
-  units: Unit[];
-  onChange: (id: number) => void;
-  required?: boolean;
-  demoSelectedUnit: Unit;
-}) => {
+interface DemoUnitSelectionProps {
+  units: NursifyUnit[];
+  onChange: (unitId: number) => void;
+}
+
+export function DemoUnitSelection({ units, onChange }: DemoUnitSelectionProps) {
   return (
-    <Form.Group className="mb-3">
-      <Form.Label htmlFor="disabledTextInput">Unit</Form.Label>
-      <Form.Select
-        required={required}
-        onChange={(e) => {
-          onChange(Number(e.currentTarget.value));
-        }}
-        defaultValue={demoSelectedUnit ? demoSelectedUnit.id : ""}
-      >
-        <option disabled value="">
-          Select a unit
-        </option>
-        {units.map(({ id, unit_name }) => (
-          <option key={id} value={id}>
-            {unit_name}
-          </option>
+    <Select onValueChange={(val) => onChange(Number(val))}>
+      <SelectTrigger className="w-full sm:w-72">
+        <SelectValue placeholder="Select a unit…" />
+      </SelectTrigger>
+      <SelectContent>
+        {units.map(({ id, name }) => (
+          <SelectItem key={id} value={String(id)}>
+            {name}
+          </SelectItem>
         ))}
-      </Form.Select>
-    </Form.Group>
+      </SelectContent>
+    </Select>
   );
-};
+}
