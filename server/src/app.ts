@@ -50,7 +50,8 @@ app.use(
       httpOnly: true,
       // In production the app must run behind HTTPS; set secure: true
       secure: process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "strict" : "lax",
+      // "none" required for cross-origin cookies (Vercel frontend ↔ Fly.io backend)
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       // 8 hours — one nursing shift
       maxAge: 8 * 60 * 60 * 1000,
     },

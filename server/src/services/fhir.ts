@@ -67,7 +67,8 @@ export async function discoverSmartConfig(
     );
   }
 
-  const metadata = await metaResponse.json();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const metadata: any = await metaResponse.json();
   const securityExtensions: Array<{ url: string; valueUri?: string }> =
     metadata?.rest?.[0]?.security?.extension?.[0]?.extension ?? [];
 

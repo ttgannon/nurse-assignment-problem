@@ -7,7 +7,8 @@
 // ─── Core domain types ───────────────────────────────────────────────────────
 
 export interface NursifyUnit {
-  id: number;
+  /** Numeric for demo DB units; string FHIR ID for live Location resources */
+  id: number | string;
   name: string;
 }
 
