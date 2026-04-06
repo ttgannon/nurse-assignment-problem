@@ -19,7 +19,9 @@ async function apiFetch<T>(path: string, init?: RequestInit): Promise<T> {
   });
   if (!res.ok) {
     const body = await res.json().catch(() => ({ error: res.statusText }));
-    throw new Error((body as { error?: string }).error ?? `API error ${res.status}`);
+    throw new Error(
+      (body as { error?: string }).error ?? `API error ${res.status}`,
+    );
   }
   return res.json() as Promise<T>;
 }
@@ -38,7 +40,7 @@ export async function fetchPatients(unitId: number): Promise<NursifyPatient[]> {
 
 export async function generateAssignments(
   patients: NursifyPatient[],
-  nurses: NursifyNurse[]
+  nurses: NursifyNurse[],
 ): Promise<NursifyAssignment[]> {
   return apiFetch<NursifyAssignment[]>("/api/patients/assign", {
     method: "POST",
@@ -49,7 +51,7 @@ export async function generateAssignments(
 export async function addNurse(
   nurse_name: string,
   years_exp: number,
-  unit_id: number
+  unit_id: number,
 ): Promise<NursifyNurse> {
   return apiFetch<NursifyNurse>("/api/nurses", {
     method: "POST",
