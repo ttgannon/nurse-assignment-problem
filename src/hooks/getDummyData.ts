@@ -62,9 +62,7 @@ export const useDummyData = () => {
     return Array.from({ length: 5 }, () => {
       const unit: Unit = {
         id: faker.number.int(),
-        name: faker.lorem.word(),
-        patients: [],
-        nurses: [],
+        unit_name: faker.lorem.word(),
       };
       return unit;
     });
@@ -73,8 +71,21 @@ export const useDummyData = () => {
     return Array.from({ length: 60 }, () => {
       const patient: Patient = {
         id: faker.number.int(),
-        fullName: faker.person.fullName(),
-        unitId: faker.helpers.arrayElement(units).id,
+        patient_id: faker.string.uuid(),
+        last_name: faker.person.lastName(),
+        first_name: faker.person.firstName(),
+        unit: faker.helpers.arrayElement(units).id.toString(),
+        unitDetails: faker.helpers.arrayElement(units),
+        acuityScore: 0,
+        continent: faker.datatype.boolean(),
+        independently_mobile: faker.datatype.boolean(),
+        num_meds: faker.number.int({ min: 0, max: 10 }),
+        high_risk_meds: faker.number.int({ min: 0, max: 5 }),
+        num_devices: faker.number.int({ min: 0, max: 3 }),
+        num_drips: faker.number.int({ min: 0, max: 2 }),
+        new_trach: faker.number.int({ min: 0, max: 1 }),
+        tube_feeds: faker.number.int({ min: 0, max: 1 }),
+        wound_care: faker.number.int({ min: 0, max: 1 }),
       };
       return patient;
     });
@@ -82,13 +93,14 @@ export const useDummyData = () => {
   const [nurses] = useState<Nurse[]>(() => {
     return Array.from({ length: 12 }, () => {
       const nurse: Nurse = {
-        employeeId: faker.number.int(),
-        fullName: faker.person.fullName(),
-        yearsOfExperience: faker.number.int({
+        id: faker.number.int(),
+        nurse_name: faker.person.fullName(),
+        years_exp: faker.number.int({
           min: 0,
           max: 30,
         }),
-        unitId: faker.helpers.arrayElement(units).id,
+        unit: faker.helpers.arrayElement(units).id,
+        unitDetails: faker.helpers.arrayElement(units),
       };
       return nurse;
     });

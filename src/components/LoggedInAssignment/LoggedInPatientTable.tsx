@@ -1,4 +1,4 @@
-import { Button, Table } from "react-bootstrap";
+import { Button } from "../ui/button";
 import { EpicPatient } from "../../interfaces";
 
 export const LoggedInPatientTable = ({
@@ -7,7 +7,7 @@ export const LoggedInPatientTable = ({
   patients: EpicPatient[];
 }) => {
   return (
-    <Table striped bordered>
+    <table className="table table-striped table-bordered">
       <thead>
         <tr>
           <th>Id</th>
@@ -28,11 +28,11 @@ export const LoggedInPatientTable = ({
               <input type="checkbox" />
             </td>
             <td>
-              <Button variant="outline-danger">Remove</Button>
+              <Button variant="destructive">Remove</Button>
             </td>
           </tr>
         ))}
       </tbody>
-    </Table>
+    </table>
   );
 };

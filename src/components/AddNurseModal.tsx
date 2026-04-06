@@ -1,9 +1,18 @@
 import React, { useState } from "react";
-import { Button, Form, Modal } from "react-bootstrap";
+import { Button } from "./ui/button";
+import { Input } from "./ui/input";
+import { Label } from "./ui/label";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "./ui/dialog";
 import { Nurse } from "../interfaces";
 import { UnitSelection } from "./UnitSelection.tsx";
 import { faker } from "@faker-js/faker";
-import { EpicUnit } from "../interfaces/LoggedInInterface/EpicUnit.ts";
+import { Unit } from "../interfaces/Unit.ts";
 
 export const AddNurseModal = ({
   showModal,
@@ -14,7 +23,7 @@ export const AddNurseModal = ({
   showModal: boolean;
   hideModal: () => void;
   addNurse: (nurse: Nurse) => void;
-  units: EpicUnit[];
+  units: Unit[];
 }) => {
   const [nurse, setNurse] = useState<Partial<Nurse>>();
 
@@ -27,11 +36,13 @@ export const AddNurseModal = ({
       event.stopPropagation();
     }
 
-    if (nurse?.fullName && nurse?.unitId) {
+    if (nurse?.nurse_name && nurse?.unit) {
       const newNurse: Nurse = {
-        employeeId: faker.number.int(),
-        fullName: nurse.fullName,
-        unitId: nurse.unitId,
+        id: faker.number.int(),
+        nurse_name: nurse.nurse_name,
+        years_exp: 0, // default
+        unit: nurse.unit,
+        unitDetails: { id: nurse.unit, unit_name: "Unit" },
       };
 
       addNurse(newNurse);
@@ -40,38 +51,38 @@ export const AddNurseModal = ({
   };
 
   return (
-    <Modal show={showModal} onHide={hideModal}>
-      <Form onSubmit={handleSubmit}>
-        <Modal.Header closeButton>
-          <Modal.Title>Add Nurse</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form.Group className="mb-3">
-            <Form.Label>Nurse Name</Form.Label>
-            <Form.Control
+    <Dialog open={showModal} onOpenChange={hideModal}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Add Nurse</DialogTitle>
+        </DialogHeader>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-3">
+            <Label htmlFor="nurse-name">Nurse Name</Label>
+            <Input
+              id="nurse-name"
               required
-              defaultValue={nurse?.fullName}
+              defaultValue={nurse?.nurse_name}
               onChange={(e) => {
                 const value = e.currentTarget.value;
-                setNurse((nurse) => ({ ...nurse, fullName: value }));
+                setNurse((nurse) => ({ ...nurse, nurse_name: value }));
               }}
             />
-          </Form.Group>
+          </div>
           <UnitSelection
-            required
             units={units}
             onChange={(id) =>
-              setNurse((nurse) => ({ ...nurse, unitId: Number(id) }))
+              setNurse((nurse) => ({ ...nurse, unit: Number(id) }))
             }
           />
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={hideModal}>
-            Close
-          </Button>
-          <Button type="submit">Add</Button>
-        </Modal.Footer>
-      </Form>
-    </Modal>
+          <DialogFooter>
+            <Button type="button" variant="secondary" onClick={hideModal}>
+              Close
+            </Button>
+            <Button type="submit">Add</Button>
+          </DialogFooter>
+        </form>
+      </DialogContent>
+    </Dialog>
   );
 };

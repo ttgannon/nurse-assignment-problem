@@ -1,36 +1,42 @@
-import { ChangeEvent } from "react";
-import Form from "react-bootstrap/Form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
+import { Label } from "./ui/label";
 import { EpicUnit } from "../interfaces/LoggedInInterface/EpicUnit";
+import { Unit } from "../interfaces/Unit";
 
 export const UnitSelection = ({
   units,
   onChange,
-  required,
 }: {
-  units: EpicUnit[];
-  onChange: (event: ChangeEvent<HTMLSelectElement>) => void;
-  required?: boolean;
+  units: (Unit | EpicUnit)[];
+  onChange: (id: number) => void;
 }) => {
   return (
-    <Form.Group className="mb-3">
-      <Form.Label htmlFor="disabledTextInput">Unit</Form.Label>
-      <Form.Select
-        required={required}
-        onChange={(e) => {
-          onChange(e);
-        }}
-        defaultValue=""
-      >
-        <option disabled value="">
-          Select your unit
-        </option>
-
-        {units.map((entry, idx: number) => (
-          <option key={idx} value={entry.fullUrl}>
-            {entry.resource.title}
-          </option>
-        ))}
-      </Form.Select>
-    </Form.Group>
+    <div className="mb-3">
+      <Label htmlFor="unit-selection">Unit</Label>
+      <Select onValueChange={(val) => onChange(Number(val))}>
+        <SelectTrigger id="unit-selection">
+          <SelectValue placeholder="Select your unit" />
+        </SelectTrigger>
+        <SelectContent>
+          {units.map((entry, idx: number) => {
+            const id =
+              "resource" in entry ? entry.resource.id : String(entry.id);
+            const name =
+              "resource" in entry ? entry.resource.title : entry.unit_name;
+            return (
+              <SelectItem key={idx} value={id}>
+                {name}
+              </SelectItem>
+            );
+          })}
+        </SelectContent>
+      </Select>
+    </div>
   );
 };

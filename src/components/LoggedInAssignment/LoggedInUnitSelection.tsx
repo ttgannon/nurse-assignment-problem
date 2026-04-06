@@ -1,4 +1,11 @@
-import Form from "react-bootstrap/Form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import { Label } from "../ui/label";
 
 export const LoggedInUnitSelection = ({
   onChange,
@@ -6,22 +13,16 @@ export const LoggedInUnitSelection = ({
   onChange: (id: number) => void;
 }) => {
   return (
-    <Form.Group className="mb-3">
-      <Form.Label htmlFor="disabledTextInput">Unit</Form.Label>
-      <Form.Select
-        onChange={(e) => {
-          onChange(Number(e.currentTarget.value));
-        }}
-      >
-        <option disabled value="">
-          Select a unit
-        </option>
-        {
-          <option key={1} value={1}>
-            {"Cardiac ICU"}
-          </option>
-        }
-      </Form.Select>
-    </Form.Group>
+    <div className="mb-3">
+      <Label htmlFor="unit-select">Unit</Label>
+      <Select onValueChange={(val) => onChange(Number(val))}>
+        <SelectTrigger id="unit-select">
+          <SelectValue placeholder="Select a unit" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="1">Cardiac ICU</SelectItem>
+        </SelectContent>
+      </Select>
+    </div>
   );
 };

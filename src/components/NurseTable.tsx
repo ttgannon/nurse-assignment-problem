@@ -1,5 +1,4 @@
-import { Table } from "react-bootstrap";
-import Button from "react-bootstrap/Button";
+import { Button } from "./ui/button";
 import { Nurse, Unit } from "../interfaces";
 import { AddNurseModal } from "./AddNurseModal.tsx";
 import { useState } from "react";
@@ -19,7 +18,7 @@ export const NurseTable = ({
 
   return (
     <>
-      <Table striped bordered>
+      <table className="table table-striped table-bordered">
         <thead>
           <tr>
             <th>Employee Id</th>
@@ -30,16 +29,16 @@ export const NurseTable = ({
           </tr>
         </thead>
         <tbody>
-          {nurses.map(({ employeeId, fullName, yearsOfExperience, unitId }) => (
-            <tr key={employeeId}>
-              <td>{employeeId}</td>
-              <td>{fullName}</td>
-              <td>{yearsOfExperience}</td>
-              <td>{units.find((unit) => unit.id === unitId)?.name || "N/A"}</td>
+          {nurses.map(({ id, nurse_name, years_exp, unitDetails }) => (
+            <tr key={id}>
+              <td>{id}</td>
+              <td>{nurse_name}</td>
+              <td>{years_exp}</td>
+              <td>{unitDetails.unit_name}</td>
               <td>
                 <Button
-                  variant="outline-danger"
-                  onClick={() => removeNurse(employeeId)}
+                  variant="destructive"
+                  onClick={() => removeNurse(Number(id))}
                 >
                   Remove
                 </Button>
@@ -47,9 +46,9 @@ export const NurseTable = ({
             </tr>
           ))}
         </tbody>
-      </Table>
+      </table>
       <div className="text-align-right">
-        <Button variant="primary" onClick={() => setShowModal(true)}>
+        <Button variant="default" onClick={() => setShowModal(true)}>
           Add another nurse
         </Button>
       </div>

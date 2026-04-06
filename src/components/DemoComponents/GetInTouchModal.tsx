@@ -1,4 +1,13 @@
-import { Button, Form, Modal } from "react-bootstrap";
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
+import { Label } from "../ui/label";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "../ui/dialog";
 
 export const GetInTouchModal = ({
   showModal,
@@ -20,35 +29,32 @@ export const GetInTouchModal = ({
   };
 
   return (
-    <Modal show={showModal} onHide={hideModal}>
-      <Form onSubmit={handleSubmit}>
-        <Modal.Header closeButton>
-          <Modal.Title>Get in touch</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form.Group className="mb-3">
-            <Form.Label>Your name</Form.Label>
-            <Form.Control required />
-            <Form.Label className="mt-3">Your email</Form.Label>
-            <Form.Control required type="email" />
-            <Form.Label className="mt-3">Your inquiry</Form.Label>
-            <textarea className="form-control" rows={3}></textarea>
-          </Form.Group>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={hideModal}>
-            Close
-          </Button>
-          <Button
-            type="submit"
-            onClick={() => {
-              handleSubmit;
-            }}
-          >
-            Send
-          </Button>
-        </Modal.Footer>
-      </Form>
-    </Modal>
+    <Dialog open={showModal} onOpenChange={hideModal}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Get in touch</DialogTitle>
+        </DialogHeader>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-3">
+            <Label htmlFor="name">Your name</Label>
+            <Input id="name" required />
+            <Label htmlFor="email" className="mt-3">
+              Your email
+            </Label>
+            <Input id="email" required type="email" />
+            <Label htmlFor="inquiry" className="mt-3">
+              Your inquiry
+            </Label>
+            <textarea id="inquiry" className="form-control" rows={3}></textarea>
+          </div>
+          <DialogFooter>
+            <Button type="button" variant="secondary" onClick={hideModal}>
+              Close
+            </Button>
+            <Button type="submit">Send</Button>
+          </DialogFooter>
+        </form>
+      </DialogContent>
+    </Dialog>
   );
 };

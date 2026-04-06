@@ -4,12 +4,12 @@ This file sends requests to the Epic API to get the units and patients from the 
 
 */
 
-import { BASE_URL_API } from "../api";
+import { API_BASE_URL } from "../api";
 
 export async function getUnits(accessToken: string) {
   try {
     const response = await fetch(
-      `${BASE_URL_API}` + `/List?code=patientlist&identifier=systemlist|5332`,
+      `${API_BASE_URL}` + `/List?code=patientlist&identifier=systemlist|5332`,
       {
         method: "GET",
         headers: {

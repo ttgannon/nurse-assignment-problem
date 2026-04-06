@@ -14,31 +14,31 @@ export const patientsWithAcuityScore = (
   for (const patient of patients) {
     patient.acuityScore = 0;
 
-    if (patient.continent) {
+    if ("continent" in patient && patient.continent) {
       patient.acuityScore -= 5;
     }
-    if (patient.independently_mobile) {
+    if ("independently_mobile" in patient && patient.independently_mobile) {
       patient.acuityScore -= 6;
     }
-    if (patient.num_meds) {
+    if ("num_meds" in patient && patient.num_meds) {
       patient.acuityScore += patient.num_meds;
     }
-    if (patient.high_risk_meds) {
+    if ("high_risk_meds" in patient && patient.high_risk_meds) {
       patient.acuityScore += patient.high_risk_meds * 4;
     }
-    if (patient.num_devices) {
+    if ("num_devices" in patient && patient.num_devices) {
       patient.acuityScore += patient.num_devices * 5;
     }
-    if (patient.num_drips) {
+    if ("num_drips" in patient && patient.num_drips) {
       patient.acuityScore += patient.num_drips * 4;
     }
-    if (patient.new_trach) {
+    if ("new_trach" in patient && patient.new_trach) {
       patient.acuityScore += 5;
     }
-    if (patient.tube_feeds) {
+    if ("tube_feeds" in patient && patient.tube_feeds) {
       patient.acuityScore += 4;
     }
-    if (patient.wound_care) {
+    if ("wound_care" in patient && patient.wound_care) {
       patient.acuityScore += 4;
     }
   }
@@ -58,9 +58,9 @@ export const generateAssignments = (
 
   // Initialize an array to store the sum of each bin
   const assignments = Array.from({ length: nurses.length }, () => ({
-    nurse: null,
+    nurse: null as Nurse | null,
     assignmentAcuityScore: 0,
-    patients: [],
+    patients: [] as (Patient | EpicPatient)[],
   }));
 
   console.log(assignments, nurses.length);

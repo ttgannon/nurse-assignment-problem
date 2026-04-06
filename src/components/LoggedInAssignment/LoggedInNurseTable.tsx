@@ -1,5 +1,4 @@
-import { Table } from "react-bootstrap";
-import Button from "react-bootstrap/Button";
+import { Button } from "../ui/button";
 
 import { useState } from "react";
 import { Unit, Nurse } from "../../interfaces/index.ts";
@@ -22,7 +21,7 @@ export const LoggedInNurseTable = ({
   console.log(nurses);
   return (
     <>
-      <Table striped bordered>
+      <table className="table table-striped table-bordered">
         <thead>
           <tr>
             <th>Name</th>
@@ -30,13 +29,13 @@ export const LoggedInNurseTable = ({
           </tr>
         </thead>
         <tbody>
-          {nurses.map(({ id, fullName }) => (
-            <tr key={id + fullName}>
-              <td>{fullName}</td>
+          {nurses.map(({ id, nurse_name }) => (
+            <tr key={id + nurse_name}>
+              <td>{nurse_name}</td>
               <td>
                 <Button
-                  variant="outline-danger"
-                  onClick={() => removeNurse(id)}
+                  variant="destructive"
+                  onClick={() => removeNurse(Number(id))}
                 >
                   Remove
                 </Button>
@@ -44,9 +43,9 @@ export const LoggedInNurseTable = ({
             </tr>
           ))}
         </tbody>
-      </Table>
+      </table>
       <div className="text-align-right">
-        <Button variant="primary" onClick={() => setShowModal(true)}>
+        <Button variant="default" onClick={() => setShowModal(true)}>
           Add another nurse
         </Button>
       </div>
