@@ -11,7 +11,7 @@ services:
     plan: free            # no credit card required
 
     # Render runs these from the repo root
-    buildCommand: cd server && npm ci && npx prisma generate && npm run build
+    buildCommand: cd server && npm ci --include=dev && npx prisma generate && npm run build
     startCommand: cd server && npm run start:prod
 
     # Render waits for this path to return 2xx before routing traffic.
