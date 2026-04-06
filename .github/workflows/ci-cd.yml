@@ -24,15 +24,15 @@ jobs:
       - name: Install frontend deps
         run: npm ci
 
-      # Vite build validates TypeScript for all files actually in the bundle.
-      # Legacy React-Bootstrap files exist on disk but are not imported, so they
-      # don't block this step.
+      # Vite build validates TypeScript for all files in the bundle.
+      # Legacy React-Bootstrap files exist on disk but are not imported,
+      # so they don't affect this step.
       - name: Build frontend
         run: npm run build
         env:
-          # These are placeholders for the CI build; real values live in the
-          # Vercel project dashboard and are injected at deploy time.
-          VITE_API_BASE_URL: ${{ vars.VITE_API_BASE_URL || 'https://nursify-api.fly.dev' }}
+          # CI placeholders — real values are set in the Vercel dashboard
+          # and injected at Vercel build time, not here.
+          VITE_API_BASE_URL: ${{ vars.VITE_API_BASE_URL || 'https://nursify-api.onrender.com' }}
           VITE_FHIR_REDIRECT_URI: ${{ vars.VITE_FHIR_REDIRECT_URI || 'https://nursify.vercel.app/auth/callback' }}
 
       # ── Backend ───────────────────────────────────────────────────────────────
@@ -44,33 +44,37 @@ jobs:
         run: npx tsc --noEmit
         working-directory: server
 
-  # ── 2. Deploy backend → Fly.io ───────────────────────────────────────────────
-  # Triggered only on pushes to main (not PRs).
-  # Fly.io performs a rolling deploy:
-  #   a) Builds the new Docker image on Fly's remote builders
-  #   b) Runs `release_command` (prisma db push) in the new container
-  #   c) If that passes, starts a new VM and health-checks /health
-  #   d) Only then stops the old VM → zero downtime
+  # ── 2. Deploy backend → Render ───────────────────────────────────────────────
+  # Only runs on pushes to main (not PRs).
+  #
+  # How Render zero-downtime works:
+  #   a) Render receives the deploy hook → pulls latest main
+  #   b) Runs buildCommand (npm ci + prisma generate + tsc)
+  #   c) Starts the new instance and waits for /health to return 200
+  #   d) Only then switches traffic to the new instance and stops the old one
+  #
+  # The deploy hook is fire-and-forget from GitHub's perspective, but
+  # Render handles the health-check gate server-side.
   deploy-backend:
-    name: Deploy backend (Fly.io)
+    name: Deploy backend (Render)
     needs: ci
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
-
-      - uses: superfly/flyctl-actions/setup-flyctl@master
-
-      - name: Deploy to Fly.io
-        run: flyctl deploy --remote-only
-        working-directory: server
-        env:
-          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+      - name: Trigger Render deploy
+        run: |
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+            --request POST \
+            "${{ secrets.RENDER_DEPLOY_HOOK_URL }}")
+          echo "Render deploy hook responded with HTTP $STATUS"
+          if [ "$STATUS" != "200" ] && [ "$STATUS" != "201" ]; then
+            echo "Deploy hook failed" && exit 1
+          fi
 
   # ── 3. Deploy frontend → Vercel ──────────────────────────────────────────────
-  # Vercel performs an atomic swap — the old version serves until the new
-  # deployment passes all checks, then DNS is pointed at the new build.
+  # Vercel performs an atomic swap — the old deployment keeps serving until
+  # the new build passes, then the CDN alias is updated instantly.
   deploy-frontend:
     name: Deploy frontend (Vercel)
     needs: ci
@@ -91,5 +95,5 @@ jobs:
       - name: Deploy to Vercel
         run: npx vercel --prod --yes --token ${{ secrets.VERCEL_TOKEN }}
         env:
-          VERCEL_ORG_ID:  ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_ORG_ID:     ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}

@@ -1,0 +1,37 @@
+# Render Blueprint — https://render.com/docs/blueprint-spec
+# Defines the nursify-api web service declaratively.
+# Connect your GitHub repo in the Render dashboard and this file
+# will provision the service automatically.
+
+services:
+  - type: web
+    name: nursify-api
+    runtime: node
+    region: ohio          # closest free region to most US users
+    plan: free            # no credit card required
+
+    # Render runs these from the repo root
+    buildCommand: cd server && npm ci && npx prisma generate && npm run build
+    startCommand: cd server && npm run start:prod
+
+    # Render waits for this path to return 2xx before routing traffic.
+    # This is what gives us zero-downtime: old instance keeps serving
+    # until the new one passes the health check.
+    healthCheckPath: /health
+
+    # Secrets — set these in the Render dashboard (Environment tab).
+    # Values marked sync:false must be entered manually; they are never
+    # stored in this file.
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false           # Neon connection string (with ?sslmode=require)
+      - key: SESSION_SECRET
+        sync: false           # openssl rand -base64 32
+      - key: ALLOWED_ORIGINS
+        sync: false           # https://YOUR-APP.vercel.app
+      - key: FHIR_CLIENT_ID
+        value: nursify-demo
+      - key: FHIR_REDIRECT_URI
+        sync: false           # https://YOUR-APP.vercel.app/auth/callback
