@@ -5,6 +5,7 @@ This checklist ensures your CI/CD pipeline achieves zero-downtime deployments.
 ## Pre-Deployment Verification
 
 ### GitHub Setup
+
 - [ ] Repository has `.github/workflows/ci-cd.yml` configured
 - [ ] All required secrets are set in GitHub Settings → Secrets:
   - [ ] `RENDER_DEPLOY_HOOK_URL` (from Render dashboard)
@@ -14,6 +15,7 @@ This checklist ensures your CI/CD pipeline achieves zero-downtime deployments.
 - [ ] Branch protection rules allow merging only after CI passes
 
 ### Backend (Render)
+
 - [ ] `/health` endpoint exists and returns `{ ok: true }` with HTTP 200
   - Test: `curl https://nursify-api.onrender.com/health`
 - [ ] `render.yaml` exists with:
@@ -28,6 +30,7 @@ This checklist ensures your CI/CD pipeline achieves zero-downtime deployments.
 - [ ] Database migrations up-to-date (`npx prisma migrate deploy`)
 
 ### Frontend (Vercel)
+
 - [ ] `vercel.json` exists with SPA rewrite rules
 - [ ] Build settings configured:
   - [ ] Build Command: `npm run build`
@@ -39,6 +42,7 @@ This checklist ensures your CI/CD pipeline achieves zero-downtime deployments.
 - [ ] Domain configured and SSL/TLS active
 
 ### Code Quality
+
 - [ ] No console errors: `npm run lint` passes
 - [ ] TypeScript builds cleanly: `npm run build` succeeds
 - [ ] Backend TypeScript compiles: `cd server && npm run build` succeeds
@@ -48,6 +52,7 @@ This checklist ensures your CI/CD pipeline achieves zero-downtime deployments.
   - [ ] `node_modules/` in `.gitignore`
 
 ### Database
+
 - [ ] Neon PostgreSQL database created and populated
 - [ ] Tables verified: `SELECT * FROM information_schema.tables WHERE table_schema='public';`
 - [ ] Sample data present: `SELECT COUNT(*) FROM nurses, patients, units;`
@@ -63,17 +68,20 @@ This checklist ensures your CI/CD pipeline achieves zero-downtime deployments.
 ## First Deployment Flow
 
 1. **Prepare the commit**
+
    ```bash
    git add .
    git commit -m "chore: initial deployment setup"
    ```
 
 2. **Push to main**
+
    ```bash
    git push origin main
    ```
 
 3. **Monitor GitHub Actions**
+
    - Go to: `https://github.com/[user]/[repo]/actions`
    - Watch the `CI / CD (Zero-Latency)` workflow
    - Timeline:
@@ -86,11 +94,12 @@ This checklist ensures your CI/CD pipeline achieves zero-downtime deployments.
      - Total: ~5-6 minutes
 
 4. **Verify deployments**
+
    ```bash
    # Backend
    curl https://nursify-api.onrender.com/health
    curl https://nursify-api.onrender.com/units
-   
+
    # Frontend
    curl https://nursify.vercel.app
    ```
@@ -131,6 +140,7 @@ This checklist ensures your CI/CD pipeline achieves zero-downtime deployments.
   - Can see nurses
 
 ### Smoke Test Output Should Show
+
 ```
 ========================================
 ✅ DEPLOYMENT COMPLETE
@@ -147,11 +157,13 @@ Backend:   https://nursify-api.onrender.com
 ### If Backend Deployment Fails
 
 **Option 1: Automatic Rollback (if health check fails)**
+
 - Old instance keeps serving traffic
 - New instance is terminated
 - No manual action needed
 
 **Option 2: Manual Rollback**
+
 ```bash
 # Re-deploy previous commit
 git revert HEAD
@@ -161,6 +173,7 @@ git push origin main
 ```
 
 **Option 3: Render Manual Rollback**
+
 1. Go to: https://dashboard.render.com/
 2. Select service → Deployments
 3. Click "Deploy" on a previous successful deployment
@@ -169,17 +182,20 @@ git push origin main
 ### If Frontend Deployment Fails
 
 **Option 1: Automatic Fallback**
+
 - Failed deployment remains inaccessible
 - Previous deployment continues serving
 - No manual action needed
 
 **Option 2: Manual Rollback**
+
 ```bash
 # In Vercel dashboard
 # Deployments → Previous deployment → Click to promote
 ```
 
 **Option 3: Git Revert**
+
 ```bash
 git revert HEAD
 git push origin main
@@ -190,15 +206,19 @@ git push origin main
 ## Performance Optimization Tips
 
 ### Reduce Build Time
+
 1. **Use npm cache aggressively**
+
    - GitHub caches dependencies automatically
    - Ensure `package-lock.json` is committed
 
 2. **Parallelize CI jobs**
+
    - Already done in updated workflow
    - Lint, build frontend, build backend run simultaneously
 
 3. **Optimize dependencies**
+
    - Remove unused packages: `npm prune`
    - Check bundle size: `npm run build && npm ls`
 
@@ -207,7 +227,9 @@ git push origin main
    - Speeds up dependencies install
 
 ### Reduce Database Migration Time
+
 1. **Run migrations ahead of time**
+
    - Don't wait for production migration during deploy
    - Test migrations locally first: `npm run db:push:prod` on staging
 
@@ -216,7 +238,9 @@ git push origin main
    - Reduces total migration time
 
 ### Reduce Frontend Deploy Time
+
 1. **Vercel caching**
+
    - Already optimized (atomic swap)
    - Previous builds cached for instant rollback
 
@@ -229,26 +253,32 @@ git push origin main
 ## Scaling for Zero-Latency
 
 ### Current Setup (Single Backend Instance)
+
 - **Latency**: Single instance in Ohio
 - **Redundancy**: None (if instance crashes, service down until restart)
 - **Recovery Time**: ~2 minutes (Render auto-restart)
 
 ### High-Availability Setup (Optional)
+
 To scale beyond single instance:
 
 1. **Enable Render Auto-Restart**
+
    - Settings → Auto-Restart → Enabled
    - Automatically restarts crashed instances
 
 2. **Add Health Checks & Monitoring**
+
    - Render monitors `/health` endpoint every 30s
    - Fails over if endpoint unresponsive
 
 3. **Database Connection Pooling**
+
    - Neon already provides pooling
    - Currently sufficient for single backend instance
 
 4. **CDN for Static Assets**
+
    - Vercel provides global CDN by default
    - Static assets served from nearest edge location
 
@@ -262,20 +292,24 @@ To scale beyond single instance:
 ## Monitoring & Alerts
 
 ### GitHub Actions Notifications
+
 - Enabled by default
 - Notifies on workflow failure
 - Settings: https://github.com/settings/notifications
 
 ### Render Notifications
+
 1. Go to: https://dashboard.render.com/account
 2. Alerting → Email notifications
 3. Check: "Service failures", "Service suspensions"
 
 ### Vercel Notifications
+
 1. Go to: https://vercel.com/account/notifications
 2. Enable email for: Deployment completed, Deployment failed
 
 ### Custom Slack Integration (Optional)
+
 ```yaml
 # Add to .github/workflows/ci-cd.yml
 - name: Notify Slack on failure
@@ -290,18 +324,21 @@ To scale beyond single instance:
 ## Continuous Improvement
 
 ### Weekly Tasks
+
 - [ ] Check deployment logs for errors
 - [ ] Monitor API response times (Render logs)
 - [ ] Review GitHub Actions build times
 - [ ] Verify smoke test outputs
 
 ### Monthly Tasks
+
 - [ ] Update dependencies: `npm update`
 - [ ] Review database for bloat
 - [ ] Check Render service logs for warnings
 - [ ] Test rollback procedure (low-traffic time)
 
 ### Quarterly Tasks
+
 - [ ] Load test backend (10-50 concurrent users)
 - [ ] Review and update CI/CD pipeline
 - [ ] Audit all environment variables and secrets
@@ -310,16 +347,16 @@ To scale beyond single instance:
 
 ## Common Pitfalls & Solutions
 
-| Problem | Cause | Solution |
-|---------|-------|----------|
-| **Deployment hangs at health check** | `/health` endpoint timing out | Check backend logs, increase retry timeout |
-| **Frontend doesn't show new data** | Browser cache | Hard-refresh (`Cmd+Shift+R` Mac, `Ctrl+Shift+R` Windows) |
-| **API calls fail after deploy** | CORS misconfigured | Verify ALLOWED_ORIGINS in Render env vars |
-| **Database tables not found** | Search path not set | Run: `ALTER DATABASE neondb SET search_path TO public;` |
-| **Build succeeds locally, fails on CI** | Dependency mismatch | Delete `node_modules/`, clear cache, `npm ci` fresh |
-| **Vercel build succeeds, frontend blank** | SPA rewrite not configured | Check `vercel.json` has rewrite rule |
-| **Render instance keeps restarting** | OOM or crash loop | Check logs, verify DATABASE_URL valid |
-| **GitHub Actions stuck** | Workflow syntax error | Check `.github/workflows/ci-cd.yml` YAML formatting |
+| Problem                                   | Cause                         | Solution                                                 |
+| ----------------------------------------- | ----------------------------- | -------------------------------------------------------- |
+| **Deployment hangs at health check**      | `/health` endpoint timing out | Check backend logs, increase retry timeout               |
+| **Frontend doesn't show new data**        | Browser cache                 | Hard-refresh (`Cmd+Shift+R` Mac, `Ctrl+Shift+R` Windows) |
+| **API calls fail after deploy**           | CORS misconfigured            | Verify ALLOWED_ORIGINS in Render env vars                |
+| **Database tables not found**             | Search path not set           | Run: `ALTER DATABASE neondb SET search_path TO public;`  |
+| **Build succeeds locally, fails on CI**   | Dependency mismatch           | Delete `node_modules/`, clear cache, `npm ci` fresh      |
+| **Vercel build succeeds, frontend blank** | SPA rewrite not configured    | Check `vercel.json` has rewrite rule                     |
+| **Render instance keeps restarting**      | OOM or crash loop             | Check logs, verify DATABASE_URL valid                    |
+| **GitHub Actions stuck**                  | Workflow syntax error         | Check `.github/workflows/ci-cd.yml` YAML formatting      |
 
 ---
 
@@ -336,6 +373,7 @@ To scale beyond single instance:
 ## Support
 
 If deployment fails:
+
 1. **Check logs**: GitHub Actions → Workflows → Latest run
 2. **Debug locally**: `npm run build && npm run test`
 3. **Review errors**: Render/Vercel dashboards
