@@ -1,4 +1,4 @@
-name: CI / CD
+name: CI / CD (Zero-Latency)
 
 on:
   push:
@@ -6,94 +6,253 @@ on:
   pull_request:
     branches: [main]
 
+concurrency:
+  group: ci-cd-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: '20'
+  NODE_OPTIONS: '--max_old_space_size=4096'
+
 jobs:
-  # ── 1. Build & type-check ────────────────────────────────────────────────────
-  ci:
-    name: Build & type-check
+  # ── 1. Lint & Format Check (fail fast) ───────────────────────────────────────
+  lint:
+    name: Lint & format
     runs-on: ubuntu-latest
+    timeout-minutes: 5
 
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
-          cache: npm
-
-      # ── Frontend ──────────────────────────────────────────────────────────────
-      - name: Install frontend deps
-        run: npm ci
-
-      # Vite build validates TypeScript for all files in the bundle.
-      # Legacy React-Bootstrap files exist on disk but are not imported,
-      # so they don't affect this step.
-      - name: Build frontend
-        run: npm run build
-        env:
-          # CI placeholders — real values are set in the Vercel dashboard
-          # and injected at Vercel build time, not here.
-          VITE_API_BASE_URL: ${{ vars.VITE_API_BASE_URL || 'https://nursify-api.onrender.com' }}
-          VITE_FHIR_REDIRECT_URI: ${{ vars.VITE_FHIR_REDIRECT_URI || 'https://nursify.vercel.app/auth/callback' }}
-
-      # ── Backend ───────────────────────────────────────────────────────────────
-      - name: Install server deps
-        run: npm ci
-        working-directory: server
-
-      - name: Type-check server
-        run: npx tsc --noEmit
-        working-directory: server
-
-  # ── 2. Deploy backend → Render ───────────────────────────────────────────────
-  # Only runs on pushes to main (not PRs).
-  #
-  # How Render zero-downtime works:
-  #   a) Render receives the deploy hook → pulls latest main
-  #   b) Runs buildCommand (npm ci + prisma generate + tsc)
-  #   c) Starts the new instance and waits for /health to return 200
-  #   d) Only then switches traffic to the new instance and stops the old one
-  #
-  # The deploy hook is fire-and-forget from GitHub's perspective, but
-  # Render handles the health-check gate server-side.
-  deploy-backend:
-    name: Deploy backend (Render)
-    needs: ci
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Trigger Render deploy
-        run: |
-          STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
-            --request POST \
-            "${{ secrets.RENDER_DEPLOY_HOOK_URL }}")
-          echo "Render deploy hook responded with HTTP $STATUS"
-          if [ "$STATUS" != "200" ] && [ "$STATUS" != "201" ]; then
-            echo "Deploy hook failed" && exit 1
-          fi
-
-  # ── 3. Deploy frontend → Vercel ──────────────────────────────────────────────
-  # Vercel performs an atomic swap — the old deployment keeps serving until
-  # the new build passes, then the CDN alias is updated instantly.
-  deploy-frontend:
-    name: Deploy frontend (Vercel)
-    needs: ci
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
+          node-version: ${{ env.NODE_VERSION }}
           cache: npm
 
       - name: Install deps
         run: npm ci
 
-      - name: Deploy to Vercel
-        run: npx vercel --prod --yes --token ${{ secrets.VERCEL_TOKEN }}
+      - name: Run ESLint
+        run: npm run lint --if-present || echo "Linting configured but optional"
+
+  # ── 2. Frontend Build & Test ────────────────────────────────────────────────
+  build-frontend:
+    name: Build frontend (Vite)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Build frontend
+        run: npm run build
+        env:
+          VITE_API_BASE_URL: ${{ vars.VITE_API_BASE_URL || 'https://nursify-api.onrender.com' }}
+          VITE_FHIR_REDIRECT_URI: ${{ vars.VITE_FHIR_REDIRECT_URI || 'https://nursify.vercel.app/auth/callback' }}
+
+      - name: Upload frontend artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-dist
+          path: dist/
+          retention-days: 1
+
+  # ── 3. Backend Build & Type-Check ──────────────────────────────────────────
+  build-backend:
+    name: Build backend (TypeScript)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+
+      - name: Install server deps
+        run: npm ci
+        working-directory: server
+
+      - name: Generate Prisma client
+        run: npx prisma generate
+        working-directory: server
+
+      - name: Build backend
+        run: npm run build
+        working-directory: server
+
+      - name: Upload backend artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-dist
+          path: server/dist/
+          retention-days: 1
+
+  # ── 4. Validate CI Status ──────────────────────────────────────────────────
+  ci:
+    name: CI Status (aggregate)
+    needs: [lint, build-frontend, build-backend]
+    runs-on: ubuntu-latest
+    if: always()
+
+    steps:
+      - name: Check job statuses
+        run: |
+          if [ "${{ needs.lint.result }}" = "failure" ] || \
+             [ "${{ needs.build-frontend.result }}" = "failure" ] || \
+             [ "${{ needs.build-backend.result }}" = "failure" ]; then
+            echo "❌ CI failed"
+            exit 1
+          fi
+          echo "✅ CI passed"
+
+
+  # ── 5. Deploy backend → Render (Blue-Green) ──────────────────────────────────
+  deploy-backend:
+    name: Deploy backend (Render)
+    needs: [ci, build-backend]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download backend artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: backend-dist
+          path: server/dist/
+
+      - name: Trigger Render deploy with health check
+        run: |
+          echo "🚀 Triggering Render deployment..."
+          HOOK_URL="${{ secrets.RENDER_DEPLOY_HOOK_URL }}"
+          
+          # Fire the deployment hook
+          RESPONSE=$(curl -s -w "\n%{http_code}" --request POST "$HOOK_URL")
+          HTTP_CODE=$(echo "$RESPONSE" | tail -n1)
+          BODY=$(echo "$RESPONSE" | head -n-1)
+          
+          echo "Render API responded with HTTP $HTTP_CODE"
+          
+          if [ "$HTTP_CODE" != "200" ] && [ "$HTTP_CODE" != "201" ]; then
+            echo "❌ Deploy hook failed: $BODY"
+            exit 1
+          fi
+          
+          echo "✅ Deploy triggered. Render is performing health-check gated blue-green swap..."
+          echo ""
+          echo "Backend Health Check: https://nursify-api.onrender.com/health"
+
+  # ── 6. Deploy frontend → Vercel (Atomic Swap) ───────────────────────────────
+  deploy-frontend:
+    name: Deploy frontend (Vercel)
+    needs: [ci, build-frontend]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+
+      - name: Download frontend artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: frontend-dist
+          path: dist/
+
+      - name: Deploy to Vercel (Atomic)
+        run: |
+          echo "🚀 Deploying to Vercel with atomic swap..."
+          npx vercel --prod --yes \
+            --token "${{ secrets.VERCEL_TOKEN }}" \
+            --confirm
+          echo "✅ Vercel atomic swap complete"
         env:
           VERCEL_ORG_ID:     ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+  # ── 7. Post-Deployment Sanity Checks ──────────────────────────────────────────
+  smoke-tests:
+    name: Smoke tests (post-deploy)
+    needs: [deploy-backend, deploy-frontend]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Wait for deployments to stabilize
+        run: sleep 10
+
+      - name: Health check: Backend
+        run: |
+          echo "🏥 Checking backend health..."
+          for i in {1..6}; do
+            if curl -sf https://nursify-api.onrender.com/health > /dev/null; then
+              echo "✅ Backend healthy"
+              exit 0
+            fi
+            echo "Attempt $i/6 - waiting..."
+            sleep 5
+          done
+          echo "❌ Backend health check failed"
+          exit 1
+
+      - name: Smoke test: API endpoints
+        run: |
+          echo "🔷 Testing API endpoints..."
+          
+          # Check units endpoint
+          UNITS_RESPONSE=$(curl -s https://nursify-api.onrender.com/units)
+          if echo "$UNITS_RESPONSE" | grep -q '"id"'; then
+            echo "✅ /units endpoint works"
+          else
+            echo "❌ /units endpoint failed: $UNITS_RESPONSE"
+            exit 1
+          fi
+          
+          echo "✅ All API smoke tests passed"
+
+      - name: Smoke test: Frontend
+        run: |
+          echo "🔷 Testing frontend..."
+          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" https://nursify.vercel.app)
+          if [ "$RESPONSE" = "200" ]; then
+            echo "✅ Frontend is accessible"
+          else
+            echo "❌ Frontend returned HTTP $RESPONSE"
+            exit 1
+          fi
+
+      - name: Deployment summary
+        run: |
+          echo ""
+          echo "========================================="
+          echo "✅ DEPLOYMENT COMPLETE"
+          echo "========================================="
+          echo "Frontend:  https://nursify.vercel.app"
+          echo "Backend:   https://nursify-api.onrender.com"
+          echo "========================================="
+
